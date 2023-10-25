@@ -1,0 +1,43 @@
+YAGNI
+
+
+for simplicity sake, i combined the transaction and the inventory in to
+one single service. the reason being i will make things simpler etc.
+
+as i go forward with the application, and build a transaction service with an
+sdk (vipps), i will splice out the transaction part to a new service
+
+
+                Chat gpt:
+
+That's a valid approach and often a pragmatic one. Starting with a simpler architecture and then evolving based on real-world needs is a common strategy in software development. It's in line with the concept of "You Aren't Gonna Need It" (YAGNI) from Extreme Programming (XP), which suggests that you should not add functionality until deemed necessary.
+
+Here's a breakdown of this approach:
+
+Initial Phase:
+Monolithic Service: Begin with a combined service for both inventory and buying. This will allow you to develop and deploy more quickly without the overhead of managing inter-service communication, data consistency across services, etc.
+
+Focused Development: With everything in one place, you can focus on business logic, user experience, and getting feedback without getting bogged down by infrastructure complexity.
+
+Later (When Implementing Vipps SDK):
+Refactor and Split: When you're ready to introduce the Vipps SDK or when the buying logic becomes complex, you can split the buying (transaction) part out.
+
+Microservice Benefits: At this point, you'll start gaining the benefits of microservices for the buying service – independent scalability, isolated failures, and independent deployments.
+
+Data Migration: One of the challenges will be data migration and ensuring consistency during the split. However, with proper planning, this is manageable.
+
+Advantages:
+Iterative Development: Allows for iterative development and refinement based on actual user feedback and requirements.
+
+Easier Testing: Easier to write and run tests when everything is in one place.
+
+Less Initial Complexity: Avoids the complexities of distributed systems in the initial phases.
+
+Considerations:
+Refactoring: While refactoring and splitting services later can be more work than starting with separate services, it ensures you're only adding complexity when it's justified.
+
+Database Design: Design your database schema with potential future splits in mind. This will make the transition smoother when you decide to separate services.
+
+Modular Code: Even within a monolithic service, aim for modular code. This will make it easier to split functionalities later.
+
+In summary, starting with a combined service and then splitting later can be a sensible approach. It ensures that you're focusing on core functionalities and user needs initially, while also keeping the flexibility to adapt your architecture as requirements evolve.

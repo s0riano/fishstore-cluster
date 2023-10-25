@@ -1,0 +1,15 @@
+ul li.storeBox {
+    border: 1px solid black;
+}
+
+.storeBox {
+    display: inline-block;
+    width: calc(33.33% - 10px);
+    margin: 5px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border: 1px solid green; /* Added black border */
+    border-radius: 5px;
+    text-align: center;
+}

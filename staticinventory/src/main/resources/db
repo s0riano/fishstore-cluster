@@ -1,0 +1,48 @@
+CREATE TABLE inventory (
+    inventory_id SERIAL PRIMARY KEY,
+    seller_id BIGINT NOT NULL,
+    seafood_type VARCHAR(255) NOT NULL,
+    kilos NUMERIC(10, 2) NOT NULL, -- Adjust precision as needed
+    last_updated TIMESTAMP NOT NULL
+);
+
+CREATE OR REPLACE FUNCTION set_last_updated_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.last_updated = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_set_last_updated
+BEFORE INSERT OR UPDATE ON inventory
+FOR EACH ROW
+EXECUTE FUNCTION set_last_updated_timestamp();
+
+INSERT INTO inventory (seller_id, seafood_type, kilos, last_updated) VALUES
+(1, 'SALMON', 10.00, '2023-10-17T14:00:00'),
+(2, 'TUNA', 20.00, '2023-10-17T14:00:00'),
+(3, 'SHRIMP', 15.50, '2023-10-17T14:00:00'),
+(1, 'CRAB', 25.75, '2023-10-17T14:00:00'),
+(2, 'LOBSTER', 30.00, '2023-10-17T14:00:00');
+
+                -------------
+
+-- Add the new column to the existing table
+ALTER TABLE inventory
+ADD COLUMN price_per_kilo DECIMAL(10, 2) NOT NULL DEFAULT 0.0;
+
+-- Update the existing function to include the new column in the trigger
+CREATE OR REPLACE FUNCTION set_last_updated_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.last_updated = NOW();
+    -- Add any necessary logic here if you need to calculate price_per_kilo dynamically
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Since the function signature hasn't changed, the existing trigger doesn't need to be updated.
+-- But if you do make changes to the function parameters, you'd need to drop and recreate the trigger.
+
+UPDATE inventory SET price_per_kilo = 25.00 WHERE seller_id = 1 AND seafood_type = 'SALMON';

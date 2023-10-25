@@ -1,0 +1,12 @@
+.storeDisplayContainer {
+    padding: 20px;
+}
+
+.storeList {
+    list-style-type: none; /* Remove bullet points from the list */
+    padding: 0; /* Remove default padding */
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: space-between; /* Space items out */
+    border: 1px solid black; /* Added black border */
+}

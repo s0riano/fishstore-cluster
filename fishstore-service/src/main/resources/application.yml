@@ -1,0 +1,45 @@
+server:
+    port: 8081
+
+spring:
+    config:
+        import: optional:consul:localhost:8500
+    application:
+        name: store
+    datasource:
+        url: jdbc:postgresql://localhost:5432/seafood_store_dev
+        username: postgres
+        password: lilo
+        driver-class-name: org.postgresql.Driver
+    jpa:
+        hibernate:
+            ddl-auto: update
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        show-sql: true
+        properties:
+            hibernate:
+                format_sql: true
+        database: postgresql
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: guest
+        password: guest
+        virtual-host: /
+    cloud:
+        consul:
+            config:
+                prefix: config
+                format: yaml
+                default-context: defaults
+                data-key: application.yml
+                enabled: true
+    amqp:
+        exchange:
+            attempts: 3
+
+service:
+    management:
+        host: http://localhost:8080

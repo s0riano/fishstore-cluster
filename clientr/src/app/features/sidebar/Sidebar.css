@@ -1,0 +1,46 @@
+.sidebar {
+    background-color: blue;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #f5e6ca; /* Cream color */
+    font-size: 18px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.sidebar a:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.sidebar li:hover ~ li a {
+    transform: scale(0.9);
+}
+
+.wave {
+    position: absolute;
+    top: 0;
+    right: -5px; /* slight overlap to ensure no gaps */
+    width: 10px;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 150"><path d="M10 0 Q5 25 10 50 Q5 75 10 100 Q5 125 10 150" fill="blue" /></svg>') repeat-y;
+}

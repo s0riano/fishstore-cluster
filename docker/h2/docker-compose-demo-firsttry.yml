@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+
+  frontend:
+    image: frontend: 12.10.04
+    ports:
+      - '3000:80'
+
+  comsul-importer:
+    image: consul-importer
