@@ -1,4 +1,4 @@
-package com.fishtore.inventory.staticinventory.dto;
+package com.fishtore.transaction.staticinventory.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionDTO {
-
     private Long buyerId;
     private Long sellerId;
     private List<TransactionItemDTO> items;

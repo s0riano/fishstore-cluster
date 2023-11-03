@@ -1,4 +1,4 @@
-package com.fishtore.inventory.staticinventory.dto;
+package com.fishtore.transaction.staticinventory.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

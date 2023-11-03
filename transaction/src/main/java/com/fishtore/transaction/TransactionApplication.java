@@ -1,13 +1,13 @@
-package com.fishtore.inventory.staticinventory;
+package com.fishtore.transaction.staticinventory;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class StaticinventoryApplication {
+public class TransactionApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(StaticinventoryApplication.class, args);
+		SpringApplication.run(TransactionApplication.class, args);
 	}
 
 }
