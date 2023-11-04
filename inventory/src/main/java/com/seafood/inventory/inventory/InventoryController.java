@@ -13,14 +13,9 @@ import java.util.Map;
 @RequestMapping("/api/inventory")
 public class InventoryController {
 
-    private final CatchService catchService; // Assuming CatchService is the service that contains getInventoryBySellerId()
-
     @Autowired
-    public InventoryController(CatchService catchService) {
-        this.catchService = catchService;
+    public InventoryController(CatchService catchService, InventoryService inventoryService) {
+        // Assuming CatchService is the service that contains getInventoryBySellerId()
     }
-
-    @Autowired
-    private InventoryService inventoryService;
 
 }

@@ -1,5 +1,6 @@
 package com.fishtore.inventory.staticinventory.inventory;
 
+import com.fishtore.inventory.staticinventory.dto.PriceInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,12 @@ public class InventoryController {
             return ResponseEntity.notFound().build(); // or another appropriate error
         }
         return ResponseEntity.ok(inventory);
+    }
+
+    @GetMapping("/prices/{sellerId}")
+    public ResponseEntity<List<PriceInfoDTO>> getPricesForSeller(@PathVariable Long sellerId) {
+        List<PriceInfoDTO> prices = inventoryService.findPricesBySeller(sellerId);
+        return ResponseEntity.ok(prices);
     }
 
     @PostMapping

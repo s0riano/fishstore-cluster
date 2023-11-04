@@ -1,4 +1,4 @@
-package com.fishtore.transaction.staticinventory.transaction;
+package com.fishtore.transaction.transaction;
 
 import lombok.*;
 
@@ -10,4 +10,5 @@ import java.math.BigDecimal;
 public class TransactionItem {
     private String seafoodType;
     private BigDecimal kilos;
+    private BigDecimal pricePerKilo;
 }

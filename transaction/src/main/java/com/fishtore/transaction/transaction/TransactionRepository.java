@@ -1,4 +1,4 @@
-package com.fishtore.transaction.staticinventory.transaction;
+package com.fishtore.transaction.transaction;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

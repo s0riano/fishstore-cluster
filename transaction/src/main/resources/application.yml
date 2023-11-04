@@ -6,11 +6,9 @@ spring:
     import: optional:consul:localhost:8500
   application:
     name: transaction
-  datasource:
-    url: jdbc:postgresql://localhost:5432/zzz
-    username: postgres
-    password: lilo
-    driver-class-name: org.postgresql.Driver
+  data:
+    mongodb:
+      uri: mongodb+srv://soriano:pMqP1RqBklvuqRVg@seafooddev.fwwqfli.mongodb.net/seafood_transaction_dev
   jpa:
     hibernate:
       ddl-auto: update
@@ -43,6 +41,11 @@ spring:
   messages:
     basename: i18n/messages
 
+logging:
+  level:
+    com.fishtore.inventory.staticinventory: INFO
+
 service:
   management:
     host: http://localhost:8080
+    ##pMqP1RqBklvuqRVg

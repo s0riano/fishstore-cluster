@@ -1,49 +1,37 @@
 package com.fishtore.inventory.staticinventory.inventory;
 
-import org.springframework.amqp.rabbit.annotation.Exchange;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.fishtore.inventory.staticinventory.dto.PriceInfoDTO;
+import com.fishtore.inventory.staticinventory.dto.TransactionDTO;
+import com.fishtore.inventory.staticinventory.dto.TransactionItemDTO;
+import com.fishtore.inventory.staticinventory.payload.TransactionMessagePayload;
 
 import java.util.List;
+//@Service
+public interface InventoryService {
 
-@Service
-public class InventoryService {
+    List<Inventory> getAllInventories();
 
-    private final InventoryRepository inventoryRepository;
+    Inventory getInventoryById(Long id);
 
-    @Autowired
-    public InventoryService(InventoryRepository inventoryRepository) {
-        this.inventoryRepository = inventoryRepository;
-    }
+    Inventory createInventory(Inventory inventory);
 
-    @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "fetchItemsQueue", durable = "true"),
-            exchange = @Exchange(name = "inventoryExchange"),
-            key = "fetchItems"))
-    public void processFetchItems(List<TransactionItemDTO> items) {
-        // Fetch or validate the inventory items based on the received message
+    Inventory updateInventory(Inventory inventory);
 
-        // Once processing is done, send a response back to the TransactionService
-        // This can be via another RabbitMQ message or any other mechanism you've set up
-    }
+    void processFetchItems(List<TransactionItemDTO> items);
 
-    public List<Inventory> getAllInventories() {
-        return inventoryRepository.findAll();
-    }
+    void processInventoryCheck(TransactionMessagePayload payload);
 
-    public Inventory getInventoryById(Long id) {
-        return inventoryRepository.findById(id).orElse(null); // or throw an exception
-    }
+    public List<PriceInfoDTO> findPricesBySeller(Long sellerId);
 
-    public Inventory createInventory(Inventory inventory) {
-        return inventoryRepository.save(inventory);
-    }
+    boolean checkAndReserveInventory(TransactionDTO transactionRequestDTO);
 
-    public Inventory updateInventory(Inventory inventory) {
-        return inventoryRepository.save(inventory); // JPA's save can also update
-    }
+    Inventory findBySellerIdAndSeafoodType(Long sellerId, SeafoodType valueOf);
+    // Your logic to check inventory based on the received DTO
+        // For example:
+        // 1. Extract items from the DTO
+        // 2. Check if each item is available in the required quantity
+        // 3. Update the inventory if necessary
+        // 4. Send a response back to the Transaction Service (if needed)
 
 }
+

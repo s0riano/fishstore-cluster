@@ -7,5 +7,6 @@ import java.util.List;
 @Data
 public class TransactionRequestDTO {
     private String transactionId; // assuming you're storing UUID as a String
+    private Long sellerId;
     private List<TransactionItemDTO> items;
 }

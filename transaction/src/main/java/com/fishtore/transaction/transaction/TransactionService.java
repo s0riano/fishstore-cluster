@@ -1,8 +1,8 @@
-package com.fishtore.transaction.staticinventory.transaction;
+package com.fishtore.transaction.transaction;
 
-import com.fishtore.transaction.staticinventory.dto.TransactionDTO;
-import com.fishtore.transaction.staticinventory.dto.TransactionRequestDTO;
-import com.fishtore.transaction.staticinventory.payload.InventoryResponsePayload;
+import com.fishtore.transaction.dto.TransactionDTO;
+import com.fishtore.transaction.dto.TransactionRequestDTO;
+import com.fishtore.transaction.dto.payload.InventoryResponsePayload;
 
 import java.util.List;
 

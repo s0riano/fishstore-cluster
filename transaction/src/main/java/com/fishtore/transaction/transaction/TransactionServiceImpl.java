@@ -1,9 +1,9 @@
-package com.fishtore.transaction.staticinventory.transaction;
+package com.fishtore.transaction.transaction;
 
-import com.fishtore.transaction.staticinventory.dto.TransactionDTO;
-import com.fishtore.transaction.staticinventory.dto.TransactionRequestDTO;
-import com.fishtore.transaction.staticinventory.payload.InventoryResponsePayload;
-import com.fishtore.transaction.staticinventory.transaction.components.OrderPlacementComponent;
+import com.fishtore.transaction.dto.TransactionDTO;
+import com.fishtore.transaction.dto.TransactionRequestDTO;
+import com.fishtore.transaction.dto.payload.InventoryResponsePayload;
+import com.fishtore.transaction.transaction.components.OrderPlacementComponent;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
@@ -32,7 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final OrderPlacementComponent orderPlacementComponent;
 
     @Override
-    public String processOrderPlacement(TransactionDTO transactionDTO) { //so big I moved it to its own component
+    public String processOrderPlacement(TransactionDTO transactionDTO) {
         return orderPlacementComponent.handleOrderPlacement(transactionDTO);
     }
 
@@ -63,11 +63,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void sendInventoryCheckMessage(Transaction transaction) {
-        // Create the message payload
         Map<String, Object> messagePayload = new HashMap<>();
         messagePayload.put("transactionId", transaction.getTransactionId());
         messagePayload.put("items", transaction.getItems());
-
         // Send the message
         rabbitTemplate.convertAndSend("inventoryExchange", "inventoryCheck", messagePayload);
     }
@@ -79,10 +77,12 @@ public class TransactionServiceImpl implements TransactionService {
     public void processInventoryResponse(InventoryResponsePayload responsePayload) {
         Long transactionId = responsePayload.getTransactionId();
         boolean isAvailable = responsePayload.isAvailable();
+        //also update the transaction with the payload???
     }
 
     @Override
     public List<Transaction> getAllTransactions() {
+        //logger.info("Fetched transactions: " + transactions.size());
         return transactionRepository.findAll();
     }
 }

@@ -1,4 +1,4 @@
-package com.fishtore.transaction.payload;
+package com.fishtore.transaction.dto.payload;
 
 import com.fishtore.transaction.dto.TransactionItemDTO;
 import lombok.AllArgsConstructor;

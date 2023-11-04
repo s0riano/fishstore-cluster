@@ -10,8 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionDTO {
-
-    private Long buyerId;
+    private String transactionId;
     private Long sellerId;
     private List<TransactionItemDTO> items;
 }

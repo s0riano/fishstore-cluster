@@ -13,6 +13,15 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Sale {
 
+    /*
+                    - not a transaction -
+        here, we are storing the sale inside the catch
+        when rabbit gets a transaction message for a sale,
+        it will check for availability, and if available,
+        it will create a sale. This sale, as said above,
+        will be stored inside/linked to the catch of the batch
+    */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sale_id")

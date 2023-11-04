@@ -2,6 +2,8 @@ server:
   port: 9082
 
 spring:
+  main:
+    allow-circular-references: true
   config:
     import: optional:consul:localhost:8500
   application:
