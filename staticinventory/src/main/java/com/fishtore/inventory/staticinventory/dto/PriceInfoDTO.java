@@ -1,6 +1,6 @@
 package com.fishtore.inventory.staticinventory.dto;
 
-import com.fishtore.inventory.staticinventory.inventory.SeafoodType;
+import com.fishstore.shared.dto.SeafoodType;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -12,3 +12,4 @@ public class PriceInfoDTO {
     private SeafoodType seafoodType;
     private BigDecimal pricePerKilo;
 }
+

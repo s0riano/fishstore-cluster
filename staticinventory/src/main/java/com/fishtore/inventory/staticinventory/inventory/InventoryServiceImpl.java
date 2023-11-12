@@ -1,13 +1,10 @@
 package com.fishtore.inventory.staticinventory.inventory;
 
+import com.fishstore.shared.dto.SeafoodType;
+import com.fishstore.shared.dto.TransactionItemDTO;
+import com.fishstore.shared.dto.TransactionRequestDTO;
 import com.fishtore.inventory.staticinventory.dto.PriceInfoDTO;
-import com.fishtore.inventory.staticinventory.dto.TransactionDTO;
-import com.fishtore.inventory.staticinventory.dto.TransactionItemDTO;
-import com.fishtore.inventory.staticinventory.payload.TransactionMessagePayload;
-import org.springframework.amqp.rabbit.annotation.Exchange;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
@@ -65,21 +63,18 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     @Transactional // Ensures the operation is atomic
-    public boolean checkAndReserveInventory(TransactionDTO transactionRequestDTO) {
+    public boolean checkAndReserveInventory(TransactionRequestDTO transactionRequestDTO) {
+
         // Iterate over each item in the transaction request
         for (TransactionItemDTO item : transactionRequestDTO.getItems()) {
             // Convert the seafood type from String to the SeafoodType enum
-            SeafoodType type;
-            try {
-                type = SeafoodType.valueOf(item.getSeafoodType().toUpperCase());
-            } catch (IllegalArgumentException e) {
-                // The provided seafood type is not valid
-                return false;
-            }
+            // Use the SeafoodType enum directly
+            SeafoodType seafoodType = item.getSeafoodType();
 
             // Fetch the inventory for the specific seller and seafood type
             Inventory inventory = inventoryRepository.findBySellerIdAndSeafoodType(
-                    transactionRequestDTO.getSellerId(), type);
+                    transactionRequestDTO.getSellerId(), seafoodType
+            );
 
             // Check if there's enough inventory
             if (inventory == null || inventory.getKilos().compareTo(item.getKilos()) < 0) {
@@ -92,7 +87,6 @@ public class InventoryServiceImpl implements InventoryService {
             inventoryRepository.save(inventory);
         }
 
-        // All items have enough inventory, reservation successful
         return true;
     }
 
@@ -102,13 +96,14 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
 
-    @Override
+   /* @Override
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = "inventoryCheckQueue", durable = "true"),
             exchange = @Exchange(name = "inventoryExchange"),
-            key = "inventoryCheck"))
-    public void processInventoryCheck(TransactionMessagePayload payload) {
-        Long transactionId = payload.getTransactionId();
+            key = "inventoryCheck")
+    )*/
+    public void processInventoryCheck(TransactionRequestDTO payload) {
+        String transactionId = payload.getTransactionId();
         List<TransactionItemDTO> items = payload.getItems();
 
         boolean isAvailable = false; //this has to be a method, cant make it yet
@@ -118,8 +113,9 @@ public class InventoryServiceImpl implements InventoryService {
         responsePayload.put("transactionId", transactionId);
         responsePayload.put("isAvailable", isAvailable);
 
-        // Send the response
+        log.info("Creating a inventory Response Payload from the transaction, here is the payload: {}", responsePayload);
+        log.info("Reading this from InventoryServiceImpl.processInventoryCheck()");
+
         rabbitTemplate.convertAndSend("transactionExchange", "inventoryResponse", responsePayload);
     }
 }
-

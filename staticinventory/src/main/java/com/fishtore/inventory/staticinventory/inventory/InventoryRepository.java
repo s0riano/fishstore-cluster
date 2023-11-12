@@ -1,5 +1,6 @@
 package com.fishtore.inventory.staticinventory.inventory;
 
+import com.fishstore.shared.dto.SeafoodType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
