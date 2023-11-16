@@ -1,47 +1,41 @@
 package com.seafood.inventory.components;
 
-import com.fishstore.shared.dto.SeafoodType;
-import com.fishstore.shared.dto.TransactionItemDTO;
-import com.fishstore.shared.dto.TransactionRequestDTO;
+import com.seafood.inventory.dto.transaction.TransactionItemDTO;
+import com.seafood.inventory.dto.transaction.TransactionRequestDTO;
+import com.seafood.inventory.enums.SeafoodType;
+import com.seafood.inventory.inventory.components.InventoryCalculator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import com.seafood.inventory.mapper.SeafoodTypeMapper;
 
 @Component
 @Slf4j
-public class InventoryService { //remebmer to rename method
+public class InventoryService {
 
-    private final InventoryRepository inventoryRepository;
+    private final InventoryCalculator inventoryCalculator;
 
     @Autowired
-    public InventoryService(InventoryRepository inventoryRepository) {
-        this.inventoryRepository = inventoryRepository;
+    public InventoryService(InventoryCalculator inventoryCalculator) {
+        this.inventoryCalculator = inventoryCalculator;
     }
 
     @Transactional
     public boolean checkAndReserveInventory(TransactionRequestDTO transactionRequestDTO) {
         for (TransactionItemDTO item : transactionRequestDTO.getItems()) {
-            SeafoodType type;
-            try {
-                type = item.getSeafoodType();
-            } catch (IllegalArgumentException e) {
-                log.error("The seller, =name=, does not this item in his inventory");
+            // Use the mapper to convert the DTO type to the local enum
+            SeafoodType type = SeafoodTypeMapper.mapToLocalSeafoodType(item.getSeafoodType().name());
+
+            float currentInventory = inventoryCalculator.calculateCurrentInventory(transactionRequestDTO.getSellerId(), type);
+
+            if (currentInventory < item.getKilos().floatValue()) {
+                log.error("Insufficient inventory for seller {} and item {}", transactionRequestDTO.getSellerId(), type);
                 return false;
             }
 
-            Inventory inventory = inventoryRepository.findBySellerIdAndSeafoodType(
-                    transactionRequestDTO.getSellerId(), type);
-
-            if (inventory == null || inventory.getKilos().compareTo(item.getKilos()) < 0) {
-                return false;
-            }
-
-            inventory.setKilos(inventory.getKilos().subtract(item.getKilos()));
-            inventoryRepository.save(inventory);
+            // Rest of your code...
         }
-
         return true;
     }
 }
-

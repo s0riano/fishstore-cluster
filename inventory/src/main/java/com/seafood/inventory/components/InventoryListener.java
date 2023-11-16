@@ -1,7 +1,7 @@
 package com.seafood.inventory.components;
 
-import com.fishstore.shared.dto.TransactionRequestDTO;
-import com.fishstore.shared.dto.payload.InventoryResponsePayload;
+import com.seafood.inventory.dto.transaction.InventoryResponsePayload;
+import com.seafood.inventory.dto.transaction.TransactionRequestDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;

@@ -26,6 +26,8 @@ public class Sale {
     @Column(name = "sale_id")
     private Long saleId;
 
+    //create column for transactionId
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "catch_id", nullable = false)  // Indicates the foreign key column
     private Catch catchEntity;

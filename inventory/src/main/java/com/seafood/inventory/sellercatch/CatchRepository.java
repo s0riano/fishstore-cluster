@@ -20,5 +20,6 @@ public interface CatchRepository extends JpaRepository<Catch, Long> {
     @Query("SELECT c.seafoodType, SUM(c.kilos) FROM Catch c WHERE c.sellerId = :sellerId GROUP BY c.seafoodType")
     List<Object[]> getInventoryForSeller(@Param("sellerId") Long sellerId);
 
-
+    @Query("SELECT SUM(c.kilos) FROM Catch c WHERE c.sellerId = :sellerId AND c.seafoodType = :seafoodType")
+    Float sumKilosBySellerIdAndSeafoodType(@Param("sellerId") Long sellerId, @Param("seafoodType") SeafoodType seafoodType);
 }
