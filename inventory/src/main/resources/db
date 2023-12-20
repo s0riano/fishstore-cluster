@@ -1,0 +1,245 @@
+-- 1. Drop the old catches table if it exists
+DROP TABLE IF EXISTS catches;
+
+-- 2. Create the new catches table
+CREATE TABLE catches (
+    catch_id SERIAL PRIMARY KEY,
+    seller_id INTEGER NOT NULL,
+    seafood_type VARCHAR(255) NOT NULL,
+    kilos FLOAT NOT NULL CHECK (kilos > 0),
+    catch_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    expiry_date TIMESTAMP NOT NULL DEFAULT NOW() + INTERVAL '2 days',
+    last_modified TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+-- 3. Insert the test data
+INSERT INTO catches (seller_id, seafood_type, kilos) VALUES 
+(1, 'Salmon', 5.2),
+(1, 'Salmon', 4.8),
+(2, 'Shrimp', 3.0),
+(2, 'Bream', 2.7),
+(3, 'Salmon', 6.0),
+(3, 'Shrimp', 3.5),
+(4, 'Salmon', 5.5),
+(4, 'Bream', 2.8);
+
+-- 4. Create a function to automatically update the last_modified column
+CREATE OR REPLACE FUNCTION update_last_modified()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.last_modified = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 5. Create a trigger to call the aforementioned function every time a row in the catches table is updated
+CREATE TRIGGER trigger_update_last_modified
+BEFORE UPDATE ON catches
+FOR EACH ROW
+EXECUTE FUNCTION update_last_modified();
+
+-- Insert the test sales data
+INSERT INTO sale (catch_id, quantity, sale_date) VALUES
+(1, 2, '2023-10-07'),  -- Sale of 2 units of catch_id 1 (Salmon by seller 1)
+(2, 3, '2023-10-07'),  -- Sale of 3 units of catch_id 2 (Salmon by seller 1)
+(3, 1, '2023-10-08'),  -- Sale of 1 unit of catch_id 3 (Shrimp by seller 2)
+(4, 2, '2023-10-08'),  -- Sale of 2 units of catch_id 4 (Bream by seller 2)
+(5, 4, '2023-10-08');  -- Sale of 4 units of catch_id 5 (Salmon by seller 3)
+
+
+CREATE TABLE sale (
+    sale_id SERIAL PRIMARY KEY,
+    catch_id INTEGER NOT NULL REFERENCES catch(catch_id),
+    quantity INTEGER NOT NULL,
+    sale_date DATE NOT NULL
+);
+
+-- Assuming your sale table is dependent on catches table, truncate sale first
+TRUNCATE TABLE sale;
+TRUNCATE TABLE catch;
+
+-- Inserting test data into catches table
+INSERT INTO catches (seller_id, seafood_type, kilos, catch_date, expiry_date, last_modified) VALUES
+(1, 'SALMON', 5.2, '2023-10-07', '2023-10-09', '2023-10-07 10:00:00'),
+(2, 'SALMON', 3.0, '2023-10-07', '2023-10-09', '2023-10-07 11:00:00'),
+(3, 'SALMON',  2.7, '2023-10-07', '2023-10-09', '2023-10-07 12:00:00');
+
+-- Inserting test sales data into sale table
+INSERT INTO sale (catch_id, quantity, sale_date) VALUES
+(1, 2, '2023-10-07'),  -- Sale of 2 kilos of Salmon caught by seller 1
+(2, 1, '2023-10-07'),  -- Sale of 1 kilo of Shrimp caught by seller 2
+(3, 1, '2023-10-07');  -- Sale of 1 kilo of Bream caught by seller 3
+
+
+                NEW SCRIPT
+
+-- 1. Drop the old catch table if it exists
+DROP TABLE IF EXISTS catch;
+DROP TABLE IF EXISTS sale;
+
+-- 2. Create the new catch table
+CREATE TABLE catch (
+    catch_id SERIAL PRIMARY KEY,
+    seller_id INTEGER NOT NULL,
+    seafood_type VARCHAR(255) NOT NULL,
+    kilos FLOAT NOT NULL CHECK (kilos > 0),
+    catch_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    expiry_date TIMESTAMP NOT NULL DEFAULT NOW() + INTERVAL '2 days',
+    last_modified TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+-- 3. Insert the test data into catch table
+INSERT INTO catch (seller_id, seafood_type, kilos, catch_date, expiry_date, last_modified) VALUES
+(1, 'SALMON', 5.2, '2023-10-07', '2023-10-09', '2023-10-07 10:00:00'),
+(2, 'SALMON', 3.0, '2023-10-07', '2023-10-09', '2023-10-07 11:00:00'),
+(3, 'SALMON', 2.7, '2023-10-07', '2023-10-09', '2023-10-07 12:00:00');
+
+-- 4. Create a function to automatically update the last_modified column
+CREATE OR REPLACE FUNCTION update_last_modified()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.last_modified = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 5. Create a trigger to call the aforementioned function every time a row in the catch table is updated
+CREATE TRIGGER trigger_update_last_modified
+BEFORE UPDATE ON catch
+FOR EACH ROW
+EXECUTE FUNCTION update_last_modified();
+
+-- Adjust the CREATE statement for sale table to reference the catch table
+CREATE TABLE sale (
+    sale_id SERIAL PRIMARY KEY,
+    catch_id INTEGER NOT NULL REFERENCES catch(catch_id),
+    quantity INTEGER NOT NULL,
+    sale_date DATE NOT NULL
+);
+
+-- Assuming the sale table exists and is dependent on catch table, truncate sale first
+TRUNCATE TABLE sale;
+
+-- Inserting test sales data into sale table
+INSERT INTO sale (catch_id, quantity, sale_date) VALUES
+(1, 2, '2023-10-07'),  -- Sale of 2 kilos of Salmon caught by seller 1
+(2, 1, '2023-10-07'),  -- Sale of 1 kilo of Salmon caught by seller 2
+(3, 1, '2023-10-07');  -- Sale of 1 kilo of Salmon caught by seller 3
+
+
+                    new version
+
+-- 1. Drop the old tables if they exist
+DROP TABLE IF EXISTS sale;
+DROP TABLE IF EXISTS catch;
+
+-- 2. Create the catch table
+CREATE TABLE catch (
+    catch_id SERIAL PRIMARY KEY,
+    seller_id INTEGER NOT NULL,
+    seafood_type VARCHAR(255) NOT NULL,
+    kilos FLOAT NOT NULL CHECK (kilos > 0),
+    catch_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    expiry_date TIMESTAMP NOT NULL DEFAULT NOW() + INTERVAL '2 days',
+    last_modified TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+-- 3. Insert the test data into catch table
+INSERT INTO catch (seller_id, seafood_type, kilos, catch_date, expiry_date, last_modified) VALUES
+(1, 'SALMON', 5.2, '2023-10-07', '2023-10-09', '2023-10-07 10:00:00'),
+(2, 'SALMON', 3.0, '2023-10-07', '2023-10-09', '2023-10-07 11:00:00'),
+(3, 'SALMON', 2.7, '2023-10-07', '2023-10-09', '2023-10-07 12:00:00');
+
+-- 4. Create a function to automatically update the last_modified column
+CREATE OR REPLACE FUNCTION update_last_modified()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.last_modified = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 5. Create a trigger to call the aforementioned function every time a row in the catch table is updated
+CREATE TRIGGER trigger_update_last_modified
+BEFORE UPDATE ON catch
+FOR EACH ROW
+EXECUTE FUNCTION update_last_modified();
+
+-- 6. Create the sale table with kilos as FLOAT
+CREATE TABLE sale (
+    sale_id SERIAL PRIMARY KEY,
+    catch_id INTEGER NOT NULL REFERENCES catch(catch_id),
+    kilos FLOAT NOT NULL CHECK (kilos > 0),
+    sale_date DATE NOT NULL
+);
+
+-- 7. Inserting test sales data into sale table
+INSERT INTO sale (catch_id, kilos, sale_date) VALUES
+(1, 2.0, '2023-10-07'),  -- Sale of 2 kilos of Salmon caught by seller 1
+(2, 1.0, '2023-10-07'),  -- Sale of 1 kilo of Salmon caught by seller 2
+(3, 1.0, '2023-10-07');  -- Sale of 1 kilo of Salmon caught by seller 3
+
+                    Nu Club
+
+-- 1. Drop the old tables if they exist
+DROP TABLE IF EXISTS sale;
+DROP TABLE IF EXISTS catch;
+
+-- 2. Create the catch table
+CREATE TABLE catch (
+    catch_id SERIAL PRIMARY KEY,
+    seller_id INTEGER NOT NULL,
+    seafood_type VARCHAR(255) NOT NULL,
+    kilos DECIMAL(10, 2) NOT NULL CHECK (kilos > 0),  -- Using DECIMAL with precision 10 and scale 2
+    catch_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    expiry_date TIMESTAMP NOT NULL DEFAULT NOW() + INTERVAL '2 days',
+    last_modified TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+-- 3. Insert the test data into catch table
+INSERT INTO catch (seller_id, seafood_type, kilos, catch_date, expiry_date, last_modified) VALUES
+(1, 'SALMON', 5.20, '2023-10-07', '2023-10-09', '2023-10-07 10:00:00'),
+(2, 'SALMON', 3.00, '2023-10-07', '2023-10-09', '2023-10-07 11:00:00'),
+(3, 'SALMON', 2.70, '2023-10-07', '2023-10-09', '2023-10-07 12:00:00');
+
+-- 4. Create a function to automatically update the last_modified column
+CREATE OR REPLACE FUNCTION update_last_modified()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.last_modified = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 5. Create a trigger to call the aforementioned function every time a row in the catch table is updated
+CREATE TRIGGER trigger_update_last_modified
+BEFORE UPDATE ON catch
+FOR EACH ROW
+EXECUTE FUNCTION update_last_modified();
+
+-- 6. Create the sale table with kilos as DECIMAL
+CREATE TABLE sale (
+    sale_id SERIAL PRIMARY KEY,
+    catch_id INTEGER NOT NULL REFERENCES catch(catch_id),
+    kilos DECIMAL(10, 2) NOT NULL CHECK (kilos > 0),  -- Using DECIMAL with precision 10 and scale 2
+    sale_date DATE NOT NULL
+);
+
+-- 7. Inserting test sales data into sale table
+INSERT INTO sale (catch_id, kilos, sale_date) VALUES
+(1, 2.00, '2023-10-07'),  -- Sale of 2 kilos of Salmon caught by seller 1
+(2, 1.00, '2023-10-07'),  -- Sale of 1 kilo of Salmon caught by seller 2
+(3, 1.00, '2023-10-07');  -- Sale of 1 kilo of Salmon caught by seller 3
+
+-- Inserting additional catches for each seller
+INSERT INTO catch (seller_id, seafood_type, kilos, catch_date, expiry_date, last_modified) VALUES
+(1, 'SALMON', 4.5, '2023-10-11', '2023-10-13', '2023-10-11 09:00:00'),
+(2, 'SALMON', 3.7, '2023-10-11', '2023-10-13', '2023-10-11 10:00:00'),
+(3, 'SALMON', 2.3, '2023-10-11', '2023-10-13', '2023-10-11 11:00:00');
+
+-- Assuming the IDs of the new catches are 4, 5, and 6 respectively. This may vary based on your actual database state.
+-- Inserting additional sales for the new catches
+INSERT INTO sale (catch_id, kilos, sale_date) VALUES
+(4, 1.5, '2023-10-11'),  -- Sale of 1.5 kilos of Salmon from the new catch by seller 1
+(5, 1.0, '2023-10-11'),  -- Sale of 1.0 kilo of Salmon from the new catch by seller 2
+(6, 0.8, '2023-10-11');  -- Sale of 0.8 kilos of Salmon from the new catch by seller 3
