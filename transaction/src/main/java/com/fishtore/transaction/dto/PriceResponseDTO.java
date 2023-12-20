@@ -10,6 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PriceResponseDTO {
-    private Long sellerId;
+    private String shopId; // its stored as a string in the Price API instead of UUID
     private List<PriceEntryDTO> prices;
 }

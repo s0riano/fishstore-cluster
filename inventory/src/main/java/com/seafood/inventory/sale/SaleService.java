@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,15 +24,15 @@ public class SaleService {
                 .collect(Collectors.toList());
     }
 
-    public List<SaleDTO> getSalesByCatchId(Long catchId) {
+    public List<SaleDTO> getSalesByCatchId(UUID catchId) {
         List<Sale> sales = saleRepository.findByCatchEntityCatchId(catchId);
         return sales.stream()
                 .map(this::toSaleDTO) // using method reference for consistency
                 .collect(Collectors.toList());
     }
 
-    public List<SaleDTO> getSalesBySellerId(Long sellerId) {
-        List<Sale> sales = saleRepository.findByCatchEntitySellerId(sellerId);
+    public List<SaleDTO> getSalesBySellerId(UUID sellerId) {
+        List<Sale> sales = saleRepository.findByCatchEntityShopId(sellerId);
         return sales.stream()
                 .map(this::toSaleDTO) // This assumes the method toSaleDTO is in this class
                 .collect(Collectors.toList());
@@ -46,4 +47,5 @@ public class SaleService {
         dto.setSaleDate(sale.getSaleDate());
         return dto;
     }
+
 }

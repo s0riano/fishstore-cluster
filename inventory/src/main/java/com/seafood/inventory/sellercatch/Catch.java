@@ -7,9 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalTime; // Importing LocalTime for time_of_day
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "catch")
@@ -22,17 +23,17 @@ public class Catch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "catch_id")
-    private Long catchId;
+    private UUID catchId;
 
-    @Column(name = "seller_id", nullable = false)
-    private Long sellerId;
+    @Column(name = "shop_id", nullable = false)
+    private UUID shopId;
 
     @Enumerated(EnumType.STRING) // Storing the enum values as strings
     @Column(name = "seafood_type", nullable = false)
     private SeafoodType seafoodType;
 
     @Column(nullable = false)
-    private Float kilos;
+    private BigDecimal kilos;
 
     @Column(name = "catch_date", nullable = false)
     private LocalDate dateCaught;

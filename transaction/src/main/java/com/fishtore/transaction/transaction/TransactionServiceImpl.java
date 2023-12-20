@@ -1,17 +1,21 @@
 package com.fishtore.transaction.transaction;
 
-import com.fishstore.shared.dto.TransactionDTO;
-import com.fishstore.shared.dto.TransactionRequestDTO;
-import com.fishstore.shared.dto.payload.InventoryResponsePayload;
+import com.fishtore.transaction.dto.TransactionDTO;
+import com.fishtore.transaction.dto.TransactionRequestDTO;
+import com.fishtore.transaction.dto.payload.InventoryResponsePayload;
 import com.fishtore.transaction.transaction.components.OrderPlacementComponent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+@Slf4j
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
@@ -38,7 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction updateTransactionStatus(String transactionId, TransactionStatus status) {
+    public Transaction updateTransactionStatus(UUID transactionId, TransactionStatus status) {
         Transaction transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new RuntimeException("Transaction with ID: " + transactionId + " not found"));
         transaction.setStatus(status);
@@ -47,7 +51,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction findTransactionById(String transactionId) {
+    public Transaction findTransactionById(UUID transactionId) {
         return transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new RuntimeException("Transaction not found"));
     }
@@ -71,7 +75,7 @@ public class TransactionServiceImpl implements TransactionService {
             exchange = @Exchange(name = "transactionExchange"),
             key = "inventoryResponse"))*/
     public void processInventoryResponse(InventoryResponsePayload responsePayload) {
-        String transactionId = responsePayload.getTransactionId();
+        UUID transactionId = responsePayload.getTransactionId();
         boolean isAvailable = responsePayload.isAvailable();
         //also update the transaction with the payload???
     }
@@ -80,6 +84,21 @@ public class TransactionServiceImpl implements TransactionService {
     public List<Transaction> getAllTransactions() {
         //logger.info("Fetched transactions: " + transactions.size());
         return transactionRepository.findAll();
+    }
+
+    @Override
+    public Transaction getTransactionById(UUID id) {
+        return transactionRepository.findById(id).orElse(null);
+    }
+
+    public void updatePickupTimestamp(UUID transactionId) {
+        Transaction transaction = transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new IllegalArgumentException("Transaction not found"));
+
+        transaction.setPickupTimestamp(LocalDateTime.now());
+        transaction.setStatus(TransactionStatus.COMPLETED);
+        log.info("Transaction {}, was now picked up at: {}", transactionId, transaction.getPickupTimestamp());
+        transactionRepository.save(transaction);
     }
 }
 

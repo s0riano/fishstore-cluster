@@ -1,11 +1,12 @@
 package com.fishtore.transaction.components;
 
-import com.fishstore.shared.dto.SeafoodType;
 import com.fishtore.transaction.dto.PriceEntryDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.fishtore.transaction.dto.PriceResponseDTO;
+import com.fishtore.transaction.transaction.enums.SeafoodType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Component
-public class ExternalPriceApiComponent { //not set up yet
+public class ExternalPriceApiComponent { // continue to fix the id string
 
     private final RestTemplate restTemplate;
     private final String priceApiUrl;
@@ -26,8 +27,8 @@ public class ExternalPriceApiComponent { //not set up yet
         this.priceApiUrl = priceApiUrl;
     }
 
-    public List<PriceEntryDTO> getCurrentPrices(Long sellerId) {
-        String url = String.format("%s/prices/%s", priceApiUrl, sellerId);
+    public List<PriceEntryDTO> getCurrentPrices(UUID shopId) {
+        String url = String.format("%s/prices/%s", priceApiUrl, shopId);
         //log.info("URL: {}",url);
         PriceResponseDTO priceResponse = null;
 
@@ -40,8 +41,8 @@ public class ExternalPriceApiComponent { //not set up yet
                 for (PriceEntryDTO entry : priceResponse.getPrices()) {
                     if (!EnumUtils.isValidEnum(SeafoodType.class, entry.getSeafoodType().name())) {
                         log.error("Invalid seafood type received: {}", entry.getSeafoodType());
-                        // Handle the invalid seafood type as per your requirement
-                        // For example, throw an exception or return an empty list
+                        // handle invalid seafood type
+                        // throw an exception or return an empty list
                     }
                 }
             }

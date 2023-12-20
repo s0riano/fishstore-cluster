@@ -1,9 +1,9 @@
 package com.fishtore.inventory.staticinventory.inventory;
 
-import com.fishstore.shared.dto.SeafoodType;
-import com.fishstore.shared.dto.TransactionItemDTO;
-import com.fishstore.shared.dto.TransactionRequestDTO;
 import com.fishtore.inventory.staticinventory.dto.PriceInfoDTO;
+import com.fishtore.inventory.staticinventory.dto.TransactionItemDTO;
+import com.fishtore.inventory.staticinventory.dto.TransactionRequestDTO;
+import com.fishtore.inventory.staticinventory.enums.SeafoodType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

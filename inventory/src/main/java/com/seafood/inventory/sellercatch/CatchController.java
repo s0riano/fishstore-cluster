@@ -1,11 +1,10 @@
 package com.seafood.inventory.sellercatch;
 
-import com.seafood.inventory.enums.SeafoodType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/catches")
@@ -20,18 +19,18 @@ public class CatchController {
     }
 
     @GetMapping("/{id}")
-    public Catch getCatchById(@PathVariable Long id) {
+    public Catch getCatchById(@PathVariable UUID id) {
         return catchService.getCatchById(id);
     }
 
 
     @DeleteMapping("/{id}")
-    public void deleteCatch(@PathVariable Long id) {
+    public void deleteCatch(@PathVariable UUID id) {
         catchService.deleteCatch(id);
     }
 
     @GetMapping("/sellers/{sellerId}")
-    public List<Catch> getCatchesBySellerId(@PathVariable Long sellerId) {
+    public List<Catch> getCatchesBySellerId(@PathVariable UUID sellerId) {
         return catchService.getCatchesBySellerId(sellerId);
     }
 
@@ -41,9 +40,9 @@ public class CatchController {
     }
 
     @PostMapping("/{sellerId}")
-    public Catch saveCatchForSeller(@PathVariable Long sellerId, @RequestBody Catch catchData) {
+    public Catch saveCatchForSeller(@PathVariable UUID sellerId, @RequestBody Catch catchData) {
         // You can either set the sellerId to the catchData or use it for validation purposes
-        catchData.setSellerId(sellerId);
+        catchData.setShopId(sellerId);
         return catchService.saveCatch(catchData);
     }
 

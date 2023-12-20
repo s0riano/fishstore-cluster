@@ -1,7 +1,7 @@
 package com.fishtore.inventory.staticinventory.config;
 
 
-import com.fishstore.shared.dto.TransactionRequestDTO;
+import com.fishtore.inventory.staticinventory.dto.TransactionRequestDTO;
 import org.springframework.amqp.core.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

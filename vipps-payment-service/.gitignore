@@ -1,27 +1,91 @@
-# compiled output
-/dist
-/node_modules
+### General ###
+# Compiled class files
+*.class
 
-# Logs
-logs
+# Log files
 *.log
-npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
 
-# OS
+# Package files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# OS generated files
 .DS_Store
+Thumbs.db
 
-# Tests
-/coverage
-/.nyc_output
+# Virtual machine crash logs
+hs_err_pid*
 
-# IDEs and editors
-/.idea
-.project
+# Dependency directories
+node_modules/
+venv/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+
+### Java (Spring Boot, STS, IntelliJ IDEA, NetBeans) ###
+/target
+/bin
+bin/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+.apt_generated
 .classpath
+.factorypath
+.project
+.settings
+.springBeans
+.idea
+*.iws
+*.iml
+*.ipr
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### Node.js ###
+/dist
+/dist-server
+/tmp
+/out-tsc
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+#build/
+develop-eggs/
+#dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+### IDEs and Editors ###
+/.idea
+#.project
+#.classpath
 .c9/
 *.launch
 .settings/
@@ -34,7 +98,21 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Environment Variables
-.env
+### Misc ###
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
 
-NOTES.md
+# Database files
+*.db
+*.mv.db
+user_db.trace.db
+
+# System Files
+#.DS_Store
+#Thumbs.db

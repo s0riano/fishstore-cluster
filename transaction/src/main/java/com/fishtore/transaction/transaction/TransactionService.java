@@ -1,10 +1,12 @@
 package com.fishtore.transaction.transaction;
 
-import com.fishstore.shared.dto.TransactionDTO;
-import com.fishstore.shared.dto.TransactionRequestDTO;
-import com.fishstore.shared.dto.payload.InventoryResponsePayload;
+import com.fishtore.transaction.dto.TransactionDTO;
+import com.fishtore.transaction.dto.TransactionRequestDTO;
+import com.fishtore.transaction.dto.payload.InventoryResponsePayload;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface TransactionService {
 
@@ -12,8 +14,8 @@ public interface TransactionService {
 
     public String processOrderPlacement(TransactionDTO transactionDTO);
 
-    Transaction updateTransactionStatus(String transactionId, TransactionStatus status);
-    Transaction findTransactionById(String transactionId);
+    Transaction updateTransactionStatus(UUID transactionId, TransactionStatus status);
+    Transaction findTransactionById(UUID transactionId);
 
     void requestItemAvailability(TransactionRequestDTO transactionRequestDTO); //not made yet
 
@@ -22,4 +24,7 @@ public interface TransactionService {
     void processInventoryResponse(InventoryResponsePayload responsePayload);
 
     List<Transaction> getAllTransactions();
+
+    Transaction getTransactionById(UUID id);
+    public void updatePickupTimestamp(UUID transactionId);
 }

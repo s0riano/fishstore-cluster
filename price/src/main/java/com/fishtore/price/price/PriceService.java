@@ -17,8 +17,8 @@ public class PriceService {
         return priceRepository.findAll();
     }
 
-    public Optional<Price> getPricesBySellerId(Long sellerId) {
-        return priceRepository.findBySellerId(sellerId);
+    public Optional<Price> getPricesById(String shopId) {
+        return priceRepository.findById(shopId);
     }
 
 }

@@ -1,0 +1,90 @@
+# Java/Spring Boot specific #
+#############################
+*.class
+*.log
+*.war
+*.jar
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+
+# Maven specific #
+##################
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+.pom.xml.swp
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle specific #
+####################
+.gradle
+/build/
+
+# IDE specific #
+################
+/.idea/
+*.iml
+*.iws
+*.ipr
+*.swp
+*~
+.DS_Store
+
+# STS #
+########
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# IntelliJ IDEA #
+##################
+.idea
+*.iws
+*.iml
+*.ipr
+
+# NetBeans #
+#############
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# VS Code #
+###########
+.vscode/
+
+# Node specific (for any Node.js projects) #
+############################################
+/node_modules/
+npm-debug.log
+yarn-error.log
+.env
+
+# Other common directories #
+############################
+bin/
+out/
+logs/
+temp/
+
+# OS generated files #
+######################
+Thumbs.db
+ehthumbs.db
+

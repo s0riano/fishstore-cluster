@@ -2,9 +2,12 @@ package com.seafood.inventory.sale;
 
 import com.seafood.inventory.sellercatch.Catch;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 /*
                    - not a transaction -
@@ -22,26 +25,34 @@ import java.time.LocalDate;
 public class Sale {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     @Column(name = "sale_id")
-    private Long saleId;
+    private UUID saleId;
 
-    //create column for transactionId
+    @NotNull
+    @Column(name = "transaction_id")
+    private UUID transactionId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "catch_id", nullable = false)  // Indicates the foreign key column
+    @NotNull
+    //@ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
+    @JoinColumn(name = "catch_id", insertable = false, updatable = false)
     private Catch catchEntity;
 
-    @Transient
-    private Long catchId;
+    @NotNull
+    //@Transient
+    @Column(name = "catch_id")
+    private UUID catchId;
 
+    @NotNull
     @Column(name = "kilos", nullable = false)
-    private float kilos;
+    private BigDecimal kilos;
 
     @Column(name = "sale_date", nullable = false)
     private LocalDate saleDate;
 
-    public Long getCatchId() {
+    public UUID getCatchId() {
         return (catchEntity != null) ? catchEntity.getCatchId() : null;
     }
 }

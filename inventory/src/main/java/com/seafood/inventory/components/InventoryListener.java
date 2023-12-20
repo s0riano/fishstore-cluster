@@ -10,19 +10,21 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class InventoryListener {
 
-    private final InventoryService inventoryService;
+    private final TransactionProcessorComponent transactionProcessorComponent;
+
     private final InventoryCheckComponent inventoryCheckComponent;
 
-    public InventoryListener(InventoryService inventoryService, InventoryCheckComponent inventoryCheckComponent) {
-        this.inventoryService = inventoryService;
+    public InventoryListener(TransactionProcessorComponent transactionProcessorComponent,
+                             InventoryCheckComponent inventoryCheckComponent) {
+        this.transactionProcessorComponent = transactionProcessorComponent;
         this.inventoryCheckComponent = inventoryCheckComponent;
     }
 
     @RabbitListener(queues = "${inventory.check.queue}")
     public void receiveMessage(TransactionRequestDTO transactionDTO) {
-        // Process the received message using the InventoryService
         log.info("Received transactionDTO from: TransactionService, it contains = {}", transactionDTO);
-        boolean isInventoryAvailable = inventoryService.checkAndReserveInventory(transactionDTO);
+        boolean isInventoryAvailable = transactionProcessorComponent.processTransaction(transactionDTO);
+        log.info("Is inventory available: {}", isInventoryAvailable);
 
         InventoryResponsePayload inventoryResponsePayload = new InventoryResponsePayload(
                transactionDTO.getTransactionId(),

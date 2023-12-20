@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,16 +28,18 @@ public class SaleController {
 
     // Endpoint to get sales by catch ID
     @GetMapping("/catch/{catchId}")
-    public ResponseEntity<List<SaleDTO>> getSalesByCatchId(@PathVariable Long catchId) {
+    public ResponseEntity<List<SaleDTO>> getSalesByCatchId(@PathVariable UUID catchId) {
         List<SaleDTO> sales = saleService.getSalesByCatchId(catchId);
         return ResponseEntity.ok(sales);
     }
 
     // Endpoint to get all sales for a specific seller
     @GetMapping("/seller/{sellerId}")
-    public ResponseEntity<List<SaleDTO>> getSalesBySeller(@PathVariable Long sellerId) {
+    public ResponseEntity<List<SaleDTO>> getSalesBySeller(@PathVariable UUID sellerId) {
         List<SaleDTO> salesForSeller = saleService.getSalesBySellerId(sellerId);
         return ResponseEntity.ok(salesForSeller);
     }
+
+
 }
 

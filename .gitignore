@@ -1,0 +1,73 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Virtual machine crash logs
+hs_err_pid*
+replay_pid*
+
+# Maven wrapper - exclude jar file
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/MavenWrapperDownloader.java
+
+# Build directories
+target/
+build/
+dist/
+out/
+
+# Node modules
+node_modules/
+
+# IDE and Editor folders
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Parcel cache
+.parcel-cache/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.orig
+*.retry
+
+# Specific directories
+shit/
+
+# Ignore all .idea folders in subdirectories
+**/.idea/
+
+# Ignore target folders in subdirectories
+**/target/
+
+# Ignore specific files in subdirectories (if needed)
+**/HELP.md

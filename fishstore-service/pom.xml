@@ -99,12 +99,12 @@
 			<artifactId>snakeyaml</artifactId><!--from chatGpt; to read management in apl.yml-->
 			<version>1.21</version>
 		</dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.seafood</groupId>
             <artifactId>demo</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>-->
     </dependencies>
 	<dependencyManagement>
 		<dependencies>

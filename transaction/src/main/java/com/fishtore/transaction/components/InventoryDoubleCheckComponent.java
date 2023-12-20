@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -24,7 +25,7 @@ public class InventoryDoubleCheckComponent {
     }
 
     @Async
-    public void doubleCheckTransaction(String transactionId, boolean isAvailable) {
+    public void doubleCheckTransaction(UUID transactionId, boolean isAvailable) {
         log.warn("Transaction {} not found. We are now double checking it", transactionId);
         Optional<Transaction> transactionOpt = transactionRepository.findById(transactionId);
 

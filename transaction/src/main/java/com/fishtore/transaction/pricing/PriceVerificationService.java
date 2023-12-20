@@ -1,6 +1,6 @@
 package com.fishtore.transaction.pricing;
 
-import com.fishstore.shared.dto.TransactionRequestDTO;
+import com.fishtore.transaction.dto.TransactionRequestDTO;
 import com.fishtore.transaction.transaction.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,7 @@ public class PriceVerificationService {
     }
 
     private Map<String, BigDecimal> fetchSellerPrices(TransactionRequestDTO requestDTO) {
-        String url = GATEWAY_PRICE_ENDPOINT.replace("{sellerId}", requestDTO.getSellerId().toString());
+        String url = GATEWAY_PRICE_ENDPOINT.replace("{sellerId}", requestDTO.getShopId().toString());
         ResponseEntity<Map<String, BigDecimal>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,

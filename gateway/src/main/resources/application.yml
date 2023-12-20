@@ -24,21 +24,39 @@ spring:
         default-context: defaults
     gateway:
       routes:
-        - id: management
+        - id: management # removed!
           uri: lb://management/
           predicates: # - Path=/api/{segment:boats,sellers}
             #- Path=/api/{segment}
             - Path=/api/sellers,/api/boats
-        - id: store #next up, store api! so frontend afterwards?
+        - id: store #changed to shop...
           uri: lb://store/
           predicates:
             - Path=/api/stores,/api/stores/**,
-            #- Path=/api/{segment}
-        - id: inventory #next up, store api! so frontend afterwards?
+        - id: buyer-management # ===================================================================
+          uri: lb://buyer/
+          predicates:
+            - Path=/api/users/buyers/all,/api/users/buyers/create,/api/users/buyers/**
+        - id: inventory
           uri: lb://inventory/
           predicates:
             - Path=/api/catches,/api/catches/**,/api/inventory/,/api/inventory/**
-            #- Path=/api/{segment}
+        - id: shop # ===================================================================
+          uri: lb://shop/
+          predicates:
+            - Path=/api/shops/active,/api/shops/**,/api/shops/initialize
+        - id: transaction # ===================================================================
+          uri: lb://transaction/
+          predicates:
+            - Path=/api/transactions,/api/transactions/all,api/transactions/placeOrder, api/transactions/**
+        - id: static-inventory # ===================================================================
+          uri: lb://static-inventory/
+          predicates:
+            - Path=/api/inventory**,/api/inventory/prices,/api/inventory/prices/**
+        - id: price # ===================================================================
+          uri: lb://price/
+          predicates:
+            - Path=/api/prices**,/api/prices,
       globalcors:
         cors-configurations:
           '[/**]':

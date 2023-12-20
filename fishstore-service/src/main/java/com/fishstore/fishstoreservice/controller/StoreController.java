@@ -3,7 +3,6 @@ package com.fishstore.fishstoreservice.controller;
 import com.fishstore.fishstoreservice.model.entity.Store;
 import com.fishstore.fishstoreservice.service.StoreService;
 import com.fishstore.fishstoreservice.serviceclients.SellerServiceClient;
-import com.seafood.demo.service.SellerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +15,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StoreController {
 
-    @Autowired
     private StoreService storeService;
-
-    @Autowired //remove in favor of @RequiredArgsConstructor ??
     private SellerServiceClient sellerServiceClient;
+
+    @Autowired
+    public StoreController(StoreService storeService, SellerServiceClient sellerServiceClient) {
+        this.storeService = storeService;
+        this.sellerServiceClient = sellerServiceClient;
+    }
 
     @GetMapping
     public ResponseEntity<List<Store>> getAllStores() {

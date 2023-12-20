@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Component
 public class FailedTransactionHandler {
@@ -16,9 +17,9 @@ public class FailedTransactionHandler {
         this.failedTransactionRepository = failedTransactionRepository;
     }
 
-    public void logFailedTransaction(String transactionId, TransactionStatus status, String errorMessage) {
+    public void logFailedTransaction(UUID transactionId, TransactionStatus status, String errorMessage) {
         FailedTransaction failedTransaction = new FailedTransaction();
-        failedTransaction.setTransactionId(transactionId);
+        failedTransaction.setTransactionId(transactionId.toString());
         failedTransaction.setStatus(status);
         failedTransaction.setFailedAt(LocalDateTime.now());
         failedTransaction.setErrorMessage(errorMessage);

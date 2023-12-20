@@ -4,46 +4,49 @@ import com.seafood.inventory.dto.transaction.InventoryResponsePayload;
 import com.seafood.inventory.dto.transaction.TransactionRequestDTO;
 import com.seafood.inventory.event.InventoryCheckEvent;
 import com.seafood.inventory.event.InventoryCheckRequestEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class InventoryCheckComponent {
 
-    private static final Logger logger = LoggerFactory.getLogger(InventoryCheckComponent.class);
-    private final InventoryService inventoryService;
+    private final CheckAndReserveInventoryComponent checkAndReserveInventoryComponent;
     private final ApplicationEventPublisher eventPublisher;
+    private final TransactionProcessorComponent transactionProcessorComponent;
 
     @Autowired
-    public InventoryCheckComponent(InventoryService inventoryService, ApplicationEventPublisher eventPublisher) {
-        this.inventoryService = inventoryService;
+    public InventoryCheckComponent(CheckAndReserveInventoryComponent checkAndReserveInventoryComponent, ApplicationEventPublisher eventPublisher, TransactionProcessorComponent transactionProcessorComponent) {
+        this.checkAndReserveInventoryComponent = checkAndReserveInventoryComponent;
         this.eventPublisher = eventPublisher;
+        this.transactionProcessorComponent = transactionProcessorComponent;
     }
 
     @Async
     public void processOrder(TransactionRequestDTO transactionDTO){
-
-        InventoryResponsePayload responsePayload = new InventoryResponsePayload(
+        /*InventoryResponsePayload responsePayload = new InventoryResponsePayload(
                 transactionDTO.getTransactionId(),
                 calculateAvailability(transactionDTO)
+        );*/
+        boolean isInventoryAvailable = transactionProcessorComponent.processTransaction(transactionDTO);
+        log.info("Is inventory available: {}", isInventoryAvailable);
+
+        InventoryResponsePayload inventoryResponsePayload = new InventoryResponsePayload(
+                transactionDTO.getTransactionId(),
+                isInventoryAvailable
         );
-        logger.info("Sending order: {}, back to the Transaction Service", responsePayload);
-        //need to make a function to remove the items that were sold
-        eventPublisher.publishEvent(new InventoryCheckEvent(responsePayload));
+        log.info("Sending order: {}, back to the Transaction Service", inventoryResponsePayload);
+        eventPublisher.publishEvent(new InventoryCheckEvent(inventoryResponsePayload));
     }
 
     public boolean calculateAvailability(TransactionRequestDTO transactionDTO) {
-
-
         //create component to calculate from som sort of availability calculator
-
         return false;
-    }
+    } // done
 
     @EventListener// Listen to the InventoryCheckRequestEvent and process the order
     public void onInventoryCheckRequestEvent(InventoryCheckRequestEvent event) {

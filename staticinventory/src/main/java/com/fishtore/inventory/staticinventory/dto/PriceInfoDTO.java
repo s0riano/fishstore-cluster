@@ -1,6 +1,6 @@
 package com.fishtore.inventory.staticinventory.dto;
 
-import com.fishstore.shared.dto.SeafoodType;
+import com.fishtore.inventory.staticinventory.enums.SeafoodType;
 import lombok.*;
 
 import java.math.BigDecimal;

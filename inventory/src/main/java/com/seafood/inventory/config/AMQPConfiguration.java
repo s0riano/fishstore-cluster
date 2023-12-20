@@ -1,7 +1,7 @@
 package com.seafood.inventory.config;
 
-
-import com.fishstore.shared.dto.TransactionRequestDTO;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import com.seafood.inventory.dto.transaction.TransactionRequestDTO;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.support.converter.DefaultClassMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -44,22 +44,35 @@ public class AMQPConfiguration {
         Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
         DefaultClassMapper classMapper = new DefaultClassMapper();
 
+        Map<String, Class<?>> idClassMapping = new HashMap<>();
+        idClassMapping.put("TransactionRequestDTO", TransactionRequestDTO.class); // No need to import from other service
+        classMapper.setIdClassMapping(idClassMapping);
+
+        classMapper.setTrustedPackages("*");
+        converter.setClassMapper(classMapper);
+        return converter;
+    }
+
+    /*@Bean
+    public MessageConverter jsonMessageConverter() {
+        Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
+        DefaultClassMapper classMapper = new DefaultClassMapper();
+
         // Define the mapping between the typeId header and the expected type
         Map<String, Class<?>> idClassMapping = new HashMap<>();
         idClassMapping.put("TransactionMessagePayload", TransactionRequestDTO.class); // Adjust the mapping as needed
         classMapper.setIdClassMapping(idClassMapping);
 
-        // Set trusted packages
-        classMapper.setTrustedPackages(
+        *//*classMapper.setTrustedPackages(
                 "com.fishstore.shared.dto", // Add this package to the trusted list
                 "java.util",
                 "java.lang",
                 "com.fishtore.transaction.dto"
-        );
+        );*//*
 
         converter.setClassMapper(classMapper);
         return converter;
-    }
+    }*/
 
 
 }

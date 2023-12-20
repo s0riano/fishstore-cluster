@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Data
@@ -17,10 +18,10 @@ import java.util.List;
 public class Transaction {
 
     @Id
-    private String transactionId;
+    private UUID transactionId; //was string, might change back since i do not like how the binary is visually displayed in mongo
 
-    private Long sellerId;
-    private Long buyerId;
+    private UUID shopId;
+    private UUID buyerId; //might change this to some sort of object, so the seller can buy without having an id, but rather buy and just leave an alias or
     private List<TransactionItem> items;
 
     private BigDecimal kilos; //hmm
@@ -31,7 +32,7 @@ public class Transaction {
 
     private LocalDateTime creationTimestamp; //might change this name, not clear enough
     private LocalDateTime pickupTimestamp; //when turned complete/picked up
-    private String notes; //notes from the buyer
+    private String notes; //can be helpful later, either it will be for debugging or buyer notes
 
     public BigDecimal calculateTotalPrice() {
         if (items == null || items.isEmpty()) {

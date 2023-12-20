@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -20,7 +21,7 @@ public class PriceVerificationComponent {
         this.priceVerificationService = priceVerificationService;
     }
 
-    public PriceStatus verifyTransactionPrices(Transaction transaction, Long sellerId) {
+    public PriceStatus verifyTransactionPrices(Transaction transaction, UUID shopId) {
         if (transaction == null || transaction.getItems() == null) {
             throw new IllegalArgumentException("Transaction and its items cannot be null");
         }
@@ -30,7 +31,7 @@ public class PriceVerificationComponent {
                 .collect(Collectors.toList());
 
         // Call the price verification service with the price entries and sellerId
-        return priceVerificationService.verifyPrices(priceEntries, sellerId);
+        return priceVerificationService.verifyPrices(priceEntries, shopId);
     }
 }
 

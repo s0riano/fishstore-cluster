@@ -1,6 +1,6 @@
 package com.fishtore.inventory.staticinventory.inventory;
 
-import com.fishstore.shared.dto.SeafoodType;
+import com.fishtore.inventory.staticinventory.enums.SeafoodType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,3 +1,4 @@
+/*
 import React, { useEffect, useState } from 'react';
 import ApiService from "../../shared/services/api-client/apiService";
 import StoreBox from "./StoreBox";
@@ -10,7 +11,7 @@ const StoreDisplay: React.FC = () => {
     useEffect(() => {
         async function fetchStores() {
             try {
-                const fetchedStores = await ApiService.fetchData('api/stores');
+                const fetchedStores = await ApiService.fetchData('/api/shops/active/all');
                 console.log(fetchedStores)
                 if (Array.isArray(fetchedStores)) {
                     setStores(fetchedStores);
@@ -28,7 +29,7 @@ const StoreDisplay: React.FC = () => {
 
     return (
         <div className="storeDisplayContainer">
-            {/*<h1>Stores</h1>*/}
+            {/!*<h1>Stores</h1>*!/}
             <ul className="storeList">
                 {
                     !stores.length ?
@@ -41,3 +42,4 @@ const StoreDisplay: React.FC = () => {
 };
 
 export default StoreDisplay;
+*/

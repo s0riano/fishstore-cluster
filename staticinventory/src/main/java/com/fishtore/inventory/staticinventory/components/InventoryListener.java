@@ -1,8 +1,7 @@
 package com.fishtore.inventory.staticinventory.components;
 
-import com.fishstore.shared.dto.TransactionRequestDTO;
-import com.fishstore.shared.dto.payload.InventoryResponsePayload;
-import com.fishstore.shared.dto.payload.TransactionMessagePayload;
+import com.fishtore.inventory.staticinventory.dto.TransactionRequestDTO;
+import com.fishtore.inventory.staticinventory.dto.payload.InventoryResponsePayload;
 import com.fishtore.inventory.staticinventory.inventory.InventoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

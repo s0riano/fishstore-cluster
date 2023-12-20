@@ -1,9 +1,8 @@
 package com.fishtore.inventory.staticinventory.components;
 
-import com.fishstore.shared.dto.SeafoodType;
-import com.fishstore.shared.dto.TransactionItemDTO;
-import com.fishstore.shared.dto.TransactionRequestDTO;
-import com.fishstore.shared.dto.payload.InventoryResponsePayload;
+import com.fishtore.inventory.staticinventory.dto.TransactionItemDTO;
+import com.fishtore.inventory.staticinventory.dto.TransactionRequestDTO;
+import com.fishtore.inventory.staticinventory.dto.payload.InventoryResponsePayload;
 import com.fishtore.inventory.staticinventory.event.InventoryCheckEvent;
 import com.fishtore.inventory.staticinventory.event.InventoryCheckRequestEvent;
 import com.fishtore.inventory.staticinventory.inventory.Inventory;
@@ -66,7 +65,6 @@ public class InventoryCheckComponent {
     }
 
     /*
-
         The reason for the event listeners are that earlier the rabbitservice
         and a component depended on each other which wasn't good. I then decided to
         switch to an event driven architecture for this part so things would be safer.

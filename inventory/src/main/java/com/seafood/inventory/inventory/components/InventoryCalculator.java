@@ -6,6 +6,9 @@ import com.seafood.inventory.sellercatch.CatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.util.UUID;
+
 @Component
 public class InventoryCalculator {
 
@@ -18,9 +21,13 @@ public class InventoryCalculator {
         this.saleRepository = saleRepository;
     }
 
-    public float calculateCurrentInventory(Long sellerId, SeafoodType seafoodType) {
-        Float totalCaught = catchRepository.sumKilosBySellerIdAndSeafoodType(sellerId, seafoodType);
-        Float totalSold = saleRepository.sumKilosBySellerIdAndSeafoodType(sellerId, seafoodType);
-        return (totalCaught != null ? totalCaught : 0) - (totalSold != null ? totalSold : 0);
+    public BigDecimal calculateCurrentInventory(UUID sellerId, SeafoodType seafoodType) {
+        BigDecimal totalCaught = catchRepository.sumKilosByShopIdAndSeafoodType(sellerId, seafoodType);
+        BigDecimal totalSold = saleRepository.sumKilosByShopIdAndSeafoodType(sellerId, seafoodType);
+
+        totalCaught = totalCaught != null ? totalCaught : BigDecimal.ZERO;
+        totalSold = totalSold != null ? totalSold : BigDecimal.ZERO;
+
+        return totalCaught.subtract(totalSold);
     }
 }

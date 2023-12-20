@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @Slf4j
 public class TransactionUpdateService {
@@ -21,7 +23,7 @@ public class TransactionUpdateService {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public void updateTransactionStatus(String transactionId, TransactionStatus status) {
+    public void updateTransactionStatus(UUID transactionId, TransactionStatus status) {
         Query query = new Query(Criteria.where("transactionId").is(transactionId));
         Update update = new Update().set("status", status);
         mongoTemplate.findAndModify(query, update, Transaction.class);

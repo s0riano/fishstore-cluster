@@ -1,0 +1,6 @@
+{
+  "WEATHER_API_URL": "https://api.met.no/weatherapi/locationforecast/2.0/",
+  "STORE_LOCATION_URL": "http://localhost:8083/",
+  "FASTAPI_HOST": "127.0.0.1",
+  "FASTAPI_PORT": 8070
+}

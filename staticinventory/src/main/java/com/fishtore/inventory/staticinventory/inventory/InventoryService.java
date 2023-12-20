@@ -1,9 +1,10 @@
 package com.fishtore.inventory.staticinventory.inventory;
 
-import com.fishstore.shared.dto.SeafoodType;
-import com.fishstore.shared.dto.TransactionItemDTO;
-import com.fishstore.shared.dto.TransactionRequestDTO;
+
 import com.fishtore.inventory.staticinventory.dto.PriceInfoDTO;
+import com.fishtore.inventory.staticinventory.dto.TransactionItemDTO;
+import com.fishtore.inventory.staticinventory.dto.TransactionRequestDTO;
+import com.fishtore.inventory.staticinventory.enums.SeafoodType;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

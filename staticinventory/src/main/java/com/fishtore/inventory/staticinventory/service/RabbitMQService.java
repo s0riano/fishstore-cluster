@@ -1,7 +1,7 @@
 package com.fishtore.inventory.staticinventory.service;
 
-import com.fishstore.shared.dto.TransactionRequestDTO;
-import com.fishstore.shared.dto.payload.InventoryResponsePayload;
+import com.fishtore.inventory.staticinventory.dto.TransactionRequestDTO;
+import com.fishtore.inventory.staticinventory.dto.payload.InventoryResponsePayload;
 import com.fishtore.inventory.staticinventory.event.InventoryCheckEvent;
 import com.fishtore.inventory.staticinventory.event.InventoryCheckRequestEvent;
 import lombok.extern.slf4j.Slf4j;

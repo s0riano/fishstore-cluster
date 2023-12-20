@@ -1,6 +1,6 @@
 package com.fishtore.transaction.components;
 
-import com.fishstore.shared.dto.payload.InventoryResponsePayload;
+import com.fishtore.transaction.dto.payload.InventoryResponsePayload;
 import com.fishtore.transaction.transaction.Transaction;
 import com.fishtore.transaction.transaction.TransactionRepository;
 import com.fishtore.transaction.transaction.TransactionStatus;

@@ -1,6 +1,6 @@
 package com.fishtore.transaction.service;
 
-import com.fishstore.shared.dto.TransactionDTO;
+import com.fishtore.transaction.dto.TransactionDTO;
 import com.fishtore.transaction.pricing.PriceVerificationService;
 import com.fishtore.transaction.transaction.Transaction;
 import com.fishtore.transaction.transaction.TransactionItem;
@@ -47,7 +47,7 @@ public class OrderPlacementService {
     private Transaction convertDtoToTransaction(TransactionDTO transactionDTO) {
         Transaction transaction = new Transaction();
         //transaction.setTransactionId(transactionDTO.getTransactionId());
-        transaction.setSellerId(transactionDTO.getSellerId());
+        transaction.setShopId(transactionDTO.getShopId());
         transaction.setBuyerId(transactionDTO.getBuyerId());
         // ... set other fields from DTO to Transaction ...
 

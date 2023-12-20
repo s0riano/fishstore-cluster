@@ -1,9 +1,9 @@
 package com.fishtore.transaction.service;
 
-import com.fishstore.shared.dto.SeafoodType;
 import com.fishtore.transaction.components.ExternalPriceApiComponent;
 import com.fishtore.transaction.dto.PriceEntryDTO;
 import com.fishtore.transaction.transaction.PriceStatus;
+import com.fishtore.transaction.transaction.enums.SeafoodType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -24,10 +25,10 @@ public class PriceVerificationServiceImpl implements PriceVerificationService {
     }
 
     @Override
-    public PriceStatus verifyPrices(List<PriceEntryDTO> priceEntries, Long sellerId) {
-        List<PriceEntryDTO> currentPrices = externalPriceApiComponent.getCurrentPrices(sellerId);
+    public PriceStatus verifyPrices(List<PriceEntryDTO> priceEntries, UUID shopId) {
+        List<PriceEntryDTO> currentPrices = externalPriceApiComponent.getCurrentPrices(shopId);
         if (currentPrices == null) {
-            log.error("API call to fetch current prices failed or returned null for seller {}", sellerId);
+            log.error("API call to fetch current prices failed or returned null for seller {}", shopId);
             return PriceStatus.API_CALL_ISSUE;
         }
 
@@ -49,7 +50,7 @@ public class PriceVerificationServiceImpl implements PriceVerificationService {
                     .findFirst()
                     .orElse(null);
 
-            if (currentPrice == null || !currentPrice.getPrice().equals(entry.getPrice())) {
+            if (currentPrice == null || currentPrice.getPrice().compareTo(entry.getPrice()) != 0) { //do not use .equals to in case of scale difference
                 log.error("Error in verifying price");
                 return PriceStatus.PRICE_MISMATCH;
             }
@@ -57,6 +58,7 @@ public class PriceVerificationServiceImpl implements PriceVerificationService {
         return PriceStatus.PRICE_VERIFIED_AND_MATCHES;
     }
 
+    // using EnumUtils.isValidEnum instead
     private boolean isSeafoodTypeValid(SeafoodType seafoodType) {
         for (SeafoodType type : SeafoodType.values()) {
             if (type.equals(seafoodType)) {

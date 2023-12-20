@@ -1,6 +1,6 @@
 package com.fishtore.price.dto;
 
-import com.fishstore.shared.dto.SeafoodType;
+import com.fishtore.price.enums.SeafoodType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

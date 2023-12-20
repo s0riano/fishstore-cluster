@@ -1,8 +1,8 @@
 package com.fishtore.inventory.staticinventory.components;
 
-import com.fishstore.shared.dto.SeafoodType;
-import com.fishstore.shared.dto.TransactionItemDTO;
-import com.fishstore.shared.dto.TransactionRequestDTO;
+import com.fishtore.inventory.staticinventory.dto.TransactionItemDTO;
+import com.fishtore.inventory.staticinventory.dto.TransactionRequestDTO;
+import com.fishtore.inventory.staticinventory.enums.SeafoodType;
 import com.fishtore.inventory.staticinventory.inventory.Inventory;
 import com.fishtore.inventory.staticinventory.inventory.InventoryRepository;
 import lombok.extern.slf4j.Slf4j;

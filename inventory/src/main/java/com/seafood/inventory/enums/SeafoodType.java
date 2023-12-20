@@ -15,7 +15,8 @@ public enum SeafoodType {
     MACKEREL("Mackerel"),
     COD("Cod"),
     OYSTER("Oyster"),
-    SCALLOP("Scallop");
+    SCALLOP("Scallop"),
+    HERRING("Herring");
 
     private final String description;
 }

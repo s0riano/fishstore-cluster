@@ -9,10 +9,12 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class CatchService {
@@ -27,7 +29,7 @@ public class CatchService {
         return catchRepository.findAll();
     }
 
-    public Catch getCatchById(Long id) {
+    public Catch getCatchById(UUID id) {
         return catchRepository.findById(id).orElse(null);
     }
 
@@ -35,16 +37,16 @@ public class CatchService {
         return catchRepository.save(catchData);
     }
 
-    public void deleteCatch(Long id) {
+    public void deleteCatch(UUID id) {
         catchRepository.deleteById(id);
     }
 
-    public List<Catch> getCatchesBySellerId(Long sellerId) {
-        return catchRepository.findBySellerId(sellerId);
+    public List<Catch> getCatchesBySellerId(UUID sellerId) {
+        return catchRepository.findByShopId(sellerId);
     }
 
-    public Map<SeafoodType, Float> getAvailableKilosBySellerId(Long sellerId) {
-        List<Object[]> results = catchRepository.getInventoryForSeller(sellerId);
+    public Map<SeafoodType, Float> getAvailableKilosBySellerId(UUID sellerId) {
+        List<Object[]> results = catchRepository.getInventoryForShop(sellerId);
         Map<SeafoodType, Float> availableKilos = new HashMap<>();
 
         for (Object[] result : results) {
@@ -57,17 +59,17 @@ public class CatchService {
     }   //this sucks
 
     @Transactional
-    public void registerSale(Long catchId, Float kilosSold) {
+    public void registerSale(UUID catchId, BigDecimal kilosSold) {
         Catch catchData = catchRepository.findById(catchId).orElse(null);
         if (catchData != null) {
-            if (catchData.getKilos() >= kilosSold) {
+            if (catchData.getKilos().compareTo(kilosSold) >= 0) { // Using compareTo for comparison
                 Sale sale = new Sale();
                 sale.setCatchEntity(catchData);
-                sale.setKilos(kilosSold.intValue()); // This assumes Sale's quantity is still an Integer; adjust if needed
+                sale.setKilos(kilosSold); // Directly use BigDecimal if your Sale class's kilos field is a BigDecimal
                 sale.setSaleDate(LocalDate.now());
                 saleRepository.save(sale);
 
-                catchData.setKilos(catchData.getKilos() - kilosSold); // No casting needed here anymore
+                catchData.setKilos(catchData.getKilos().subtract(kilosSold)); // Using subtract method for BigDecimal
                 catchRepository.save(catchData);
             } else {
                 throw new InsufficientStockException("Requested kilos exceeds available stock for catch ID: " + catchId);
@@ -82,6 +84,6 @@ public class CatchService {
         all changes will be rolled back.
         In essence, this method ensures that a sale is registered only if there's enough stock,
         and it keeps both the sale data and the catch data consistent.
-        */
+        */ // also, i changed to bigDecimal from float, so i am looking for errors
     }
 }
