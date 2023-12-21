@@ -1,0 +1,17 @@
+CREATE TABLE buyer (
+    id UUID PRIMARY KEY,
+    first_name VARCHAR(15) NOT NULL,
+    last_name VARCHAR(40),
+    phone_number INT NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    status VARCHAR(255),
+    account_created TIMESTAMP,
+    last_updated TIMESTAMP
+);
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+INSERT INTO buyer (id, first_name, last_name, phone_number, email, password, status, account_created, last_updated) VALUES
+(uuid_generate_v4(), 'John', 'Doe', 123456789, 'john.doe@example.com', 'hashed_password', 'ACTIVE', NOW(), NOW()),
+(uuid_generate_v4(), 'Jane', 'Smith', 987654321, 'jane.smith@example.com', 'hashed_password', 'ACTIVE', NOW(), NOW());

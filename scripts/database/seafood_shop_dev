@@ -1,0 +1,141 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.4
+-- Dumped by pg_dump version 14.4
+
+-- Started on 2023-12-19 06:25:41 CET
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+DROP DATABASE seafood_shop_dev;
+--
+-- TOC entry 3587 (class 1262 OID 196875)
+-- Name: seafood_shop_dev; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE seafood_shop_dev WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'C';
+
+
+ALTER DATABASE seafood_shop_dev OWNER TO postgres;
+
+\connect seafood_shop_dev
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 209 (class 1259 OID 196876)
+-- Name: shop; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shop (
+    id uuid NOT NULL,
+    shop_name character varying(10) NOT NULL,
+    description character varying(200),
+    location character varying(255),
+    location_description character varying(200),
+    contact_info character varying(255),
+    created_at timestamp(6) without time zone,
+    updated_at timestamp(6) without time zone
+);
+
+
+ALTER TABLE public.shop OWNER TO postgres;
+
+--
+-- TOC entry 210 (class 1259 OID 196883)
+-- Name: shop_owners; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shop_owners (
+    id uuid NOT NULL,
+    shop_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    role character varying(255)
+);
+
+
+ALTER TABLE public.shop_owners OWNER TO postgres;
+
+--
+-- TOC entry 3580 (class 0 OID 196876)
+-- Dependencies: 209
+-- Data for Name: shop; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.shop (id, shop_name, description, location, location_description, contact_info, created_at, updated_at) VALUES ('123e4567-e89b-12d3-a456-426614174000', 'Haralds', 'A shop selling a variety of seafood', 'Oslo, Norway', 'Located in the heart of the city', 'contact@haraldsfishmarket.no', '2023-12-13 23:37:42.95613', '2023-12-13 23:37:42.95613');
+
+
+--
+-- TOC entry 3581 (class 0 OID 196883)
+-- Dependencies: 210
+-- Data for Name: shop_owners; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.shop_owners (id, shop_id, user_id, role) VALUES ('6345084b-084d-473a-9465-e74ac2ab5a6b', '123e4567-e89b-12d3-a456-426614174000', '6345084b-084d-473a-9465-e74ac2ab5a6b', 'OWNER');
+
+
+--
+-- TOC entry 3439 (class 2606 OID 196887)
+-- Name: shop_owners shop_owners_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_owners
+    ADD CONSTRAINT shop_owners_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3436 (class 2606 OID 196882)
+-- Name: shop shop_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop
+    ADD CONSTRAINT shop_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3437 (class 1259 OID 196893)
+-- Name: idx_shop; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_shop ON public.shop_owners USING btree (shop_id);
+
+
+--
+-- TOC entry 3440 (class 2606 OID 196888)
+-- Name: shop_owners fk_shop; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_owners
+    ADD CONSTRAINT fk_shop FOREIGN KEY (shop_id) REFERENCES public.shop(id) ON DELETE CASCADE;
+
+
+-- Completed on 2023-12-19 06:25:45 CET
+
+--
+-- PostgreSQL database dump complete
+--
+

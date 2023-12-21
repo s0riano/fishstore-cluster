@@ -1,0 +1,179 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.4
+-- Dumped by pg_dump version 14.4
+
+-- Started on 2023-12-19 06:23:16 CET
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+DROP DATABASE seafood_inventory_dev;
+--
+-- TOC entry 3588 (class 1262 OID 180318)
+-- Name: seafood_inventory_dev; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE seafood_inventory_dev WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'C';
+
+
+ALTER DATABASE seafood_inventory_dev OWNER TO postgres;
+
+\connect seafood_inventory_dev
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 211 (class 1255 OID 180386)
+-- Name: update_last_modified(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.update_last_modified() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    NEW.last_modified = NOW();
+    RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.update_last_modified() OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 209 (class 1259 OID 197029)
+-- Name: catch; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.catch (
+    catch_id uuid NOT NULL,
+    shop_id uuid NOT NULL,
+    seafood_type character varying(255) NOT NULL,
+    kilos numeric(38,2) NOT NULL,
+    catch_date date NOT NULL,
+    expiry_date date NOT NULL,
+    last_modified timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.catch OWNER TO postgres;
+
+--
+-- TOC entry 210 (class 1259 OID 197034)
+-- Name: sale; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.sale (
+    sale_id uuid NOT NULL,
+    catch_id uuid NOT NULL,
+    kilos numeric(38,2) NOT NULL,
+    sale_date date NOT NULL,
+    transaction_id uuid DEFAULT '00000000-0000-0000-0000-000000000000'::uuid NOT NULL
+);
+
+
+ALTER TABLE public.sale OWNER TO postgres;
+
+--
+-- TOC entry 3581 (class 0 OID 197029)
+-- Dependencies: 209
+-- Data for Name: catch; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.catch (catch_id, shop_id, seafood_type, kilos, catch_date, expiry_date, last_modified) VALUES ('c1e4567e-e89b-12d3-a456-426614174001', '123e4567-e89b-12d3-a456-426614174000', 'SALMON', 100.00, '2023-01-01', '2023-03-01', '2023-12-15 17:36:38.876727');
+INSERT INTO public.catch (catch_id, shop_id, seafood_type, kilos, catch_date, expiry_date, last_modified) VALUES ('c1e4567e-e89b-12d3-a456-426614174007', '123e4567-e89b-12d3-a456-426614174000', 'SALMON', 150.00, '2023-02-01', '2023-04-01', '2023-12-15 17:36:38.876727');
+INSERT INTO public.catch (catch_id, shop_id, seafood_type, kilos, catch_date, expiry_date, last_modified) VALUES ('c2e4567e-e89b-12d3-a456-426614174002', '123e4567-e89b-12d3-a456-426614174000', 'COD', 60.00, '2023-01-05', '2023-03-05', '2023-12-15 17:36:38.876727');
+INSERT INTO public.catch (catch_id, shop_id, seafood_type, kilos, catch_date, expiry_date, last_modified) VALUES ('c3e4567e-e89b-12d3-a456-426614174003', '123e4567-e89b-12d3-a456-426614174000', 'TUNA', 200.00, '2023-01-10', '2023-03-10', '2023-12-15 17:36:38.876727');
+INSERT INTO public.catch (catch_id, shop_id, seafood_type, kilos, catch_date, expiry_date, last_modified) VALUES ('c4e4567e-e89b-12d3-a456-426614174004', '123e4567-e89b-12d3-a456-426614174000', 'SHRIMP', 120.00, '2023-01-15', '2023-03-15', '2023-12-15 17:36:38.876727');
+INSERT INTO public.catch (catch_id, shop_id, seafood_type, kilos, catch_date, expiry_date, last_modified) VALUES ('c5e4567e-e89b-12d3-a456-426614174005', '123e4567-e89b-12d3-a456-426614174000', 'HERRING', 80.00, '2023-01-20', '2023-03-20', '2023-12-15 17:36:38.876727');
+
+
+--
+-- TOC entry 3582 (class 0 OID 197034)
+-- Dependencies: 210
+-- Data for Name: sale; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('123e4567-e89b-12d3-a456-426614174000', 'c1e4567e-e89b-12d3-a456-426614174001', 30.00, '2023-01-02', '00000000-0000-0000-0000-000000000000');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('122e4567-e89b-12d3-a456-426614174000', 'c1e4567e-e89b-12d3-a456-426614174001', 20.00, '2023-01-03', '00000000-0000-0000-0000-000000000000');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('223e4567-e89b-12d3-a456-426614174000', 'c2e4567e-e89b-12d3-a456-426614174002', 15.00, '2023-01-06', '00000000-0000-0000-0000-000000000000');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('123e4567-e89b-12d3-a456-426614174004', 'c2e4567e-e89b-12d3-a456-426614174002', 15.00, '2023-01-07', '00000000-0000-0000-0000-000000000000');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('123e4567-e89b-12d3-a456-426614174011', 'c2e4567e-e89b-12d3-a456-426614174002', 15.00, '2023-01-08', '00000000-0000-0000-0000-000000000000');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('123e4567-e89b-12d3-a456-426614174002', 'c2e4567e-e89b-12d3-a456-426614174002', 15.00, '2023-01-09', '00000000-0000-0000-0000-000000000000');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('123e4567-e89b-12d3-a456-433614174000', 'c4e4567e-e89b-12d3-a456-426614174004', 50.00, '2023-01-16', '00000000-0000-0000-0000-000000000000');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('123e4567-e89b-12d3-a326-426614174000', 'c4e4567e-e89b-12d3-a456-426614174004', 20.00, '2023-01-17', '00000000-0000-0000-0000-000000000000');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('2f318877-19af-44e2-89e6-1c207567269b', 'c3e4567e-e89b-12d3-a456-426614174003', 20.00, '2023-12-17', '82f6b16b-34db-4c6f-9749-4cb4a3ab5268');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('7dabf3ad-3587-479c-bdf3-c2ec69e02135', 'c3e4567e-e89b-12d3-a456-426614174003', 20.00, '2023-12-17', 'd9671f23-003d-4472-975d-d1dbe30e9360');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('dee2a2f6-8b66-493e-b3b0-87efe94556a6', 'c3e4567e-e89b-12d3-a456-426614174003', 1.00, '2023-12-17', '4034ee9f-1edd-4207-913f-3460404d448c');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('fe06da35-2d4d-4122-8ff5-b1f812159d1a', 'c3e4567e-e89b-12d3-a456-426614174003', 1.00, '2023-12-17', 'a2a01a59-4ab9-45f6-8de2-818a5b9b219f');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('bf72a460-e773-434c-bc0e-f300f4446481', 'c3e4567e-e89b-12d3-a456-426614174003', 1.00, '2023-12-17', '29aca0ec-1e79-4d14-a46f-45ba2cf245eb');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('04b3a639-0023-449d-8c67-4a883cd3801d', 'c3e4567e-e89b-12d3-a456-426614174003', 1.00, '2023-12-17', 'f99d9961-8e77-41f9-a166-31b52e702da0');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('b847f85f-c03e-41f0-be98-d5b447d174ec', 'c3e4567e-e89b-12d3-a456-426614174003', 1.00, '2023-12-17', 'f99d9961-8e77-41f9-a166-31b52e702da0');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('35c391ae-3e9b-43ce-8f77-8eacf2510cfa', 'c3e4567e-e89b-12d3-a456-426614174003', 1.00, '2023-12-17', '0565bf02-0ece-46f0-9599-71b751a5ff2d');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('a8a21891-7947-4b0f-aca5-a0a072f4b1ac', 'c3e4567e-e89b-12d3-a456-426614174003', 1.00, '2023-12-17', '0565bf02-0ece-46f0-9599-71b751a5ff2d');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('f80f37dc-18cd-467d-9127-2dc056381d95', 'c3e4567e-e89b-12d3-a456-426614174003', 1.00, '2023-12-17', '069f0ecd-6c09-4117-b6c4-1226897cdb2f');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('f3ebfbbc-7f62-44d9-99c0-d6c0ab1dcc90', 'c3e4567e-e89b-12d3-a456-426614174003', 1.00, '2023-12-17', '069f0ecd-6c09-4117-b6c4-1226897cdb2f');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('49050ee9-2dfe-4bdd-85d6-fc72ae1bca23', 'c3e4567e-e89b-12d3-a456-426614174003', 1.00, '2023-12-17', '9950f16f-8ab2-4b99-8509-029134539a9d');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('8f2e1ed9-a6f0-4ee1-a8a7-1dccac5d415d', 'c3e4567e-e89b-12d3-a456-426614174003', 1.00, '2023-12-17', '9950f16f-8ab2-4b99-8509-029134539a9d');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('2a181bd2-90b9-4e58-9712-7ca1b47458d5', 'c3e4567e-e89b-12d3-a456-426614174003', 0.25, '2023-12-17', '3f8ef47c-dab7-48f3-a3c8-8d6ea183ea86');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('0de0e1cf-1222-476f-892f-2514e0f6d862', 'c3e4567e-e89b-12d3-a456-426614174003', 0.25, '2023-12-17', '3f8ef47c-dab7-48f3-a3c8-8d6ea183ea86');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('0fdf93b3-bbc7-474d-913c-9770148ae966', 'c3e4567e-e89b-12d3-a456-426614174003', 0.25, '2023-12-17', '0566ebfb-a740-40f0-bb36-33f7efc610bd');
+INSERT INTO public.sale (sale_id, catch_id, kilos, sale_date, transaction_id) VALUES ('67e98ace-3b1b-4aa4-86f6-b602bdec3f3b', 'c3e4567e-e89b-12d3-a456-426614174003', 0.25, '2023-12-17', '0566ebfb-a740-40f0-bb36-33f7efc610bd');
+
+
+--
+-- TOC entry 3438 (class 2606 OID 197033)
+-- Name: catch catch_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.catch
+    ADD CONSTRAINT catch_pkey PRIMARY KEY (catch_id);
+
+
+--
+-- TOC entry 3440 (class 2606 OID 197038)
+-- Name: sale sale_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sale
+    ADD CONSTRAINT sale_pkey PRIMARY KEY (sale_id);
+
+
+--
+-- TOC entry 3441 (class 2606 OID 197039)
+-- Name: sale sale_catch_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sale
+    ADD CONSTRAINT sale_catch_id_fkey FOREIGN KEY (catch_id) REFERENCES public.catch(catch_id);
+
+
+-- Completed on 2023-12-19 06:23:17 CET
+
+--
+-- PostgreSQL database dump complete
+--
+

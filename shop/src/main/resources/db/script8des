@@ -1,0 +1,67 @@
+-- Create Shop Table
+CREATE TABLE shop (
+    id UUID PRIMARY KEY,
+    shop_name VARCHAR(100) NOT NULL,
+    description VARCHAR(200),
+    location VARCHAR(255),
+    location_description VARCHAR(200),
+    contact_info VARCHAR(255),
+    created_at TIMESTAMP WITHOUT TIME ZONE,
+    updated_at TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- Create ShopOwner Table
+CREATE TABLE shop_owners (
+    id UUID PRIMARY KEY,
+    shop_id UUID NOT NULL,
+    user_id UUID NOT NULL,
+    role VARCHAR(50),
+    CONSTRAINT fk_shop
+        FOREIGN KEY(shop_id)
+        REFERENCES shop(id)
+        ON DELETE CASCADE
+);
+
+-- Index for faster query performance
+CREATE INDEX idx_shop ON shop_owners (shop_id);
+
+The statement CREATE INDEX idx_shop ON shop_owners (shop_id); in SQL is used to create an index on the shop_id column of the shop_owners table. Let's break down what this means and why it's important:
+
+Understanding Indexes:
+Index in Databases: An index in a database is somewhat similar to an index in a book. It's a data structure that
+improves the speed of data retrieval operations on a database table,
+but at the cost of additional writes and storage space to maintain the index.
+
+Why Use an Index: Without an index, the database has to scan the entire table to find rows that match a query condition.
+This full table scan can be slow, especially for large tables. An index allows the database to quickly locate the data
+without scanning every row.
+
+Specifics of CREATE INDEX idx_shop ON shop_owners (shop_id);:
+Index Name (idx_shop): This is the name of the index. It's a good practice to give a meaningful name to an index,
+often reflecting the table and column it's indexing.
+
+Target Table (shop_owners): This is the table on which the index is being created.
+
+Target Column (shop_id): This is the column in the shop_owners table that the index is being created on. In this case,
+it's the shop_id column.
+
+
+Use-Case in Your Scenario:
+Since shop_id in shop_owners is a foreign key referencing the shop table, there might be frequent queries filtering or
+joining on this column. An index on shop_id would make these operations faster.
+For example, if you frequently run queries to find all owners of a specific shop, the index will help the database
+locate these records more efficiently.
+
+
+Best Practices and Considerations:
+
+Performance Improvement: Indexes can greatly improve query performance, but they are not always necessary.
+They are most beneficial on columns that are frequently used in the WHERE clause, JOIN conditions, or as
+part of sorting (ORDER BY).
+
+Trade-offs: While indexes speed up read operations, they can slow down write operations like INSERT, UPDATE, and DELETE,
+because the index also needs to be updated. Therefore, it's important to strike a balance.
+Maintenance: Over time, indexes can become fragmented, and their performance can degrade. Regular maintenance and r
+eevaluation of the necessity of indexes are important in a production database.
+In summary, the CREATE INDEX statement is used to optimize the performance of your database queries involving the
+specified column.

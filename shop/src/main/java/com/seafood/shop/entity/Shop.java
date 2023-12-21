@@ -1,0 +1,66 @@
+package com.seafood.shop.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
+@Entity
+@Table(name = "shop")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Shop {
+
+    @Id
+    @NotNull
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
+
+    @OneToMany(
+            mappedBy = "shop",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<ShopOwner> owners = new HashSet<>();
+
+    @Column(name = "shop_name", nullable = false)
+    @Size(max = 20)
+    private String shopName;
+
+    @Column(name = "description")
+    @Size(max = 200)
+    private String description;
+
+    @Column(name = "location")
+    private String location; // Consider the appropriate data type , will have adress for now
+
+    @Column(name = "location_description")
+    @Size(max = 200)
+    private String locationDescription;
+
+    @Column(name = "contact_info")
+    private String contactInfo;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+}

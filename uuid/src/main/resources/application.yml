@@ -1,0 +1,45 @@
+server:
+  port: 8770
+
+spring:
+  config:
+    import: optional:consul:localhost:8500
+  application:
+    name: uuid
+  #data:
+    #mongodb: #soriano -> L480cR68ysW9Sm0 #apB9B65JQCy7qIXR
+      #uri: mongodb+srv://test:apB9B65JQCy7qIXR@cluster0.7nsuvsu.mongodb.net/seafood_price_dev
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+  cloud:
+    consul:
+      config:
+        prefix: config
+        format: yaml
+        default-context: defaults
+        data-key: application.yml
+        enabled: true
+  amqp:
+    exchange:
+      attempts: 3
+
+  messages:
+    basename: i18n/messages
+
+#logging:
+#  level:
+#    com.fishtore.inventory.staticinventory: INFO
+
+service:
+  management:
+    host: http://localhost:8080
+    ##pMqP1RqBklvuqRVg
