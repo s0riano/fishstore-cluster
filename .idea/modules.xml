@@ -2,21 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/FishStoreCluster.iml" filepath="$PROJECT_DIR$/.idea/FishStoreCluster.iml" />
-      <module fileurl="file://$PROJECT_DIR$/boat/boat.iml" filepath="$PROJECT_DIR$/boat/boat.iml" />
-      <module fileurl="file://$PROJECT_DIR$/buyer-management/buyer-management.iml" filepath="$PROJECT_DIR$/buyer-management/buyer-management.iml" />
-      <module fileurl="file://$PROJECT_DIR$/seller-management/demo.iml" filepath="$PROJECT_DIR$/seller-management/demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fishstore-service/fishstore-service.iml" filepath="$PROJECT_DIR$/fishstore-service/fishstore-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fishstore-shared-models/fishstore-shared-models.iml" filepath="$PROJECT_DIR$/fishstore-shared-models/fishstore-shared-models.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gateway/gateway.iml" filepath="$PROJECT_DIR$/gateway/gateway.iml" />
-      <module fileurl="file://$PROJECT_DIR$/inventory/inventory.iml" filepath="$PROJECT_DIR$/inventory/inventory.iml" />
-      <module fileurl="file://$PROJECT_DIR$/price/price.iml" filepath="$PROJECT_DIR$/price/price.iml" />
-      <module fileurl="file://$PROJECT_DIR$/user-management/seller-management.iml" filepath="$PROJECT_DIR$/user-management/seller-management.iml" />
-      <module fileurl="file://$PROJECT_DIR$/shop/shop.iml" filepath="$PROJECT_DIR$/shop/shop.iml" />
-      <module fileurl="file://$PROJECT_DIR$/staticinventory/staticinventory.iml" filepath="$PROJECT_DIR$/staticinventory/staticinventory.iml" />
-      <module fileurl="file://$PROJECT_DIR$/transaction/transaction.iml" filepath="$PROJECT_DIR$/transaction/transaction.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fishStoreSpringboot/user-management.iml" filepath="$PROJECT_DIR$/fishStoreSpringboot/user-management.iml" />
-      <module fileurl="file://$PROJECT_DIR$/UUID/uuid.iml" filepath="$PROJECT_DIR$/UUID/uuid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/fishstore-cluster.iml" filepath="$PROJECT_DIR$/.idea/fishstore-cluster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/weather/weather.iml" filepath="$PROJECT_DIR$/weather/weather.iml" />
     </modules>
   </component>
 </project>

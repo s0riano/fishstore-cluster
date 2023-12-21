@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fishstore</groupId>
-	<artifactId>price</artifactId>
+	<artifactId>uuid</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>uuid</name>
 	<description>Generating UUID for all services, that so all there are no dupes</description>
@@ -94,12 +94,6 @@
 			<artifactId>spring-cloud-stream-test-binder</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>com.fishstore.shared</groupId>
-            <artifactId>fishstore-shared-models</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 	<dependencyManagement>
 		<dependencies>

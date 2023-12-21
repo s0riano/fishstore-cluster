@@ -26,7 +26,10 @@ def fetch_weather_data(user_data):
             all_forecasts = data['properties']['timeseries']
 
             # Convert user date and time to datetime object
-            user_datetime = datetime.strptime(f"{data_entry['date']} {data_entry['openTime']}", '%Y-%m-%d %H:%M')
+            user_datetime = datetime.strptime(
+                f"{data_entry['date']} {data_entry['openTime']}",
+                '%Y-%m-%d %H:%M'
+            )
 
             for entry in all_forecasts:
                 entry_datetime = datetime.fromisoformat(entry['time'])

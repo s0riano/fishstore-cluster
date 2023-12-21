@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from typing import Optional
 import logging
-from .routes.weather_routes import router
+from routes.weather_routes import router
 
 
 logging.basicConfig(
