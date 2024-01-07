@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.seafood</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>seller-management</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>seller-management</name>
 	<description>seller management service</description>

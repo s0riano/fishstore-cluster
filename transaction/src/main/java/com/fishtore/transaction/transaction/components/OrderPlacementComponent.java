@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Component
 @Slf4j
-public class OrderPlacementComponent {
+public class OrderPlacementComponent { //where should the payment logic be? should it even be here?
     //private final PriceVerificationService priceVerificationService;
     private final PriceVerificationComponent priceVerificationComponent;
     private final RabbitMQService rabbitMQService;

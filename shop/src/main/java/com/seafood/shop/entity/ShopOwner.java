@@ -1,6 +1,6 @@
 package com.seafood.shop.entity;
 
-import com.seafood.shop.enums.ShopOwnerRole;
+import com.seafood.shop.enums.ShopRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -30,6 +30,6 @@ public class ShopOwner { // should indeed be shopWorker or something, bad naming
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING) //move this to a RBAC if time/remember
-    private ShopOwnerRole role;
+    private ShopRole role;
 
 }
