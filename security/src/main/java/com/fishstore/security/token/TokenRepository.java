@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface TokenRepository extends JpaRepository<Token, Integer> {
+public interface TokenRepository extends JpaRepository<Token, UUID> {
 
   @Query(value = """
       select t from Token t inner join User u\s
@@ -16,5 +16,6 @@ public interface TokenRepository extends JpaRepository<Token, Integer> {
       """)
   List<Token> findAllValidTokenByUser(UUID id);
 
-  Optional<Token> findByToken(String token);
+  Optional<Token> findByToken(String token); //should maybe not be an optional? check if this is where the error lies. Maybe it should be a bool
+  //boolean findByToken(String token); //should maybe not be an optional? check if this is where the error lies. Maybe it should be a bool
 }

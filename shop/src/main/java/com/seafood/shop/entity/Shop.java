@@ -1,5 +1,6 @@
 package com.seafood.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -28,7 +29,8 @@ public class Shop {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<ShopOwner> owners = new HashSet<>();
+    @JsonManagedReference
+    private Set<ShopRole> owners = new HashSet<>();
 
     @Column(name = "shop_name", nullable = false)
     @Size(max = 20)

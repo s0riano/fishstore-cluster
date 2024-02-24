@@ -1,6 +1,6 @@
 package com.seafood.shop.enums;
 
-public enum Roles {
+public enum Role {
     OWNER("Owner"),
     //MANAGER("Manager"),
     STAFF("Staff"),
@@ -9,7 +9,7 @@ public enum Roles {
 
     private final String role;
 
-    Roles(String role) {
+    Role(String role) {
         this.role = role;
     }
 

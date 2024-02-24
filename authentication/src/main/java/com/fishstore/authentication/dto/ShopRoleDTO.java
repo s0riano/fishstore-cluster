@@ -1,6 +1,7 @@
-package com.seafood.shop.dto;
+package com.fishstore.authentication.dto;
 
-import com.seafood.shop.enums.Role;
+
+import com.fishstore.authentication.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

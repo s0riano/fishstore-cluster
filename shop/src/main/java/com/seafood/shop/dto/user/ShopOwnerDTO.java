@@ -1,6 +1,6 @@
 package com.seafood.shop.dto.user;
 
-import com.seafood.shop.enums.ShopRole;
+import com.seafood.shop.enums.Role;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,5 +16,5 @@ public class ShopOwnerDTO {
     @NotBlank
     private UUID userId;
     @NotBlank
-    private ShopRole role;
+    private Role role;
 }

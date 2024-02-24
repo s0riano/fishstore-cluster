@@ -7,14 +7,14 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @Component
 public class VerifySellerComponent {
-    private final RestTemplate restTemplate;
+    /*private final RestTemplate restTemplate;
     private final String sellerServiceApiUrl;
 
     public VerifySellerComponent(RestTemplate restTemplate,
                                  String sellerServiceApiUrl) {
         this.restTemplate = restTemplate;
         this.sellerServiceApiUrl = sellerServiceApiUrl;
-    }
+    }*/
 
 
 }

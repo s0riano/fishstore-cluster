@@ -3,7 +3,7 @@ package com.seafood.shop.controller;
 import com.seafood.shop.component.CreateNewShopComponent;
 import com.seafood.shop.dto.CreateShopDTO;
 import com.seafood.shop.entity.Shop;
-import com.seafood.shop.enums.ShopRole;
+import com.seafood.shop.enums.Role;
 import com.seafood.shop.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class ShopController {
     public ResponseEntity<?> addSellerToShop(@PathVariable UUID shopId,
                                              @RequestParam UUID sellerId,
                                              @RequestParam UUID ownerId,
-                                             @RequestParam ShopRole role
+                                             @RequestParam Role role
     ) {
         try {
             shopService.addSellerToShop(shopId, sellerId, ownerId, role);

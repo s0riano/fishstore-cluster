@@ -1,7 +1,6 @@
 package com.fishstore.authentication.user;
 
-import com.alibou.security.token.Token;
-import com.fishstore.authentication.enums.ShopRole;
+import com.fishstore.authentication.enums.Role;
 import jakarta.persistence.*;
 
 import java.util.*;
@@ -15,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -27,9 +27,8 @@ public class User implements UserDetails {
     private UUID id;
     private String email;
     private String password;
-
     @Transient
-    private Map<UUID, ShopRole> shopRolesMap; // Storing the roles per store
+    private Map<UUID, Role> shopRolesMap; // Storing the roles per store
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,4 +1,4 @@
-package com.fishstore.authentication.controller;
+package com.fishstore.authentication.user;
 
 import com.fishstore.authentication.config.JwtGeneratorInterface;
 import com.fishstore.authentication.dto.LoginDTO;

@@ -3,8 +3,8 @@ package com.seafood.shop.service;
 import com.seafood.shop.component.service.DisplayShopLandingPageComponent;
 import com.seafood.shop.dto.ShopLandingPageDTO;
 import com.seafood.shop.entity.Shop;
-import com.seafood.shop.entity.ShopOwner;
-import com.seafood.shop.enums.ShopRole;
+import com.seafood.shop.entity.ShopRole;
+import com.seafood.shop.enums.Role;
 import com.seafood.shop.repository.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,17 +41,17 @@ public class ShopService {
         return displayShopLandingPageComponent.getAllActiveShops();
     }
 
-    public void addSellerToShop(UUID shopId, UUID sellerId, UUID ownerId, ShopRole role) { //splice out to component
+    public void addSellerToShop(UUID shopId, UUID sellerId, UUID ownerId, Role role) { //splice out to component
         Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new RuntimeException("Shop not found"));
 
         // Verify if the ownerId belongs to an owner of the shop
         shop.getOwners().stream()
-                .filter(owner -> owner.getUserId().equals(ownerId) && owner.getRole() == ShopRole.OWNER)
+                .filter(owner -> owner.getUserId().equals(ownerId) && owner.getRole() == Role.OWNER)
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Not authorized to add seller"));
 
-        // Create a new ShopOwner entity
-        ShopOwner newOwner = new ShopOwner();
+        // Create a new ShopRole entity
+        ShopRole newOwner = new ShopRole();
         newOwner.setId(UUID.randomUUID()); // Generate a new UUID
         newOwner.setShop(shop);
         newOwner.setUserId(sellerId);

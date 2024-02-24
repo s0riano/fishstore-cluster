@@ -1,3 +1,6 @@
+server:
+  port: 8078
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/seafood_authentication_dev
@@ -10,7 +13,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        format_sql: true
+        format_sql: true #none
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 

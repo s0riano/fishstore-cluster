@@ -22,7 +22,8 @@ public class ExternalPriceApiComponent { // continue to fix the id string
     private final String priceApiUrl;
 
     @Autowired
-    public ExternalPriceApiComponent(RestTemplate restTemplate, @Value("${external.price.api.url}") String priceApiUrl) {
+    public ExternalPriceApiComponent(RestTemplate restTemplate,
+                                     @Value("${external.price.api.url}") String priceApiUrl) {
         this.restTemplate = restTemplate;
         this.priceApiUrl = priceApiUrl;
     }

@@ -1,14 +1,12 @@
-package com.fishstore.authentication.config;
+package com.fishstore.authentication.security;
 
 import com.fishstore.authentication.components.CustomAuthenticationEntryPoint;
-import com.fishstore.authentication.components.JwtTokenProvider;
+import com.fishstore.authentication.config.JwtAuthenticationFilter;
 import com.fishstore.authentication.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,71 +16,56 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
-    private final AuthenticationConfiguration authenticationConfiguration;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
 
     @Autowired
     public SecurityConfig(UserDetailsService userDetailsService,
-                          AuthenticationConfiguration authenticationConfiguration,
-                          JwtTokenProvider jwtTokenProvider) {
+                          JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.userDetailsService = userDetailsService;
-        this.authenticationConfiguration = authenticationConfiguration;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
-    @Autowired
+    //@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    @Bean
-    public JwtConfigurer jwtConfigurer() {
-        return new JwtConfigurer(jwtTokenProvider);
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.securityMatcher("/api/**")
-                .authorizeHttpRequests(rmr -> rmr
-                        .requestMatchers("/api/login").permitAll()
-                        .requestMatchers("/api/register").permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(new AntPathRequestMatcher("/api/login", "GET")).permitAll()
                         .requestMatchers("/api/admin/**").hasRole(Role.OWNER.name())
                         .requestMatchers("/api/staff/**").hasAnyRole(Role.STAFF.name(), Role.OWNER.name())
-                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().authenticated()
                 )
-                .httpBasic(httpbc -> httpbc
+                .httpBasic(httpBasicConfigurer -> httpBasicConfigurer
                         .authenticationEntryPoint(authenticationEntryPoint())
                 )
-                .sessionManagement(smc -> smc
+                .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .csrf(AbstractHttpConfigurer::disable);
 
-        // Apply JwtConfigurer which adds the JwtTokenFilter
-        http.apply(new JwtConfigurer(jwtTokenProvider));
-        //http.apply(jwtConfigurer());
-        //.addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-        // Configure AuthenticationManager
-        http.authenticationManager(authenticationManager());
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Add JwtAuthenticationFilter
 
         return http.build();
     }
 
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
-        return new CustomAuthenticationEntryPoint();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+        CustomAuthenticationEntryPoint entryPoint = new CustomAuthenticationEntryPoint();
+        entryPoint.setRealmName("YourRealmNameHere");
+        return entryPoint;
     }
 
     @Bean
@@ -90,4 +73,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-

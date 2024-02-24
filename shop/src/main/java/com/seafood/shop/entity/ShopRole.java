@@ -1,6 +1,7 @@
 package com.seafood.shop.entity;
 
-import com.seafood.shop.enums.Roles;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.seafood.shop.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShopRoles { // should indeed be shopWorker or something, bad naming
+public class ShopRole { // should indeed be shopWorker or something, bad naming
 
     @Id
     @NotNull
@@ -22,6 +23,7 @@ public class ShopRoles { // should indeed be shopWorker or something, bad naming
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id", nullable = false)
+    @JsonManagedReference
     private Shop shop;
 
     @NotNull
@@ -30,6 +32,6 @@ public class ShopRoles { // should indeed be shopWorker or something, bad naming
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING) //move this to a RBAC if time/remember
-    private Roles role;
+    private Role role;
 
 }

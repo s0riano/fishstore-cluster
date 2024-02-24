@@ -63,10 +63,6 @@ Thumbs.db
 *.orig
 *.retry
 
-
-# Specific directories
-shit/
-
 # Ignore all .idea folders in subdirectories
 **/.idea/
 
@@ -75,3 +71,10 @@ shit/
 
 # Ignore specific files in subdirectories (if needed)
 **/HELP.md
+
+# Specific directories
+/shit
+/spring-boot-3-jwt-security-main
+/securityyy
+/authentication
+/microservices-marketplace-main

@@ -1,7 +1,9 @@
 server:
-    port: 8060
+    port: 8010
 
 spring:
+    config:
+        import: optional:consul:localhost:8500
     application:
         name: authentication
     datasource:
@@ -33,6 +35,16 @@ spring:
                 format: yaml
                 default-context: defaults
                 data-key: application.yml
+                enabled: true
     amqp:
         exchange:
             attempts: 3
+
+    messages:
+        basename: i18n/messages
+
+
+service:
+    management:
+        host: http://localhost:8080
+        ##pMqP1RqBklvuqRVg

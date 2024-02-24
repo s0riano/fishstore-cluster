@@ -5,33 +5,47 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fishstore.security.config.JwtService;
 import com.fishstore.security.token.Token;
 import com.fishstore.security.token.TokenRepository;
+import com.fishstore.security.token.TokenService;
 import com.fishstore.security.token.TokenType;
 import com.fishstore.security.user.User;
 import com.fishstore.security.user.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
   private final UserRepository repository;
+  private TokenService tokenService;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
 
-  public AuthenticationResponse register(RegisterRequest request) {
+
+  @Autowired
+  public AuthenticationService(UserRepository repository, TokenService tokenService, TokenRepository tokenRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
+    this.repository = repository;
+    this.tokenService = tokenService;
+    this.tokenRepository = tokenRepository;
+    this.passwordEncoder = passwordEncoder;
+    this.jwtService = jwtService;
+    this.authenticationManager = authenticationManager;
+  }
+
+  /*public AuthenticationResponse register(RegisterRequest request) {
     var user = User.builder()
-        //.firstname(request.getFirstname())
-        //.lastname(request.getLastname())
         .email(request.getEmail())
         .password(passwordEncoder.encode(request.getPassword()))
         //.role(request.getRole())
@@ -44,25 +58,30 @@ public class AuthenticationService {
         .accessToken(jwtToken)
             .refreshToken(refreshToken)
         .build();
-  }
+  }*/
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
-    authenticationManager.authenticate(
+    /*authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
             request.getEmail(),
             request.getPassword()
         )
-    );
+    );*/
     var user = repository.findByEmail(request.getEmail())
-        .orElseThrow();
+            .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + request.getEmail()));
+
     var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
+    //var refreshToken = jwtService.generateRefreshToken(user);
+
+    Token accessToken = tokenService.createToken(user, jwtToken,false, false);
+    log.info("The token: " + accessToken);
+
     revokeAllUserTokens(user);
-    saveUserToken(user, jwtToken);
+
     return AuthenticationResponse.builder()
-        .accessToken(jwtToken)
-            .refreshToken(refreshToken)
-        .build();
+            .accessToken(jwtToken)
+            //.refreshToken(jwtToken.)
+            .build();
   }
 
   private void saveUserToken(User user, String jwtToken) {

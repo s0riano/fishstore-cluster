@@ -1,6 +1,6 @@
 package com.fishstore.authentication.enums;
 
-public enum ShopRole {
+public enum Role {
     OWNER("Owner"),
     STAFF("Staff"),
     DEACTIVATED("This user does not have the required permissions anymore"),
@@ -8,7 +8,7 @@ public enum ShopRole {
 
     private final String role;
 
-    ShopRole(String role) {
+    Role(String role) {
         this.role = role;
     }
 

@@ -1,28 +1,25 @@
 package com.fishstore.authentication.service;
 
 
-import com.fishstore.authentication.client.ShopServiceClient;
-import com.fishstore.authentication.enums.ShopRole;
+import com.fishstore.authentication.dto.LoginDTO;
+import com.fishstore.authentication.dto.ShopRoleDTO;
 import com.fishstore.authentication.user.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class UserService {
+public interface UserService {
 
-    @Autowired
-    private ShopServiceClient shopServiceClient;
+    void saveUser(User user);
+    void saveNewUser(LoginDTO user);
 
-    public User createUserWithRoles(UUID userId) {
-        Set<ShopRole> roles = shopServiceClient.getRolesForUser(userId);
-        // Fetch other user details and create a User object
-        User user = new User();
-        // Set roles and other details to the user
-        user.setShopRoles(roles);
-        return user;
-    }
+    Optional<User> findByEmail(String email);
+
+    User getUserEmailAndPassword(String email, String password); //throws UserNotFoundException;
+
+    Set<ShopRoleDTO> getUserRoles(UUID id);
 }
 

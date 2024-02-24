@@ -18,19 +18,32 @@ import java.util.UUID;
 public class Token {
 
   @Id
-  public UUID id;
+  @Column(name = "id", updatable = false, nullable = false)
+  private UUID id;
 
   @Column(unique = true)
-  public String token;
+  private String token;
 
+  @Column(name = "token_type")
   @Enumerated(EnumType.STRING)
-  public TokenType tokenType = TokenType.BEARER;
+  private TokenType tokenType = TokenType.BEARER; //Removed "= TokenType.BEARER;"
 
-  public boolean revoked;
+  private boolean revoked;
+  private boolean expired;
 
-  public boolean expired;
-
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
-  public User user;
+  private User user;
+
+  @Override
+  public String toString() {
+    return "Token{" +
+            "id=" + id +
+            ", token='" + token + '\'' +
+            ", tokenType=" + tokenType +
+            ", revoked=" + revoked +
+            ", expired=" + expired +
+            ", user=" + (user != null ? user.getId() : "null") +
+            '}';
+  }
 }

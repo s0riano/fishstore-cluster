@@ -1,4 +1,4 @@
-package com.fishstore.authentication.client;
+package com.fishstore.authentication.components;
 
 import com.fishstore.authentication.enums.Role;
 import org.springframework.beans.factory.annotation.Value;

@@ -10,10 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
@@ -21,16 +18,30 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "app_user")
 public class User implements UserDetails {
 
   @Id
+  @Column(
+          name = "id",
+          columnDefinition = "uuid",
+          updatable = false,
+          nullable = false
+  )
   private UUID id;
+
+  @Column(
+          name = "email"
+  )
   private String email;
+
+  @Column(
+          name = "password"
+  )
   private String password;
 
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
   private List<Token> tokens;
 
   @Transient
@@ -43,8 +54,17 @@ public class User implements UserDetails {
     return role.getAuthorities();
   }*/
 
+  public User(String email, String password, Map<UUID, Role> shopRolesMap) {
+    this.email = email;
+    this.password = password;
+    this.shopRolesMap = shopRolesMap != null ? new HashMap<>(shopRolesMap) : new HashMap<>();
+  }
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
+    if (shopRolesMap == null) {
+      return Collections.emptySet();
+    }
     // Convert the map values (roles) to GrantedAuthority objects
     return shopRolesMap.values().stream()
             .map(role -> new SimpleGrantedAuthority(role.toString()))
@@ -79,5 +99,15 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+            "id=" + id +
+            ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
+            ", tokens=" + (tokens != null ? tokens.size() : "null") +
+            '}';
   }
 }

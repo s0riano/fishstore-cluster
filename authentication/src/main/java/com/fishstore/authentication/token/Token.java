@@ -1,5 +1,6 @@
 package com.fishstore.authentication.token;
 
+import com.fishstore.authentication.enums.TokenType;
 import com.fishstore.authentication.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +16,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,8 +26,7 @@ import lombok.NoArgsConstructor;
 public class Token {
 
     @Id
-    @GeneratedValue
-    public Integer id;
+    public UUID id;
 
     @Column(unique = true)
     public String token;
@@ -33,10 +35,9 @@ public class Token {
     public TokenType tokenType = TokenType.BEARER;
 
     public boolean revoked;
-
     public boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "users_id")
     public User user;
 }

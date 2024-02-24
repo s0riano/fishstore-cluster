@@ -3,8 +3,8 @@ package com.seafood.shop.component;
 import com.seafood.shop.dto.CreateShopDTO;
 import com.seafood.shop.dto.user.ValidateSellerDTO;
 import com.seafood.shop.entity.Shop;
-import com.seafood.shop.entity.ShopOwner;
-import com.seafood.shop.enums.ShopRole;
+import com.seafood.shop.entity.ShopRole;
+import com.seafood.shop.enums.Role;
 import com.seafood.shop.enums.UserStatus;
 import com.seafood.shop.repository.ShopRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +66,7 @@ public class CreateNewShopComponent {
         shop.setLocationDescription(dto.getLocationDescription());
         shop.setContactInfo(dto.getContactInfo());
         // Add owner to the shop
-        ShopOwner owner = new ShopOwner(UUID.randomUUID(), shop, ownerId, ShopRole.OWNER);
+        ShopRole owner = new ShopRole(UUID.randomUUID(), shop, ownerId, Role.OWNER);
         shop.setOwners(Set.of(owner));
         return shop;
     }
