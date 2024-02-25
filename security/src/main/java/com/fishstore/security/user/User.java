@@ -2,10 +2,7 @@ package com.fishstore.security.user;
 
 import com.fishstore.security.token.Token;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +14,8 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "app_user")
 public class User implements UserDetails {
@@ -29,6 +28,9 @@ public class User implements UserDetails {
           nullable = false
   )
   private UUID id;
+
+  @Column(name = "shop_id")
+  private UUID shopId;
 
   @Column(
           name = "email"
@@ -44,31 +46,28 @@ public class User implements UserDetails {
   @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
   private List<Token> tokens;
 
-  @Transient
-  private Map<UUID, Role> shopRolesMap;
-  /*@Enumerated(EnumType.STRING)
-  private Role role;*/
+
+  @Enumerated(EnumType.STRING)
+  @Column(
+          name = "role"
+  )
+  private Role role;
 
   /*@Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return role.getAuthorities();
   }*/
 
-  public User(String email, String password, Map<UUID, Role> shopRolesMap) {
+  public User(String email, String password, UUID shopId, Role role) {
     this.email = email;
     this.password = password;
-    this.shopRolesMap = shopRolesMap != null ? new HashMap<>(shopRolesMap) : new HashMap<>();
+    this.shopId = shopId;
+    this.role = role;
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    if (shopRolesMap == null) {
-      return Collections.emptySet();
-    }
-    // Convert the map values (roles) to GrantedAuthority objects
-    return shopRolesMap.values().stream()
-            .map(role -> new SimpleGrantedAuthority(role.toString()))
-            .collect(Collectors.toSet());
+    return role.getAuthorities();
   }
 
   @Override

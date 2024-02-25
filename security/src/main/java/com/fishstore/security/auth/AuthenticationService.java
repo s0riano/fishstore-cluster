@@ -1,6 +1,5 @@
 package com.fishstore.security.auth;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fishstore.security.config.JwtService;
 import com.fishstore.security.token.Token;
@@ -69,11 +68,11 @@ public class AuthenticationService {
     );*/
     var user = repository.findByEmail(request.getEmail())
             .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + request.getEmail()));
-    revokeAllUserTokens(user);
+    revokeAllUserTokens(user); //deactivates the old tokens related to the user
 
     var jwtToken = jwtService.generateToken(user);
     Token accessToken = tokenService.createToken(user, jwtToken,false, false);
-    log.info("The token: " + accessToken);
+    //log.info("The token: " + accessToken);
 
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)

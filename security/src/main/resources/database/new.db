@@ -6,21 +6,22 @@ DROP TABLE IF EXISTS "app_user";
 CREATE TABLE "app_user" (
     "id" UUID PRIMARY KEY,
     "email" VARCHAR(255) NOT NULL,
-    "password" VARCHAR(255) NOT NULL
+    "password" VARCHAR(255) NOT NULL,
+    "shop_id" UUID NOT NULL
 );
 
--- Insert sample data into the "app_user" table
-INSERT INTO "app_user" ("id", "email", "password")
+-- Insert sample data into the "app_user" table with manual UUIDs for shop_id
+INSERT INTO "app_user" ("id", "email", "password", "shop_id")
 VALUES
-    ('f47ac10b-58cc-4372-a567-0e02b2c3d479', 'ole.nordmann@example.com', 'password123'),
-    ('c8c7f4a2-8c2b-4c4f-a3e5-8d47d960c8e3', 'kari.nordkvinne@example.com', 'securePass'),
-    ('1a75e52b-0c25-4b2e-8e0a-29d088af3b67', 'lars.berg@example.com', 'mySecret');
+    ('f47ac10b-58cc-4372-a567-0e02b2c3d479', 'ole.nordmann@example.com', 'password123', '123e4567-e89b-12d3-a456-426614174000'),
+    ('c8c7f4a2-8c2b-4c4f-a3e5-8d47d960c8e3', 'kari.nordkvinne@example.com', 'securePass', '123e4567-e89b-12d3-a456-426614174001'),
+    ('1a75e52b-0c25-4b2e-8e0a-29d088af3b67', 'lars.berg@example.com', 'mySecret', '123e4567-e89b-12d3-a456-426614174002');
 
 -- Create the "token" table
 CREATE TABLE "token" (
     "id" UUID PRIMARY KEY,
     "token" VARCHAR(255) UNIQUE NOT NULL,
-    "token_type" VARCHAR(255), -- You can remove the CHECK constraint if any value is allowed //NOT NULL CHECK ("token_type" IN ('BEARER')), -- Ensure token_type is BEARER
+    "token_type" VARCHAR(255) NOT NULL,
     "revoked" BOOLEAN NOT NULL,
     "expired" BOOLEAN NOT NULL,
     "user_id" UUID REFERENCES "app_user"("id") ON DELETE CASCADE

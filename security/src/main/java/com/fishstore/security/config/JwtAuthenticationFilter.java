@@ -74,8 +74,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
           .map(t -> !t.isExpired() && !t.isRevoked())
           .orElse(false);*/
 
-      // ------------ error takes place somewhere before here ------------
-
       var tokenOpt = tokenRepository.findByToken(jwt);
       tokenOpt.ifPresentOrElse(
               t -> {
