@@ -1,5 +1,6 @@
 package com.fishstore.security.config;
 
+import com.fishstore.security.token.Token;
 import com.fishstore.security.token.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,10 +15,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -62,18 +63,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
       var isTokenValidTest = tokenRepository.findByToken(jwt);
-      log.info("isTokenValid test: " + isTokenValidTest);
+      if (isTokenValidTest.isPresent()) {
+        Token token = isTokenValidTest.get();
+        log.info("Token found: " + token.getToken() + " | Expired: " + token.isExpired() + " | Revoked: " + token.isRevoked());
+      } else {
+        log.info("Token not found in repository: " + jwt);
+      }
 
-      var isTokenValid = tokenRepository.findByToken(jwt)
+      /*var isTokenValid = tokenRepository.findByToken(jwt)
           .map(t -> !t.isExpired() && !t.isRevoked())
-          .orElse(false);
+          .orElse(false);*/
 
       // ------------ error takes place somewhere before here ------------
+
+      var tokenOpt = tokenRepository.findByToken(jwt);
+      tokenOpt.ifPresentOrElse(
+              t -> {
+                log.info("Token found: " + t.toString());
+                log.info("Is expired: " + t.isExpired());
+                log.info("Is revoked: " + t.isRevoked());
+              },
+              () -> log.info("Token not found")
+      );
+      boolean isTokenValid = tokenOpt.map(t -> !t.isExpired() && !t.isRevoked()).orElse(false);
+      log.info("Token validity: " + isTokenValid);
 
       if (!isTokenValid) {
         log.info("Token not found or invalid.");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        //filterChain.doFilter(request, response);
         return;
       }
 

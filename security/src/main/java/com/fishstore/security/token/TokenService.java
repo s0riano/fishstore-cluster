@@ -4,6 +4,7 @@ import com.fishstore.security.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ public class TokenService {
         this.tokenRepository = tokenRepository;
     }
 
+    @Transactional
     public Token createToken(User user, String jwtToken, boolean revoked, boolean expired) {
         String tokenId = UUID.randomUUID().toString();
         UUID uuid = UUID.fromString(tokenId);
