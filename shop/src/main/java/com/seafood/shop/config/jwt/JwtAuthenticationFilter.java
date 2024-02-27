@@ -1,4 +1,4 @@
-package com.seafood.shop.config;
+package com.seafood.shop.config.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

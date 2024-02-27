@@ -1,4 +1,4 @@
-package com.seafood.shop.config;
+package com.seafood.shop.config.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
