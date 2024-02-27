@@ -1,7 +1,5 @@
-package com.fishstore.security.config;
+package com.seafood.shop.config;
 
-import com.fishstore.security.token.Token;
-import com.fishstore.security.token.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,14 +8,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -25,8 +24,6 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtService jwtService;
-  private final UserDetailsService userDetailsService;
-  private final TokenRepository tokenRepository;
 
   @Override
   protected void doFilterInternal(
@@ -35,24 +32,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
           @NonNull FilterChain filterChain
   ) throws ServletException, IOException {
 
-    if (shouldBypassAuth(request)) {
-      filterChain.doFilter(request, response);
-      return;
-    }
-
     final String authHeader = request.getHeader("Authorization");
-    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-      setUnauthorizedResponse(response);
-      return;
-    }
-
-    final String jwt = authHeader.substring(7);
-    final String userEmail = jwtService.extractUsername(jwt);
-
-    if (userEmail != null & SecurityContextHolder.getContext().getAuthentication() == null) {
-      UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
-      if (isTokenValid(jwt) && jwtService.isTokenValid(jwt, userDetails)) {
-        setSecurityContext(userDetails, request);
+    if (authHeader != null && authHeader.startsWith("Bearer ")) {
+      final String jwt = authHeader.substring(7);
+      if (jwtService.isTokenValid(jwt)) {
+        setSecurityContext(jwt, request);
       } else {
         setUnauthorizedResponse(response);
         return;
@@ -62,19 +46,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     filterChain.doFilter(request, response);
   }
 
-  private boolean shouldBypassAuth(HttpServletRequest request) {
-    return request.getServletPath().contains("/api/v1/auth");
-  }
-
-  private boolean isTokenValid(String jwt) {
-    return tokenRepository.findByToken(jwt)
-            .map(token -> !token.isExpired() && !token.isRevoked())
-            .orElse(false);
-  }
-
-  private void setSecurityContext(UserDetails userDetails, HttpServletRequest request) {
+  private void setSecurityContext(String jwt, HttpServletRequest request) {
+    // Extract roles or authorities from JWT
+    List<SimpleGrantedAuthority> authorities = jwtService.extractAuthorities(jwt).stream()
+            .map(SimpleGrantedAuthority::new)
+            .collect(Collectors.toList());
+    // Create an authentication token
     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-            userDetails, null, userDetails.getAuthorities());
+            jwt, null, authorities);
     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
     SecurityContextHolder.getContext().setAuthentication(authToken);
   }

@@ -1,6 +1,7 @@
 package com.fishstore.security.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fishstore.security.auth.dto.LoginResponseDTO;
 import com.fishstore.security.config.JwtService;
 import com.fishstore.security.token.Token;
 import com.fishstore.security.token.TokenRepository;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -59,7 +61,7 @@ public class AuthenticationService {
         .build();
   }*/
 
-  public AuthenticationResponse authenticate(AuthenticationRequest request) {
+  public LoginResponseDTO authenticate(AuthenticationRequest request) {
     /*authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
             request.getEmail(),
@@ -71,10 +73,9 @@ public class AuthenticationService {
     revokeAllUserTokens(user); //deactivates the old tokens related to the user
 
     var jwtToken = jwtService.generateToken(user);
-    Token accessToken = tokenService.createToken(user, jwtToken,false, false);
-    //log.info("The token: " + accessToken);
+    tokenService.createToken(user, jwtToken,false, false);
 
-    return AuthenticationResponse.builder()
+    return LoginResponseDTO.builder()
             .accessToken(jwtToken)
             .build();
   }

@@ -73,6 +73,7 @@ Thumbs.db
 **/HELP.md
 
 # Specific directories
+**/oldFiles
 /shit
 /spring-boot-3-jwt-security-main
 /securityyy

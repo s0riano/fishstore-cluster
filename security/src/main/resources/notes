@@ -1,0 +1,140 @@
+i have an error here. It seems like the token cant be verified. I am suspecting that it has something with this line to do, that here is where something is messed up:
+
+var isTokenValid = tokenRepository.findByToken(jwt)
+          .map(t -> !t.isExpired() && !t.isRevoked())
+          .orElse(false);
+
+and this has something to do with this line:
+Optional<Token> findByToken(String token); //should maybe not be an optional? check if this is where the error lies. Maybe it should be a bool
+
+What do you think? i am trying to use the /demo controller.
+
+package com.fishstore.security.develop;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@Slf4j
+@RestController
+@RequestMapping("/api/v1")
+public class DemoController { //to test functionality with the authentication header etc
+
+    @GetMapping("/demo")
+    public ResponseEntity<String> demoEndpoint() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        log.info("You are trying to log in as: " + username);
+
+        return ResponseEntity.ok("You are logged in as: " + username);
+    }
+}
+
+package com.fishstore.security.config;
+
+import com.fishstore.security.token.TokenRepository;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+import java.util.List;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+  private final JwtService jwtService;
+  private final UserDetailsService userDetailsService;
+  private final TokenRepository tokenRepository;
+
+  @Override
+  protected void doFilterInternal(
+      @NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response,
+      @NonNull FilterChain filterChain
+  ) throws ServletException, IOException {
+
+    if (request.getServletPath().contains("/api/v1/auth")) {
+      filterChain.doFilter(request, response);
+      return;
+    }
+
+    final String authHeader = request.getHeader("Authorization");
+    final String jwt;
+    final String userEmail;
+
+
+    if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      //filterChain.doFilter(request, response);
+      return;
+    }
+
+    log.info("Authorization Header: " + authHeader);
+
+    jwt = authHeader.substring(7);
+    userEmail = jwtService.extractUsername(jwt);
+
+    log.info("Authorization Header transformed to mail: " + userEmail);
+
+    if (userEmail != null /*&& SecurityContextHolder.getContext().getAuthentication() == null*/) {
+      UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+
+      var isTokenValidTest = tokenRepository.findByToken(jwt);
+      log.info("isTokenValid test: " + isTokenValidTest);
+
+      var isTokenValid = tokenRepository.findByToken(jwt)
+          .map(t -> !t.isExpired() && !t.isRevoked())
+          .orElse(false);
+
+      // ------------ error takes place somewhere before here ------------
+
+      if (!isTokenValid) {
+        log.info("Token not found or invalid.");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        //filterChain.doFilter(request, response);
+        return;
+      }
+
+      log.info("Token is Valid");
+      log.info("User Details: " + userDetails);
+      log.info("User Authorities: " + userDetails.getAuthorities());
+      log.info("Authentication Token: " + SecurityContextHolder.getContext().getAuthentication());
+
+      if (jwtService.isTokenValid(jwt, userDetails)) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+            userDetails,
+            null,
+            userDetails.getAuthorities()
+        );
+        authToken.setDetails(
+            new WebAuthenticationDetailsSource().buildDetails(request)
+        );
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+      }
+    }
+
+    filterChain.doFilter(request, response);
+  }
+}
+
+
+it is able to find the username from the token, and i know that the token is in the database, since i have checked and i use the header from the database. Can you see something that might cause this "bug?"

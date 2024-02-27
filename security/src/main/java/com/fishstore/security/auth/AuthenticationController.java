@@ -1,5 +1,6 @@
 package com.fishstore.security.auth;
 
+import com.fishstore.security.auth.dto.LoginResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,16 +28,16 @@ public class AuthenticationController {
   }*/
 
   @PostMapping("/authenticate")
-  public ResponseEntity<AuthenticationResponse> authenticate(
+  public ResponseEntity<LoginResponseDTO> authenticate(
       @RequestBody AuthenticationRequest request
   ) {
-    AuthenticationResponse authenticationResponse = service.authenticate(request);
+    LoginResponseDTO loginResponseDTO = service.authenticate(request);
     HttpHeaders headers = new HttpHeaders();
-    headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + authenticationResponse.getAccessToken());
+    headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + loginResponseDTO.getAccessToken());
 
     return ResponseEntity.ok()
             .headers(headers)
-            .body(authenticationResponse);
+            .body(loginResponseDTO);
     //return ResponseEntity.ok(service.authenticate(request));
   }
 
