@@ -82,4 +82,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private void setUnauthorizedResponse(HttpServletResponse response) {
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
   }
+
+  private String extractJwtFromRequest(HttpServletRequest request) {
+    String bearerToken = request.getHeader("Authorization");
+    if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+      return bearerToken.substring(7);
+    }
+    return null;
+  }
 }

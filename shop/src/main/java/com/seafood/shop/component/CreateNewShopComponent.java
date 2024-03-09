@@ -1,12 +1,12 @@
 package com.seafood.shop.component;
 
-import com.seafood.shop.dto.CreateShopDTO;
+import com.seafood.shop.dto.shopDTOs.CreateShopDTO;
 import com.seafood.shop.dto.user.ValidateSellerDTO;
-import com.seafood.shop.entity.Shop;
-import com.seafood.shop.entity.ShopRole;
-import com.seafood.shop.enums.Role;
-import com.seafood.shop.enums.UserStatus;
-import com.seafood.shop.repository.ShopRepository;
+import com.seafood.shop.shop.Shop;
+import com.seafood.shop.legacy.entity.ShopRole;
+import com.seafood.shop.legacy.enums.Role;
+import com.seafood.shop.legacy.enums.UserStatus;
+import com.seafood.shop.shop.ShopRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

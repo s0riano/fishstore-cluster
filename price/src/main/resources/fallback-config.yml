@@ -1,0 +1,6 @@
+# Fallback configurations
+spring:
+  datasource:
+    url: # Fallback URL
+    username: # Fallback username
+    # ... other fallback configurations ...

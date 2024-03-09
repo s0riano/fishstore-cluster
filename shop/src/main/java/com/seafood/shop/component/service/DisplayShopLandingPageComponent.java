@@ -1,8 +1,8 @@
 package com.seafood.shop.component.service;
 
-import com.seafood.shop.dto.ShopLandingPageDTO;
-import com.seafood.shop.entity.Shop;
-import com.seafood.shop.repository.ShopRepository;
+import com.seafood.shop.dto.shopDTOs.ShopLandingPageDTO;
+import com.seafood.shop.shop.Shop;
+import com.seafood.shop.shop.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,6 @@
-package com.seafood.shop.dto.user;
+package com.seafood.shop.dto.shopDTOs;
 
 import com.seafood.shop.legacy.enums.Role;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,10 +10,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShopOwnerDTO {
-
-    @NotBlank
-    private UUID userId;
-    @NotBlank
+public class ShopRoleDTO {
+    private UUID shopId;
     private Role role;
 }

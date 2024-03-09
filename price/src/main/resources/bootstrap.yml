@@ -1,0 +1,5 @@
+spring:
+  cloud:
+    config:
+      enabled: true
+      import: "optional:consul://${spring.cloud.consul.host}:${spring.cloud.consul.port}/,classpath:/fallback-config.yml"

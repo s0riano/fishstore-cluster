@@ -1,7 +1,7 @@
 package com.seafood.shop.dto.user;
 
 
-import com.seafood.shop.enums.UserStatus;
+import com.seafood.shop.legacy.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
