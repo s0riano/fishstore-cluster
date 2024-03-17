@@ -16,3 +16,4 @@ if not defined pid (
 
 echo Starting Consul...
 start consul agent -dev
+

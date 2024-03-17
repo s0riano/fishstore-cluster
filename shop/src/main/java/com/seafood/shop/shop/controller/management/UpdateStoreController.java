@@ -21,7 +21,7 @@ public class UpdateStoreController {
         this.jwtService = jwtService;
     }
 
-    @PutMapping("/update/description")
+    @PutMapping("/api/v1/update/description")
     public ResponseEntity<?> updateStoreDescription(@RequestBody UpdateStoreDescriptionDTO updateRequest,
                                                     HttpServletRequest request) {
         String jwtToken = extractJwtFromRequest(request);

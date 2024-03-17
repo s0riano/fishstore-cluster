@@ -2,6 +2,7 @@ package com.seafood.shop.shop;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seafood.shop.legacy.entity.ShopRole;
+import com.seafood.shop.openingHours.OpeningHours;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -50,6 +51,9 @@ public class Shop {
 
     @Column(name = "contact_info")
     private String contactInfo;
+
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OpeningHours> openingHours = new HashSet<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
