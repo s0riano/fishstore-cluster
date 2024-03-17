@@ -39,8 +39,6 @@ public class AddOpeningHoursHandler {
             openingHoursRepository.saveAll(openingHoursList);
         } catch (EntityNotFoundException e) {
             log.error("some error happened, seems like the shop was not found: "  + e);
-            // Handle the case where the shop is not found
-            // Log the error, throw a custom exception, or take other appropriate action
         } catch (Exception e) {
             log.error("some error happened: "  + e);
         }
@@ -53,7 +51,7 @@ public class AddOpeningHoursHandler {
         openingHours.setDate(dto.getDate());
         openingHours.setStartTime(dto.getStartTime());
         openingHours.setEndTime(dto.getEndTime());
-        openingHours.setNotes(dto.getNotes());
+        openingHours.setNotes(dto.getNotes());//TODO: might add some logic if this is null
         openingHours.setShop(shop);
         return openingHours;
     }

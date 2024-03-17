@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/store")
+@RequestMapping("/api/v1/store/opening-hours")
 public class AddOpeningHoursController {
 
     private final AddOpeningHoursHandler addOpeningHoursHandler;
@@ -24,7 +24,7 @@ public class AddOpeningHoursController {
         this.addOpeningHoursHandler = addOpeningHoursHandler;
     }
 
-    @PostMapping("/opening-hours")
+    @PostMapping("/add")
     public ResponseEntity<?> addOpeningHours(@RequestBody List<OpeningHoursDTO> openingHoursDTOs,
                                              Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
