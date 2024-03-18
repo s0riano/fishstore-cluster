@@ -1,4 +1,4 @@
-package com.seafood.inventory.shared;
+package com.seafood.inventory.config.shared;
 
 public class InsufficientStockException extends RuntimeException {
     public InsufficientStockException(String message) {

@@ -1,10 +1,10 @@
 package com.seafood.inventory.sellercatch;
 
-import com.seafood.inventory.enums.SeafoodType;
+import com.seafood.inventory.entities.enums.SeafoodType;
 import com.seafood.inventory.sale.Sale;
 import com.seafood.inventory.sale.SaleRepository;
-import com.seafood.inventory.shared.CatchNotFoundException;
-import com.seafood.inventory.shared.InsufficientStockException;
+import com.seafood.inventory.config.shared.CatchNotFoundException;
+import com.seafood.inventory.config.shared.InsufficientStockException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -2,8 +2,8 @@ package com.seafood.inventory.inventory;
 
 import com.seafood.inventory.components.InventoryComponent;
 import com.seafood.inventory.components.VerifyShopComponent;
-import com.seafood.inventory.dto.CompactInventoryDTO;
-import com.seafood.inventory.dto.InventoryDTO;
+import com.seafood.inventory.entities.dto.CompactInventoryDTO;
+import com.seafood.inventory.entities.dto.InventoryDTO;
 import com.seafood.inventory.inventory.components.CompactInventoryComponent;
 import com.seafood.inventory.sale.SaleRepository;
 import com.seafood.inventory.sellercatch.CatchRepository;
@@ -13,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service

@@ -1,6 +1,6 @@
 package com.seafood.inventory.inventory.components;
 
-import com.seafood.inventory.enums.SeafoodType; //might change to the shared dto
+import com.seafood.inventory.entities.enums.SeafoodType; //might change to the shared dto
 import com.seafood.inventory.sale.SaleRepository;
 import com.seafood.inventory.sellercatch.CatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;

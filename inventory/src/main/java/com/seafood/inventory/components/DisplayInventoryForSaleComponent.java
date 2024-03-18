@@ -1,6 +1,6 @@
 package com.seafood.inventory.components;
 
-import com.seafood.inventory.dto.InventoryDTO;
+import com.seafood.inventory.entities.dto.InventoryDTO;
 import com.seafood.inventory.sale.SaleService;
 import com.seafood.inventory.sellercatch.CatchService;
 

@@ -1,8 +1,8 @@
 package com.seafood.inventory.inventory;
 
 
-import com.seafood.inventory.dto.CompactInventoryDTO;
-import com.seafood.inventory.dto.InventoryDTO;
+import com.seafood.inventory.entities.dto.CompactInventoryDTO;
+import com.seafood.inventory.entities.dto.InventoryDTO;
 import com.seafood.inventory.inventory.components.CompactInventoryComponent;
 import com.seafood.inventory.sellercatch.CatchService;
 import org.springframework.beans.factory.annotation.Autowired;

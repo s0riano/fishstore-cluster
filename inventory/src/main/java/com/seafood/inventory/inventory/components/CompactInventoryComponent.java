@@ -1,7 +1,7 @@
 package com.seafood.inventory.inventory.components;
 
-import com.seafood.inventory.dto.CompactInventoryDTO;
-import com.seafood.inventory.enums.SeafoodType;
+import com.seafood.inventory.entities.dto.CompactInventoryDTO;
+import com.seafood.inventory.entities.enums.SeafoodType;
 import com.seafood.inventory.sale.SaleRepository;
 import com.seafood.inventory.sellercatch.Catch;
 import com.seafood.inventory.sellercatch.CatchRepository;

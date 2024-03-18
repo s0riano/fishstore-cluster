@@ -1,10 +1,9 @@
 package com.seafood.inventory.config;
 
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import com.seafood.inventory.dto.transaction.TransactionRequestDTO;
+import com.seafood.inventory.entities.dto.transaction.TransactionRequestDTO;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.support.converter.DefaultClassMapper;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

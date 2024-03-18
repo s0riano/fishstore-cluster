@@ -25,7 +25,6 @@ public class RemoveOpeningHoursController {
     public ResponseEntity<?> removeOpeningHours(@RequestBody List<RemoveOpeningHourDTO> openingHoursDTOs,
                                              Authentication authentication) {
 
-        log.info("hello");
         removeOpeningHoursHandler.handle(openingHoursDTOs);
         return ResponseEntity.ok().build();
     }

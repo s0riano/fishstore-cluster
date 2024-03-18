@@ -1,6 +1,6 @@
 package com.seafood.inventory.sellercatch;
 
-import com.seafood.inventory.enums.SeafoodType;
+import com.seafood.inventory.entities.enums.SeafoodType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

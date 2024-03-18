@@ -1,14 +1,14 @@
 package com.seafood.inventory.components;
 
-import com.seafood.inventory.dto.transaction.TransactionItemDTO;
-import com.seafood.inventory.dto.transaction.TransactionRequestDTO;
-import com.seafood.inventory.enums.SeafoodType;
+import com.seafood.inventory.entities.dto.transaction.TransactionItemDTO;
+import com.seafood.inventory.entities.dto.transaction.TransactionRequestDTO;
+import com.seafood.inventory.entities.enums.SeafoodType;
 import com.seafood.inventory.inventory.components.InventoryCalculator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import com.seafood.inventory.mapper.SeafoodTypeMapper;
+import com.seafood.inventory.config.mapper.SeafoodTypeMapper;
 
 import java.math.BigDecimal;
 

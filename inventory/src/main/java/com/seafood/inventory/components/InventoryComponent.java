@@ -1,8 +1,8 @@
 package com.seafood.inventory.components;
 
-import com.seafood.inventory.dto.InventoryDTO;
-import com.seafood.inventory.dto.InventoryDTO.CatchInventory;
-import com.seafood.inventory.dto.InventoryDTO.SaleInCatchDTO;
+import com.seafood.inventory.entities.dto.InventoryDTO;
+import com.seafood.inventory.entities.dto.InventoryDTO.CatchInventory;
+import com.seafood.inventory.entities.dto.InventoryDTO.SaleInCatchDTO;
 import com.seafood.inventory.sellercatch.CatchService;
 import com.seafood.inventory.sale.SaleService;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
-package com.seafood.inventory.event;
+package com.seafood.inventory.inventory.event;
 
 
-import com.seafood.inventory.dto.transaction.TransactionRequestDTO;
+import com.seafood.inventory.entities.dto.transaction.TransactionRequestDTO;
 
 public record InventoryCheckRequestEvent(TransactionRequestDTO transactionDTO) {
     // No additional methods needed if you're just encapsulating the TransactionDTO

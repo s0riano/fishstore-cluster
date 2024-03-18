@@ -1,6 +1,6 @@
-package com.seafood.inventory.mapper;
+package com.seafood.inventory.config.mapper;
 
-import com.seafood.inventory.enums.SeafoodType;
+import com.seafood.inventory.entities.enums.SeafoodType;
 import com.fasterxml.jackson.databind.ObjectMapper; // If you're using Jackson for JSON parsing
 
 import java.io.IOException;

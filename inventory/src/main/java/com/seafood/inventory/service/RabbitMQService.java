@@ -1,9 +1,9 @@
 package com.seafood.inventory.service;
 
-import com.seafood.inventory.dto.transaction.InventoryResponsePayload;
-import com.seafood.inventory.dto.transaction.TransactionRequestDTO;
-import com.seafood.inventory.event.InventoryCheckEvent;
-import com.seafood.inventory.event.InventoryCheckRequestEvent;
+import com.seafood.inventory.entities.dto.transaction.InventoryResponsePayload;
+import com.seafood.inventory.entities.dto.transaction.TransactionRequestDTO;
+import com.seafood.inventory.inventory.event.InventoryCheckEvent;
+import com.seafood.inventory.inventory.event.InventoryCheckRequestEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.seafood.inventory.components;
 
-import com.seafood.inventory.dto.transaction.TransactionItemDTO;
-import com.seafood.inventory.dto.transaction.TransactionRequestDTO;
+import com.seafood.inventory.entities.dto.transaction.TransactionItemDTO;
+import com.seafood.inventory.entities.dto.transaction.TransactionRequestDTO;
 import com.seafood.inventory.sellercatch.CatchRepository;
 import com.seafood.inventory.sellercatch.Catch;
 import com.seafood.inventory.sale.Sale;
