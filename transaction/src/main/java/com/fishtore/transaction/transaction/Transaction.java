@@ -1,5 +1,6 @@
 package com.fishtore.transaction.transaction;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,9 +20,13 @@ public class Transaction {
 
     @Id
     private UUID transactionId; //was string, might change back since i do not like how the binary is visually displayed in mongo
-
-    private UUID shopId;
+    @NotNull
+    private UUID shopId; //can drop this?
+    @NotNull
+    private UUID inventoryId;
+    @NotNull
     private UUID buyerId; //might change this to some sort of object, so the seller can buy without having an id, but rather buy and just leave an alias or
+    @NotNull
     private List<TransactionItem> items;
 
     private BigDecimal kilos; //hmm
@@ -33,6 +38,9 @@ public class Transaction {
     private LocalDateTime creationTimestamp; //might change this name, not clear enough
     private LocalDateTime pickupTimestamp; //when turned complete/picked up
     private String notes; //can be helpful later, either it will be for debugging or buyer notes
+
+    //bool picked u
+
 
     public BigDecimal calculateTotalPrice() {
         if (items == null || items.isEmpty()) {

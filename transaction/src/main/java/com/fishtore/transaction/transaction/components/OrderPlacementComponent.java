@@ -14,9 +14,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-
-@Component
 @Slf4j
+@Component
 public class OrderPlacementComponent { //where should the payment logic be? should it even be here?
     //private final PriceVerificationService priceVerificationService;
     private final PriceVerificationComponent priceVerificationComponent;
@@ -64,7 +63,8 @@ public class OrderPlacementComponent { //where should the payment logic be? shou
         transaction.setPriceStatus(PriceStatus.NOT_CHECKED);
 
         try {
-            PriceStatus pricesAreValid = priceVerificationComponent.verifyTransactionPrices(transaction, transactionDTO.getShopId());
+            PriceStatus pricesAreValid = priceVerificationComponent
+                    .verifyTransactionPrices(transaction, transactionDTO.getShopId());
             transaction.setPriceStatus(pricesAreValid);
             //log.error("Price check response: " + pricesAreValid);
         } catch (Exception e) {

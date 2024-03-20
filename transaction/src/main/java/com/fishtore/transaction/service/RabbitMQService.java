@@ -4,6 +4,7 @@ package com.fishtore.transaction.service;
 import com.fishtore.transaction.components.InventoryResponseComponent;
 import com.fishtore.transaction.dto.TransactionRequestDTO;
 import com.fishtore.transaction.dto.payload.InventoryResponsePayload;
+import com.fishtore.transaction.dto.preorder.PreOrderRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.ExchangeTypes;
@@ -44,6 +45,14 @@ public class RabbitMQService {
         //rabbitTemplate.convertAndSend(inventoryExchange, "check.inventory", transactionRequestDTO);
         rabbitTemplate.convertAndSend(inventoryExchange, "check.inventory", transactionRequestDTO, message -> {
             message.getMessageProperties().setHeader("__TypeId__", "TransactionRequestDTO");
+            return message;
+        });
+    }
+
+    public void sendPreOrderRequestMessage(PreOrderRequestDTO dto) {
+        rabbitTemplate.setMessageConverter(messageConverter);
+        rabbitTemplate.convertAndSend(inventoryExchange, "check.inventory", dto, message -> {
+            message.getMessageProperties().setHeader("__TypeId__", "TransactionRequestDTO"); //TODO: change this to a PreOrderRequestDTO
             return message;
         });
     }
