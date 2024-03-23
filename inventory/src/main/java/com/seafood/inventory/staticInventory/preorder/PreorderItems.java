@@ -1,4 +1,4 @@
-package com.seafood.inventory.staticInventory.sale;
+package com.seafood.inventory.staticInventory.preorder;
 
 import com.seafood.inventory.entities.enums.SeafoodType;
 import lombok.AllArgsConstructor;
@@ -12,14 +12,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StaticSaleItems {
-    private List<SaleItem> items;
+public class PreorderItems {
+    private List<Item> items;
 
     @Slf4j
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class SaleItem {
+    public static class Item {
         private SeafoodType seafoodType;
         private double kilos;
     }

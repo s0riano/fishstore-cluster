@@ -1,5 +1,6 @@
 package com.seafood.inventory.staticInventory;
 
+import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,15 +29,13 @@ public class Inventory {
     //TODO: transaction needs to be implemented to support this new type of inventory management
 
     @Id
-    private UUID id;
+    private UUID inventoryId; //can change to "id?"
     @NotNull
     private LocalDateTime  sellingDate; //can be morphed or edited or connected to some calendar functionality? like calendar id?
-
     @NotNull
     private UUID storeId;
     private List<Stock> stock;
-
     private LocalDateTime lastUpdated;
+    private List<UUID> listOfSaleIds; //maybe map with transactionId later
     private List<String> adjustedBy; //This will be a list of who have touched/adjusted the inventory
-
 }

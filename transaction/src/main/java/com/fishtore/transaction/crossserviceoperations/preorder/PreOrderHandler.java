@@ -24,6 +24,7 @@ public class PreOrderHandler {
     private final RabbitMQService rabbitMQService;
     private final TransactionRepository transactionRepository;
 
+
     @Autowired
     public PreOrderHandler(PriceVerificationComponent priceVerificationComponent, RabbitMQService rabbitMQService, TransactionRepository transactionRepository) {
         this.priceVerificationComponent = priceVerificationComponent;
@@ -31,11 +32,8 @@ public class PreOrderHandler {
         this.transactionRepository = transactionRepository;
     }
 
-    public String handle(PreOrderTransactionDTO preOrderTransactionDTO) {
-        TransactionCreationResponse response = formatFromDtoToTransaction(preOrderTransactionDTO);
-
-        log.info("After Format: {}" + response.getTransaction().toString());
-
+    public String handle(PreOrderTransactionDTO preOrderTransactionDTO) { //make this to a void? return errors instead of strings
+        TransactionCreationResponse response = formatDtoToTransaction(preOrderTransactionDTO);
         Transaction transaction = response.getTransaction();
 
         try {
@@ -50,6 +48,10 @@ public class PreOrderHandler {
             Transaction savedTransaction = transactionRepository.save(transaction);
             log.info("Order placed with ID: {}. Transaction status: {}", savedTransaction.getTransactionId(), transaction.getStatus());
 
+            if (transaction.getPriceStatus() != PriceStatus.PRICE_VERIFIED_AND_MATCHES){
+                return "Something went wrong with checking the price of your order, we are terribly sorry";
+            }
+
             if (savedTransaction.getPriceStatus() == PriceStatus.PRICE_VERIFIED_AND_MATCHES) {
                 PreOrderRequestDTO transactionRequestDTO = new PreOrderRequestDTO(
                         transaction.getTransactionId(),
@@ -58,9 +60,10 @@ public class PreOrderHandler {
                         preOrderTransactionDTO.getItems()
                 );
                 rabbitMQService.sendPreOrderRequestMessage(transactionRequestDTO); //TODO: Fix the listener in inventory
+
             } else {
                 log.error("Price mismatch for transaction ID: {}", savedTransaction.getTransactionId());
-                savedTransaction.setStatus(TransactionStatus.PRICE_MISMATCH);
+                savedTransaction.setStatus(TransactionStatus.PRICE_MISMATCH); //move down to inline variable
                 transactionRepository.save(savedTransaction);
                 return "Order placement failed: Price mismatch.";
             }
@@ -72,9 +75,9 @@ public class PreOrderHandler {
         }
     }
 
-    private TransactionCreationResponse formatFromDtoToTransaction(PreOrderTransactionDTO preOrderTransactionDTO) {
+    private TransactionCreationResponse formatDtoToTransaction(PreOrderTransactionDTO preOrderTransactionDTO) {
         List<TransactionItemDTO> itemDTOs = preOrderTransactionDTO.getItems();
-        if (itemDTOs == null || itemDTOs.isEmpty()) {
+        if (itemDTOs == null || itemDTOs.isEmpty()) { //TODO: add check for this in handler
             return TransactionCreationResponse.withErrorMessage("Order placement failed: No items provided.");
         }
 

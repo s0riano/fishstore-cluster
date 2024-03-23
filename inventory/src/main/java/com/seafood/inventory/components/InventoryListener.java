@@ -20,7 +20,7 @@ public class InventoryListener {
         this.inventoryCheckComponent = inventoryCheckComponent;
     }
 
-    @RabbitListener(queues = "${inventory.check.queue}")
+    //@RabbitListener(queues = "${inventory.check.queue}")  this is deactivated
     public void receiveMessage(TransactionRequestDTO transactionDTO) {
         log.info("Received transactionDTO from: TransactionService, it contains = {}", transactionDTO);
         boolean isInventoryAvailable = transactionProcessorComponent.processTransaction(transactionDTO);

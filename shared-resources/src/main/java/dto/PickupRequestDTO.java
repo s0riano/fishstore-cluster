@@ -1,12 +1,14 @@
-package com.seafood.inventory.entities.dto.staticInventory;
+package dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DisplayInventoryDTO {
-
+public class PickupRequestDTO {
+    private UUID transactionId;
 }

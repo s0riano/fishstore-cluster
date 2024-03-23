@@ -1,6 +1,6 @@
 package com.seafood.inventory.config.jwt;
 
-import com.seafood.shop.user.CustomUserDetails;
+import com.seafood.inventory.user.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

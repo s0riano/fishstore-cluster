@@ -1,4 +1,4 @@
-package com.seafood.inventory.staticInventory.sale;
+package com.seafood.inventory.staticInventory.preorder;
 
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "sales")
-public class StaticSale {
+public class Preorder {
 
     @Id
     @NotNull
@@ -30,7 +30,7 @@ public class StaticSale {
     private UUID inventoryId;
 
     @NotNull
-    private List<StaticSaleItems> soldItems;
+    private List<PreorderItems> soldItems;
 
     @NotNull
     private LocalDate saleDate;

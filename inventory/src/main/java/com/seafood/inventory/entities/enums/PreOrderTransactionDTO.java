@@ -1,6 +1,5 @@
-package com.fishtore.transaction.dto.preorder;
+package com.seafood.inventory.entities.enums;
 
-import com.fishtore.transaction.dto.TransactionItemDTO;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PreOrderTransactionDTO {
     @NotNull
-    private UUID shopId;
+    private UUID shopId; //can this be droppen
     @NotNull
     private UUID transactionId;
     @NotNull
@@ -24,7 +23,7 @@ public class PreOrderTransactionDTO {
 
     /*
         might need to add some functionality for date.
-        it can be linked to the inventory date however... so it is a concern for later x)
+        it can be linked to the inventory date however... anyway it is a concern for later x)
 
         local date when the order was sendt? can also be made in the backend
     */

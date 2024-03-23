@@ -2,6 +2,9 @@ server:
     port: 8082
 
 spring:
+    data:
+        mongodb:
+            uri: mongodb+srv://soriano:lilo@inventory.b2y0lls.mongodb.net/inventory
     config:
         import: optional:consul:localhost:8500
     application:
@@ -43,6 +46,11 @@ spring:
     messages:
         basename: i18n/messages
 
-service:
-    management:
-        host: http://localhost:8080
+
+
+# security.yml
+application:
+    security:
+        jwt:
+            secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+

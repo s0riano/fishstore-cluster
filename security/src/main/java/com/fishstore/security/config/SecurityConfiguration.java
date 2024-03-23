@@ -19,6 +19,7 @@ import static com.fishstore.security.user.Role.MANAGER;
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

@@ -1,7 +1,6 @@
 package com.fishtore.transaction.crossserviceoperations.preorder;
 
 import com.fishtore.transaction.dto.preorder.PreOrderTransactionDTO;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +16,8 @@ public class PreOrderController {
         this.preOrderHandler = preOrderHandler;
     }
 
-
     @PostMapping("/preorder")
-    public ResponseEntity<String> placeOrder(@RequestBody PreOrderTransactionDTO dto) {
-        preOrderHandler.handle(dto);
-        return null;
+    public String placeOrder(@RequestBody PreOrderTransactionDTO dto) {
+        return preOrderHandler.handle(dto);
     }
 }

@@ -1,4 +1,4 @@
-package com.fishtore.transaction.dto.preorder;
+package dto.preorder;
 
 import com.fishtore.transaction.dto.TransactionItemDTO;
 import jakarta.validation.constraints.NotNull;
