@@ -85,7 +85,7 @@ public class PreOrderHandler {
         Transaction transaction = new Transaction();
         transaction.setTransactionId(transactionId);
         transaction.setShopId(preOrderTransactionDTO.getShopId());
-        transaction.setBuyerId(preOrderTransactionDTO.getBuyerId());
+        //transaction.setBuyerId(preOrderTransactionDTO.getBuyerId());
         transaction.setInventoryId(preOrderTransactionDTO.getInventoryId());
 
         List<TransactionItem> items = itemDTOs.stream()

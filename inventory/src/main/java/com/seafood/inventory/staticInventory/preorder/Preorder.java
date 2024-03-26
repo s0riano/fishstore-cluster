@@ -16,12 +16,12 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "sales")
+@Document(collection = "preorder")
 public class Preorder {
 
     @Id
     @NotNull
-    private UUID saleId;
+    private UUID preorderId;
 
     @NotNull
     private UUID transactionId;

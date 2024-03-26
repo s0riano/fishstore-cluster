@@ -21,6 +21,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
+            "/api/preorder",
+            "/api/preorder/**",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
@@ -34,13 +36,29 @@ public class SecurityConfiguration {
             "/swagger-ui.html"};
     private final JwtAuthenticationFilter jwtAuthFilter;
 
+
+
     @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+                .httpBasic().disable()
+                .formLogin().disable();
+
+        return http.build();
+    }
+
+
+    /*@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req
                                 .requestMatchers(WHITE_LIST_URL).permitAll()
+                                .anyRequest().permitAll()
+
                                 // Add other request matchers here using MvcRequestMatcher with servlet path
                                 // Example for an MVC endpoint:
                                 // .requestMatchers(new MvcRequestMatcher(handlerMappingIntrospector, "/your/mvc/path"))
@@ -51,13 +69,13 @@ public class SecurityConfiguration {
                         sessionCreationPolicy(STATELESS)
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                /*.logout(logout ->
+                *//*.logout(logout ->
                         logout.logoutUrl("/api/v1/auth/logout")
                                 .addLogoutHandler(logoutHandler)
                                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
-                )*/
+                )*//*
         ;
 
         return http.build();
-    }
+    }*/
 }

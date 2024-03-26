@@ -15,8 +15,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/inventory")
 public class InventoryController {
-
-
     private final CatchService catchService;
     private final InventoryService inventoryService;
     private final CompactInventoryComponent compactInventoryComponent;

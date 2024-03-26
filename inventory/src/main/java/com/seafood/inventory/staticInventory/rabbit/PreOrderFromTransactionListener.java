@@ -27,7 +27,6 @@
     @Slf4j
     @Transactional
     public class PreOrderFromTransactionListener {
-
         private final TransactionProcessorComponent transactionProcessorComponent;
         private final InventoryRepository inventoryRepository;
         private final InventoryCheckComponent inventoryCheckComponent;
@@ -98,6 +97,4 @@
 
             return true;
         }
-
-
     }

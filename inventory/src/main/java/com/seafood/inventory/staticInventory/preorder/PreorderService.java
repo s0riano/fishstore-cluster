@@ -23,7 +23,7 @@ public class PreorderService {
 
     public void recordSale(UUID inventoryId, PreOrderTransactionDTO preOrderDto) {
         Preorder sale = new Preorder();
-        sale.setSaleId(UUID.randomUUID());
+        sale.setPreorderId(UUID.randomUUID());
         sale.setTransactionId(preOrderDto.getTransactionId());
         sale.setInventoryId(inventoryId);
         sale.setSoldItems(convertToSaleItems(preOrderDto.getItems()));

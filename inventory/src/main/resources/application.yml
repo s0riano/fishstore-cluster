@@ -47,6 +47,9 @@ spring:
         basename: i18n/messages
 
 
+logging:
+    level:
+        com.fishtore.inventory.staticinventory: INFO
 
 # security.yml
 application:
