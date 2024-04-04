@@ -1,7 +1,8 @@
 package com.fishtore.transaction.transaction;
 
-import com.fishtore.transaction.dto.PickupRequestDTO;
-import com.fishtore.transaction.dto.TransactionDTO;
+
+import dto.PickupRequestDTO;
+import dto.TransactionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

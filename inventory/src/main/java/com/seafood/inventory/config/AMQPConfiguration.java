@@ -52,6 +52,22 @@ public class AMQPConfiguration {
         return converter;
     }
 
+    // New Queue for pre-order checks ==========================================================
+
+    @Bean
+    public Queue inventoryPreOrderCheckQueue(
+            @Value("${inventory.preorder.queue}") final String queueName) {
+        return QueueBuilder.durable(queueName).build();
+    }
+
+    @Bean
+    public Binding bindingInventoryPreOrderCheckQueue(
+            Queue inventoryPreOrderCheckQueue, DirectExchange inventoryExchange) {
+        return BindingBuilder.bind(inventoryPreOrderCheckQueue)
+                .to(inventoryExchange)
+                .with("check.inventory.preorder"); // Routing key for preorder inventory checks
+    }
+
     /*@Bean
     public MessageConverter jsonMessageConverter() {
         Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();

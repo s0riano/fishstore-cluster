@@ -1,7 +1,8 @@
 package com.fishtore.transaction.pricing;
 
-import com.fishtore.transaction.dto.TransactionRequestDTO;
+
 import com.fishtore.transaction.transaction.Transaction;
+import dto.TransactionRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

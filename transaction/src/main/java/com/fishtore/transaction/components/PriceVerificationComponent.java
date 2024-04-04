@@ -1,10 +1,9 @@
 package com.fishtore.transaction.components;
 
-import com.fishtore.transaction.dto.PriceEntryDTO;
-import com.fishtore.transaction.service.PriceVerificationService;
+import com.fishtore.transaction.service.PriceVerificationServiceImpl;
 import com.fishtore.transaction.transaction.PriceStatus;
 import com.fishtore.transaction.transaction.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
+import dto.PriceEntryDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,10 +13,9 @@ import java.util.stream.Collectors;
 @Component
 public class PriceVerificationComponent {
 
-    private final PriceVerificationService priceVerificationService;
+    private final PriceVerificationServiceImpl priceVerificationService;
 
-    @Autowired
-    public PriceVerificationComponent(PriceVerificationService priceVerificationService) {
+    public PriceVerificationComponent(PriceVerificationServiceImpl priceVerificationService) {
         this.priceVerificationService = priceVerificationService;
     }
 

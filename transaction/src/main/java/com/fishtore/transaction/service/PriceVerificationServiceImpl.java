@@ -1,13 +1,15 @@
 package com.fishtore.transaction.service;
 
 import com.fishtore.transaction.components.ExternalPriceApiComponent;
-import com.fishtore.transaction.dto.PriceEntryDTO;
+
+import com.fishtore.transaction.pricing.PriceVerificationService;
 import com.fishtore.transaction.transaction.PriceStatus;
-import com.fishtore.transaction.transaction.enums.SeafoodType;
+import dto.PriceEntryDTO;
+import enums.SeafoodType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.EnumUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,16 +17,16 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class PriceVerificationServiceImpl implements PriceVerificationService {
+public class PriceVerificationServiceImpl extends PriceVerificationService {
 
     private final ExternalPriceApiComponent externalPriceApiComponent;
 
-    @Autowired
-    public PriceVerificationServiceImpl(ExternalPriceApiComponent externalPriceApiComponent) {
+    public PriceVerificationServiceImpl(RestTemplate restTemplate, ExternalPriceApiComponent externalPriceApiComponent) {
+        super(restTemplate);
         this.externalPriceApiComponent = externalPriceApiComponent;
     }
 
-    @Override
+    //@Override
     public PriceStatus verifyPrices(List<PriceEntryDTO> priceEntries, UUID shopId) {
         List<PriceEntryDTO> currentPrices = externalPriceApiComponent.getCurrentPrices(shopId);
         if (currentPrices == null) {

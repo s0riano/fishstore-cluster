@@ -1,6 +1,7 @@
 package com.fishtore.transaction.dto.preorder;
 
-import com.fishtore.transaction.dto.TransactionItemDTO;
+
+import dto.TransactionItemDTO;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;

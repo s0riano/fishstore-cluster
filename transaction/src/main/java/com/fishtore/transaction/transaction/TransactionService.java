@@ -1,8 +1,10 @@
 package com.fishtore.transaction.transaction;
 
-import com.fishtore.transaction.dto.TransactionDTO;
-import com.fishtore.transaction.dto.TransactionRequestDTO;
-import com.fishtore.transaction.dto.payload.InventoryResponsePayload;
+
+import dto.TransactionDTO;
+import dto.TransactionRequestDTO;
+import dto.payload.InventoryResponsePayload;
+import dto.preorder.PreOrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -12,7 +14,9 @@ public interface TransactionService {
 
     Transaction saveTransaction(Transaction transaction);
 
-    public String processOrderPlacement(TransactionDTO transactionDTO);
+    String processOrderPlacement(TransactionDTO transactionDTO);
+
+    String processPreOrder (PreOrderDTO preOrderDTO);
 
     Transaction updateTransactionStatus(UUID transactionId, TransactionStatus status);
     Transaction findTransactionById(UUID transactionId);

@@ -65,6 +65,4 @@ public class Transaction {
     public void updateTotalPrice() {
         this.totalPrice = calculateTotalPrice();
     }
-
-
 }

@@ -1,6 +1,7 @@
 package com.fishtore.transaction.transaction;
 
-import com.fishtore.transaction.transaction.enums.SeafoodType;
+
+import enums.SeafoodType;
 import lombok.*;
 
 import java.math.BigDecimal;

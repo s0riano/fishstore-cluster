@@ -1,11 +1,12 @@
 package com.fishtore.transaction.components;
 
-import com.fishtore.transaction.dto.payload.InventoryResponsePayload;
+
 import com.fishtore.transaction.transaction.Transaction;
 import com.fishtore.transaction.transaction.TransactionRepository;
 import com.fishtore.transaction.transaction.TransactionStatus;
 import com.fishtore.transaction.transaction.components.TransactionUpdateService;
 import com.fishtore.transaction.transaction.failures.FailedTransactionHandler;
+import dto.payload.InventoryResponsePayload;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -2,9 +2,8 @@ package com.fishstore.authentication.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fishstore.authentication.config.JwtService;
-import com.fishstore.authentication.dto.LoginDTO;
 import com.fishstore.authentication.enums.TokenType;
-import com.fishstore.authentication.user.UserRepository;
+//import com.fishstore.authentication.user.UserRepository;
 import com.fishstore.authentication.token.Token;
 import com.fishstore.authentication.token.TokenRepository;
 import com.fishstore.authentication.user.User;
@@ -24,7 +23,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepository repository;
+   /* private final UserRepository repository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -113,5 +112,5 @@ public class AuthenticationService {
             // Optionally rethrow the exception or handle it based on your application's needs
             throw e;
         }
-    }
+    }*/
 }

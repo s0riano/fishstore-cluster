@@ -1,7 +1,7 @@
 package com.seafood.inventory.staticInventory.preorder;
 
-import com.seafood.inventory.entities.enums.PreOrderTransactionDTO;
-import com.seafood.inventory.entities.enums.TransactionItemDTO;
+import dto.TransactionItemDTO;
+import dto.preorder.PreOrderTransactionDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +39,4 @@ public class PreorderService {
 
         return List.of(new PreorderItems(saleItems));
     }
-
 }

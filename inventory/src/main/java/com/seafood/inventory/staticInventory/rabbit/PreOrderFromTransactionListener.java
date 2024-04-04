@@ -3,13 +3,13 @@
     import com.seafood.inventory.components.InventoryCheckComponent;
     import com.seafood.inventory.components.TransactionProcessorComponent;
     import com.seafood.inventory.entities.dto.transaction.InventoryResponsePayload;
-    import com.seafood.inventory.entities.enums.PreOrderTransactionDTO;
-    import com.seafood.inventory.entities.enums.TransactionItemDTO;
     import com.seafood.inventory.inventory.event.InventoryCheckEvent;
     import com.seafood.inventory.staticInventory.Inventory;
     import com.seafood.inventory.staticInventory.InventoryRepository;
     import com.seafood.inventory.staticInventory.Stock;
     import com.seafood.inventory.staticInventory.preorder.PreorderService;
+    import dto.TransactionItemDTO;
+    import dto.preorder.PreOrderTransactionDTO;
     import lombok.extern.slf4j.Slf4j;
     import org.springframework.amqp.rabbit.annotation.RabbitListener;
     import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@
             this.eventPublisher = eventPublisher;
         }
 
-        @RabbitListener(queues = "${inventory.check.queue}")
+        @RabbitListener(queues = "${inventory.preorder.queue}")
         public void receiveMessage(PreOrderTransactionDTO dto) {
             log.info("Received transactionDTO: {}", dto);
             boolean isInventoryAvailable = processPreOrder(dto);
@@ -69,7 +69,7 @@
             Inventory inventory = inventoryOpt.get();
             List<Stock> currentStock = inventory.getStock();
 
-            for (TransactionItemDTO item : dto.getItems()) {
+            for (TransactionItemDTO item : dto.getItems()) { //TODO: Look in to the error here
                 // Find matching stock
                 Stock matchingStock = currentStock.stream()
                         .filter(stock -> stock.getSeafoodType().equals(item.getSeafoodType()))

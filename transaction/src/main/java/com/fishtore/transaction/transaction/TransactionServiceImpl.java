@@ -1,9 +1,14 @@
 package com.fishtore.transaction.transaction;
 
-import com.fishtore.transaction.dto.TransactionDTO;
-import com.fishtore.transaction.dto.TransactionRequestDTO;
-import com.fishtore.transaction.dto.payload.InventoryResponsePayload;
+
+
+import dto.TransactionDTO;
+
 import com.fishtore.transaction.transaction.components.OrderPlacementComponent;
+import com.fishtore.transaction.transaction.components.PreOrderPlacementComponent;
+import dto.TransactionRequestDTO;
+import dto.payload.InventoryResponsePayload;
+import dto.preorder.PreOrderDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +29,23 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
 
     @Autowired
-    public TransactionServiceImpl(TransactionRepository transactionRepository, OrderPlacementComponent orderPlacementComponent) {
+    public TransactionServiceImpl(TransactionRepository transactionRepository, OrderPlacementComponent orderPlacementComponent, PreOrderPlacementComponent preOrderPlacementComponent) {
         this.transactionRepository = transactionRepository;
         this.orderPlacementComponent = orderPlacementComponent;
+        this.preOrderPlacementComponent = preOrderPlacementComponent;
     }
 
     private final OrderPlacementComponent orderPlacementComponent;
+    private final PreOrderPlacementComponent preOrderPlacementComponent;
 
     @Override
     public String processOrderPlacement(TransactionDTO transactionDTO) {
         return orderPlacementComponent.handleOrderPlacement(transactionDTO);
+    }
+
+    @Override
+    public String processPreOrder(PreOrderDTO dto) {
+        return preOrderPlacementComponent.handlePreOrder(dto);
     }
 
     @Override

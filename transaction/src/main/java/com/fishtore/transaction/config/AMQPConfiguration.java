@@ -29,7 +29,24 @@ public class AMQPConfiguration {
                 .with("inventory.response"); // Routing key for inventory responses
     }
 
-    // Additional configurations for sending messages or other queues and bindings as needed.
+    // New Queue for pre-order checks ==========================================================
+
+    @Bean
+    public Queue inventoryPreOrderCheckQueue(
+            @Value("${inventory.preorder.queue}") final String queueName) {
+        return QueueBuilder.durable(queueName).build();
+    }
+
+    // Binding for the pre-order check queue
+    @Bean
+    public Binding bindingInventoryPreOrderCheckQueue(
+            Queue inventoryPreOrderCheckQueue, DirectExchange inventoryExchange,
+            @Value("${inventory.preorder.routing.key}") final String routingKey) {
+        return BindingBuilder.bind(inventoryPreOrderCheckQueue)
+                .to(inventoryExchange)
+                .with(routingKey); // Routing key for pre-order checks
+    }
+
 }
 
 

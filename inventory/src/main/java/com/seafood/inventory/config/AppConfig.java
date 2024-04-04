@@ -29,9 +29,8 @@ public class AppConfig {
         return new MongoTemplate(databaseFactory, converter);
     }
 
-
-   /* @Bean //MessagingConfig
+    @Bean //MessagingConfig
     public Jackson2JsonMessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
-    }*/ //moved to AMQPConfigurator
+    } //moved to AMQPConfigurator
 }

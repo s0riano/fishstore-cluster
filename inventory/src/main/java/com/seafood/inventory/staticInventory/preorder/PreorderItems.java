@@ -1,6 +1,7 @@
 package com.seafood.inventory.staticInventory.preorder;
 
-import com.seafood.inventory.entities.enums.SeafoodType;
+
+import enums.SeafoodType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
