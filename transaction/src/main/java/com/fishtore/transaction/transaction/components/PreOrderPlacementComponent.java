@@ -42,6 +42,9 @@ public class PreOrderPlacementComponent {
                     .verifyTransactionPrices(transaction, preOrderDTO.getShopId());
             transaction.setPriceStatus(pricesAreValid);
             log.info("Price check response: " + pricesAreValid);
+
+            //TODO: Handle I/O error on GET request for price
+
         } catch (Exception e) {
             transaction.setPriceStatus(PriceStatus.API_CALL_ERROR);
         }

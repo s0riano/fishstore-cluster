@@ -1,6 +1,5 @@
 package dto;
 
-//import com.fishtore.transaction.transaction.enums.SeafoodType;
 import enums.SeafoodType;
 import lombok.AllArgsConstructor;
 import lombok.Data;

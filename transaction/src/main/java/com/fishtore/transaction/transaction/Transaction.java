@@ -19,6 +19,7 @@ import java.util.UUID;
 public class Transaction {
 
     @Id
+    @NotNull
     private UUID transactionId; //was string, might change back since i do not like how the binary is visually displayed in mongo
     @NotNull
     private UUID shopId; //can drop this?
