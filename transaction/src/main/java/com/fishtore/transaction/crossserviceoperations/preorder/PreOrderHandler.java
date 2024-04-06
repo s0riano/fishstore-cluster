@@ -2,8 +2,6 @@ package com.fishtore.transaction.crossserviceoperations.preorder;
 
 import com.fishtore.transaction.components.PriceVerificationComponent;
 
-import com.fishtore.transaction.dto.TransactionRequestDTO;
-
 import com.fishtore.transaction.dto.preorder.PreOrderTransactionDTO;
 import com.fishtore.transaction.service.RabbitMQService;
 import com.fishtore.transaction.transaction.*;
@@ -66,7 +64,7 @@ public class PreOrderHandler {
 
             } else {
                 log.error("Price mismatch for transaction ID: {}", savedTransaction.getTransactionId());
-                savedTransaction.setStatus(TransactionStatus.PRICE_MISMATCH); //move down to inline variable
+                savedTransaction.setStatus(TransactionProcessingStatus.PRICE_MISMATCH); //move down to inline variable
                 transactionRepository.save(savedTransaction);
                 return "Order placement failed: Price mismatch.";
             }
@@ -108,7 +106,7 @@ public class PreOrderHandler {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         transaction.setKilos(totalKilos);
 
-        transaction.setStatus(TransactionStatus.PENDING);
+        transaction.setStatus(TransactionProcessingStatus.PENDING);
         transaction.setPriceStatus(PriceStatus.NOT_CHECKED);
 
         return TransactionCreationResponse.withTransaction(transaction);

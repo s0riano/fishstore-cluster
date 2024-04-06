@@ -86,4 +86,16 @@ public class RabbitMQService {
         logger.info("Received inventory response: Transaction ID = {}, Available = {}", responsePayload.getTransactionId(), isAvailable);
         inventoryResponseComponent.updateStatusFromInventory(responsePayload);
     }
+
+    @RabbitListener(
+            bindings = @QueueBinding(
+                    value = @Queue(value = "${inventory.response.queue}", durable = "true"),
+                    exchange = @Exchange(value = "${inventory.exchange}", type = ExchangeTypes.DIRECT),
+                    key = "inventory.preorder.response")
+    )
+    public void processInventoryPreorderResponse(InventoryResponsePayload responsePayload) {
+        boolean isAvailable = responsePayload.isAvailable();
+        logger.info("Received inventory response: Transaction ID = {}, Available = {}", responsePayload.getTransactionId(), isAvailable);
+        inventoryResponseComponent.updateStatusFromInventory(responsePayload);
+    }
 }

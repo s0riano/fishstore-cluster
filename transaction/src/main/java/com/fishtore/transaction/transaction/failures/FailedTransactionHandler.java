@@ -1,6 +1,6 @@
 package com.fishtore.transaction.transaction.failures;
 
-import com.fishtore.transaction.transaction.TransactionStatus;
+import com.fishtore.transaction.transaction.TransactionProcessingStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ public class FailedTransactionHandler {
         this.failedTransactionRepository = failedTransactionRepository;
     }
 
-    public void logFailedTransaction(UUID transactionId, TransactionStatus status, String errorMessage) {
+    public void logFailedTransaction(UUID transactionId, TransactionProcessingStatus status, String errorMessage) {
         FailedTransaction failedTransaction = new FailedTransaction();
         failedTransaction.setTransactionId(transactionId.toString());
         failedTransaction.setStatus(status);

@@ -2,7 +2,7 @@ package com.seafood.inventory.staticInventory.operations.getSpecificStore;
 
 import com.seafood.inventory.entities.dto.staticInventory.InventoryForSpecificShopDTO;
 import com.seafood.inventory.staticInventory.Inventory;
-import com.seafood.inventory.staticInventory.InventoryRepository;
+import com.seafood.inventory.staticInventory.StaticInventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +13,15 @@ import java.util.UUID;
 @Service
 public class InventoryForSpecificStoreHandler {
 
-    private final InventoryRepository inventoryRepository;
+    private final StaticInventoryRepository staticInventoryRepository;
 
     @Autowired
-    public InventoryForSpecificStoreHandler(InventoryRepository inventoryRepository) {
-        this.inventoryRepository = inventoryRepository;
+    public InventoryForSpecificStoreHandler(StaticInventoryRepository staticInventoryRepository) {
+        this.staticInventoryRepository = staticInventoryRepository;
     }
 
-    public void handle(UUID storeId) {
-        List<Inventory> inventories = inventoryRepository.findAllByStoreId(storeId);
+    public void handle(UUID shopId) {
+        List<Inventory> inventories = staticInventoryRepository.findAllByShopId(shopId);
         InventoryForSpecificShopDTO inventory = new InventoryForSpecificShopDTO();
 
         InventoryForSpecificShopDTO dto = mapInventoriesToDTO(inventories);

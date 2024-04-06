@@ -20,6 +20,6 @@ public class Stock {
         if (kilosToDeduct != null && this.remainingKilos != null) {
             // Deduct kilos, ensuring the value does not fall below zero
             this.remainingKilos = Math.max(this.remainingKilos - kilosToDeduct, 0.0);
-        }
+        } //add an else here to make logg some warning? or add warning note
     }
 }

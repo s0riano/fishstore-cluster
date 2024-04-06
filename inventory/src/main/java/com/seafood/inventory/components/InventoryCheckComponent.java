@@ -52,12 +52,4 @@ public class InventoryCheckComponent {
     public void onInventoryCheckRequestEvent(InventoryCheckRequestEvent event) {
         processOrder(event.transactionDTO());
     }
-
-    /*
-
-        The reason for the event listeners are that earlier the rabbitservice
-        and a component depended on each other which wasn't good. I then decided to
-        switch to an event driven architecture for this part so things would be safer.
-
-    */
 }

@@ -54,7 +54,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction updateTransactionStatus(UUID transactionId, TransactionStatus status) {
+    public Transaction updateTransactionStatus(UUID transactionId, TransactionProcessingStatus status) {
         Transaction transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new RuntimeException("Transaction with ID: " + transactionId + " not found"));
         transaction.setStatus(status);
@@ -108,7 +108,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(() -> new IllegalArgumentException("Transaction not found"));
 
         transaction.setPickupTimestamp(LocalDateTime.now());
-        transaction.setStatus(TransactionStatus.COMPLETED);
+        transaction.setStatus(TransactionProcessingStatus.COMPLETED);
         log.info("Transaction {}, was now picked up at: {}", transactionId, transaction.getPickupTimestamp());
         transactionRepository.save(transaction);
     }

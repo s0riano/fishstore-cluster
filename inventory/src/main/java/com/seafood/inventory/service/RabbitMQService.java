@@ -4,6 +4,7 @@ import com.seafood.inventory.entities.dto.transaction.InventoryResponsePayload;
 import com.seafood.inventory.entities.dto.transaction.TransactionRequestDTO;
 import com.seafood.inventory.inventory.event.InventoryCheckEvent;
 import com.seafood.inventory.inventory.event.InventoryCheckRequestEvent;
+import com.seafood.inventory.staticInventory.event.InventoryPreorderCheckEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,28 +31,28 @@ public class RabbitMQService {
 
     // This method is used to send responses back to the transaction service
     public void sendInventoryResponse(InventoryResponsePayload responsePayload) {
-        //log.info("Received inventory response: {}", responsePayload);
         // Convert the response payload to a message (e.g., JSON) if necessary
-        rabbitTemplate.convertAndSend(inventoryExchange, "inventory.response", responsePayload); // Consistent routing key
+        rabbitTemplate.convertAndSend(
+                inventoryExchange,
+                "inventory.response",
+                responsePayload
+        ); // Consistent routing key
     }
 
-
-   /* @RabbitListener(
-            bindings = @QueueBinding(
-                    value = @Queue(value = "${inventory.check.queue}", durable = "true"),
-                    exchange = @Exchange(value = "${inventory.exchange}", type = ExchangeTypes.DIRECT),
-                    key = "check.inventory"
-            )
-    )*/
-    public void processInventoryCheckMessage(TransactionRequestDTO transactionDTO) {
-        log.info("Received inventory check message: {}", transactionDTO);
-        log.info("Reading from RabbitMQService.processInventoryCheckMessage()");
-        // Publish an event that InventoryCheckComponent listens to
-        eventPublisher.publishEvent(new InventoryCheckRequestEvent(transactionDTO));
+    public void sendInventoryPreorderResponse(InventoryResponsePayload responsePayload) {
+        rabbitTemplate.convertAndSend(
+                inventoryExchange,
+                "inventory.preorder.response",
+                responsePayload
+        );
     }
 
     @EventListener
     public void onInventoryCheckEvent(InventoryCheckEvent event) {
         sendInventoryResponse(event.responsePayload());
+    }
+    @EventListener
+    public void onInventoryPreorderCheckEvent(InventoryPreorderCheckEvent event) {
+        sendInventoryPreorderResponse(event.responsePayload());
     }
 }

@@ -3,7 +3,7 @@ package com.fishtore.transaction.components;
 
 import com.fishtore.transaction.transaction.Transaction;
 import com.fishtore.transaction.transaction.TransactionRepository;
-import com.fishtore.transaction.transaction.TransactionStatus;
+import com.fishtore.transaction.transaction.TransactionProcessingStatus;
 import com.fishtore.transaction.transaction.components.TransactionUpdateService;
 import com.fishtore.transaction.transaction.failures.FailedTransactionHandler;
 import dto.payload.InventoryResponsePayload;
@@ -38,12 +38,12 @@ public class InventoryResponseComponent {
         Transaction transaction = transactionRepository.findByTransactionId(payload.getTransactionId()).orElse(null);
         if (transaction != null) {
             try {
-                TransactionStatus newStatus = payload.isAvailable() ? TransactionStatus.RESERVED : TransactionStatus.INSUFFICIENT_INVENTORY;
+                TransactionProcessingStatus newStatus = payload.isAvailable() ? TransactionProcessingStatus.RESERVED : TransactionProcessingStatus.INSUFFICIENT_INVENTORY;
                 transactionUpdateService.updateTransactionStatus(payload.getTransactionId(), newStatus);//NOTE THAT THE TRANSACTION WAS DOUBLE-CHECKED!
             } catch (Exception e) {
                 String errorMessage = "Error updating transaction status for transaction ID: " + payload.getTransactionId() + " - " + e.getMessage();
                 log.error(errorMessage, e);
-                failedTransactionHandler.logFailedTransaction(payload.getTransactionId(), TransactionStatus.CANT_FIND_TRANSACTION_ID, errorMessage);
+                failedTransactionHandler.logFailedTransaction(payload.getTransactionId(), TransactionProcessingStatus.CANT_FIND_TRANSACTION_ID, errorMessage);
             }
         } else {
             // Transaction not found, handle accordingly

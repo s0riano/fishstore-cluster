@@ -1,7 +1,7 @@
 package com.seafood.inventory.staticInventory.operations.addInventory;
 
 import com.seafood.inventory.staticInventory.Inventory;
-import com.seafood.inventory.staticInventory.InventoryRepository;
+import com.seafood.inventory.staticInventory.StaticInventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,16 +11,16 @@ import java.util.UUID;
 @Service
 public class AddInventoryHandler {
 
-    private final InventoryRepository inventoryRepository;
+    private final StaticInventoryRepository staticInventoryRepository;
 
     @Autowired
-    public AddInventoryHandler(InventoryRepository inventoryRepository) {
-        this.inventoryRepository = inventoryRepository;
+    public AddInventoryHandler(StaticInventoryRepository staticInventoryRepository) {
+        this.staticInventoryRepository = staticInventoryRepository;
     }
 
     public Inventory handle(Inventory inventory, UUID storeId) {
-        inventory.setStoreId(storeId);
+        inventory.setShopId(storeId);
         inventory.setLastUpdated(LocalDateTime.now());
-        return inventoryRepository.save(inventory);
+        return staticInventoryRepository.save(inventory);
     }
 }

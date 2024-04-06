@@ -1,5 +1,6 @@
 package com.fishtore.price.price;
 
+import com.fishtore.price.dto.UpdatePriceDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,4 +22,12 @@ public class PriceService {
         return priceRepository.findById(shopId);
     }
 
+    public Price updatePrices(UpdatePriceDTO dto) {
+        return priceRepository.findById(dto.getId())
+                .map(existingPrice -> {
+                    existingPrice.setPrices(dto.getPrices());
+                    return priceRepository.save(existingPrice);
+                })
+                .orElseThrow(() -> new RuntimeException("Price information not found for shop ID: " + dto.getId()));
+    }
 }

@@ -1,6 +1,8 @@
 package com.fishtore.price.price;
 
+import com.fishtore.price.dto.PriceAdjusted;
 import com.fishtore.price.dto.PriceEntryDTO;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,9 @@ import java.util.UUID;
 @Document(collection = "price")
 public class Price {
     @Id
+    @NotNull
     private String id; //this is the shopId // is uuid, might modify
+    @NotNull
     private List<PriceEntryDTO> prices;
+    PriceAdjusted info;
 }

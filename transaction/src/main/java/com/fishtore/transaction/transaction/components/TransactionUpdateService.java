@@ -1,7 +1,7 @@
 package com.fishtore.transaction.transaction.components;
 
 import com.fishtore.transaction.transaction.Transaction;
-import com.fishtore.transaction.transaction.TransactionStatus;
+import com.fishtore.transaction.transaction.TransactionProcessingStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,7 +23,7 @@ public class TransactionUpdateService {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public void updateTransactionStatus(UUID transactionId, TransactionStatus status) {
+    public void updateTransactionStatus(UUID transactionId, TransactionProcessingStatus status) {
         Query query = new Query(Criteria.where("transactionId").is(transactionId));
         Update update = new Update().set("status", status);
         mongoTemplate.findAndModify(query, update, Transaction.class);

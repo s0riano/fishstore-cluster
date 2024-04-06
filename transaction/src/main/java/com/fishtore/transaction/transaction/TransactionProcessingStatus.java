@@ -1,9 +1,10 @@
 package com.fishtore.transaction.transaction;
 
-public enum TransactionStatus {
+public enum TransactionProcessingStatus {
     PENDING, //A Transactions init. Its just made. Should not be an available transaction. Maybe the seller should be able to look in to it manually?
     COMPLETED,
     CANCELLED,
+    finishedProcessing,
     FAILED,
     DECLINED,
     RESERVED,

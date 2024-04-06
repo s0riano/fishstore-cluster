@@ -9,6 +9,7 @@ spring:
   data:
     mongodb:
       uri: mongodb+srv://soriano:pMqP1RqBklvuqRVg@seafooddev.fwwqfli.mongodb.net/seafood_transaction_dev
+      #uri: mongodb+srv://soriano:lilo@inventory.b2y0lls.mongodb.net/inventory
   jpa:
     hibernate:
       ddl-auto: update
@@ -41,11 +42,17 @@ spring:
   messages:
     basename: i18n/messages
 
-logging:
-  level:
-    com.fishtore.inventory.staticinventory: INFO
+#logging:
+  #level:
+    #com.fishtore: DEBUG
+    #org.springframework: DEBUG
+    #com.fishtore.inventory.staticinventory: INFO
+
+
 
 service:
   management:
     host: http://localhost:8080
     ##pMqP1RqBklvuqRVg
+
+

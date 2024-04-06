@@ -64,7 +64,7 @@ public class PreOrderPlacementComponent {
                 rabbitMQService.sendPreOrderCheckMessage(transactionRequestDTO);
             } else {
                 log.error("Price mismatch for transaction ID: {}", savedTransaction.getTransactionId());
-                savedTransaction.setStatus(TransactionStatus.PRICE_MISMATCH);
+                savedTransaction.setStatus(TransactionProcessingStatus.PRICE_MISMATCH);
                 transactionRepository.save(savedTransaction);
                 return "Order placement failed: Price mismatch.";
             }
@@ -75,6 +75,8 @@ public class PreOrderPlacementComponent {
             // throw new OrderPlacementException("An error occurred while placing the order.", e);
             return "Order placement failed: An error occurred.";
         }
+
+
     }
 
     private BigDecimal calculateTotalKilos(List<TransactionItem> items) {
@@ -102,7 +104,7 @@ public class PreOrderPlacementComponent {
 
         transaction.updateTotalPrice();
         transaction.setKilos(calculateTotalKilos(items));
-        transaction.setStatus(TransactionStatus.PENDING);
+        transaction.setStatus(TransactionProcessingStatus.PENDING);
         transaction.setPriceStatus(PriceStatus.NOT_CHECKED);
 
         return transaction;

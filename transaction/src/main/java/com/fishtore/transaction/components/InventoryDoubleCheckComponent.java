@@ -2,7 +2,7 @@ package com.fishtore.transaction.components;
 
 import com.fishtore.transaction.transaction.Transaction;
 import com.fishtore.transaction.transaction.TransactionRepository;
-import com.fishtore.transaction.transaction.TransactionStatus;
+import com.fishtore.transaction.transaction.TransactionProcessingStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -31,7 +31,7 @@ public class InventoryDoubleCheckComponent {
 
         if (transactionOpt.isPresent()) {
             Transaction transaction = transactionOpt.get();
-            transaction.setStatus(isAvailable ? TransactionStatus.RESERVED : TransactionStatus.FAILED);
+            transaction.setStatus(isAvailable ? TransactionProcessingStatus.RESERVED : TransactionProcessingStatus.FAILED);
             transactionRepository.save(transaction);
             log.info("Transaction status updated on double check for ID: {} - its status is now {}", transactionId, transaction.getStatus() );
         } else {

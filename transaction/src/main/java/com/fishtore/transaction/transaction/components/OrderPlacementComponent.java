@@ -60,7 +60,7 @@ public class OrderPlacementComponent { //where should the payment logic be? shou
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         transaction.setKilos(totalKilos);
 
-        transaction.setStatus(TransactionStatus.PENDING); //CHECK LATER IF THIS IS SET AUTOMATIC
+        transaction.setStatus(TransactionProcessingStatus.PENDING); //CHECK LATER IF THIS IS SET AUTOMATIC
         transaction.setPriceStatus(PriceStatus.NOT_CHECKED);
 
         try {

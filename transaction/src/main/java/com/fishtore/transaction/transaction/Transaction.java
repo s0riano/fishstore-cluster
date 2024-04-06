@@ -20,27 +20,26 @@ public class Transaction {
 
     @Id
     @NotNull
-    private UUID transactionId; //was string, might change back since i do not like how the binary is visually displayed in mongo
+    private UUID transactionId;                                             //was string, might change back since i do not like how the binary is visually displayed in mongo
     @NotNull
-    private UUID shopId; //can drop this?
+    private UUID shopId;                                                    //can drop this?
     @NotNull
     private UUID inventoryId;
     @NotNull
-    private UUID buyerId; //might change this to some sort of object, so the seller can buy without having an id, but rather buy and just leave an alias or
+    private UUID buyerId;                                                   //might change this to some sort of object, so the seller can buy without having an id, but rather buy and just leave an alias or
     @NotNull
     private List<TransactionItem> items;
 
     private BigDecimal kilos; //hmm
     private BigDecimal totalPrice;
 
-    private TransactionStatus status = TransactionStatus.PENDING; //default status
-    private PriceStatus priceStatus = PriceStatus.NOT_CHECKED; //default status
+    private TransactionProcessingStatus status = TransactionProcessingStatus.PENDING;           //status for processing
+    private boolean pickedUp = false;                                       //set to true when picked up
+    private PriceStatus priceStatus = PriceStatus.NOT_CHECKED;              //default status
 
-    private LocalDateTime creationTimestamp; //might change this name, not clear enough
-    private LocalDateTime pickupTimestamp; //when turned complete/picked up
-    private String notes; //can be helpful later, either it will be for debugging or buyer notes
-
-    //bool picked u
+    private LocalDateTime creationTimestamp;                                //might change this name, not clear enough
+    private LocalDateTime pickupTimestamp;                                  //when turned complete/picked up
+    private String notes;                                                   //can be helpful later, either it will be for debugging or buyer notes
 
 
     public BigDecimal calculateTotalPrice() {

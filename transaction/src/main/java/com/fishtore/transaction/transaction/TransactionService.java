@@ -5,7 +5,6 @@ import dto.TransactionDTO;
 import dto.TransactionRequestDTO;
 import dto.payload.InventoryResponsePayload;
 import dto.preorder.PreOrderDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +17,7 @@ public interface TransactionService {
 
     String processPreOrder (PreOrderDTO preOrderDTO);
 
-    Transaction updateTransactionStatus(UUID transactionId, TransactionStatus status);
+    Transaction updateTransactionStatus(UUID transactionId, TransactionProcessingStatus status);
     Transaction findTransactionById(UUID transactionId);
 
     void requestItemAvailability(TransactionRequestDTO transactionRequestDTO); //not made yet

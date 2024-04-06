@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @Service
 public class PreorderService {
 
-    // Inject necessary dependencies
     private final PreorderRepository preorderRepository;
 
     public PreorderService(PreorderRepository preorderRepository) {
@@ -39,4 +38,6 @@ public class PreorderService {
 
         return List.of(new PreorderItems(saleItems));
     }
+
+    //TODO: if sale in Inventory is deleted, add functionality for restoring available inventory
 }

@@ -20,11 +20,11 @@ public class GetInventoryForSpecificStoreController {
         this.handler = handler;
     }
 
-    @GetMapping("/{storeId}") // Endpoint to get inventory for a specific store
-    public ResponseEntity<?> getInventoryForStore(@PathVariable UUID storeId) {
+    @GetMapping("/{shopId}") // Endpoint to get inventory for a specific store
+    public ResponseEntity<?> getInventoryForStore(@PathVariable UUID shopId) {
         // Call the handle method of your handler with storeId
-        handler.handle(storeId);
+        handler.handle(shopId);
         // Customize the response as needed
-        return ResponseEntity.ok("Inventory processing for store " + storeId + " completed");
+        return ResponseEntity.ok("Inventory processing for shop " + shopId + " completed");
     }
 }
