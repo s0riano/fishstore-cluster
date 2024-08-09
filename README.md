@@ -1,4 +1,4 @@
-<h1> SEAFOOD MARKETPLACE <img src="happyfish.jpeg" width="27" title="hover text"><h2>Torshov-Labs©</h2>
+<h1> SEAFOOD MARKETPLACE <img src="happyfish.jpeg" width="27" title="hover text"><h4>Torshov-Labs©</h4>
 </h1>
 This application is supposed to be a platform where fishermen can sign up and 
 sell their fresh fish to potential buyers. It's supposed to improve the way of buying
